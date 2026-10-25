@@ -551,6 +551,176 @@ def get_svg_toolcall_loop():
     </svg>
     """
 
+def get_svg_messages_hierarchy():
+    """Vector SVG diagram for LangChain Core Message Hierarchy and Handshake."""
+    return """
+    <svg width="650" height="260" viewBox="0 0 650 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="marrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+            </marker>
+            <marker id="marrow-amber" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#d97706" />
+            </marker>
+            <marker id="marrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+            </marker>
+        </defs>
+        
+        <!-- Base Message Box -->
+        <rect x="235" y="10" width="180" height="38" rx="6" fill="#1e293b" stroke="#0f172a" stroke-width="1.5"/>
+        <text x="325" y="27" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">BaseMessage</text>
+        <text x="325" y="41" font-family="'Segoe UI', sans-serif" font-size="8" fill="#94a3b8" text-anchor="middle">content, id, name, additional_kwargs</text>
+
+        <!-- Connecting Lines to 4 subclasses -->
+        <line x1="325" y1="48" x2="325" y2="62" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="80" y1="62" x2="570" y2="62" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="80" y1="62" x2="80" y2="75" stroke="#64748b" stroke-width="1.5" marker-end="url(#marrow)"/>
+        <line x1="240" y1="62" x2="240" y2="75" stroke="#64748b" stroke-width="1.5" marker-end="url(#marrow)"/>
+        <line x1="410" y1="62" x2="410" y2="75" stroke="#64748b" stroke-width="1.5" marker-end="url(#marrow)"/>
+        <line x1="570" y1="62" x2="570" y2="75" stroke="#64748b" stroke-width="1.5" marker-end="url(#marrow)"/>
+
+        <!-- 4 Subclasses -->
+        <!-- 1. SystemMessage -->
+        <rect x="15" y="75" width="130" height="52" rx="5" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="80" y="93" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#92400e" text-anchor="middle">SystemMessage</text>
+        <text x="80" y="108" font-family="'Segoe UI', sans-serif" font-size="8" fill="#b45309" text-anchor="middle">Role / Persona Guidance</text>
+        <text x="80" y="120" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#78350f" text-anchor="middle">Steers Model Tone</text>
+
+        <!-- 2. HumanMessage -->
+        <rect x="175" y="75" width="130" height="52" rx="5" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <text x="240" y="93" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#1e40af" text-anchor="middle">HumanMessage</text>
+        <text x="240" y="108" font-family="'Segoe UI', sans-serif" font-size="8" fill="#2563eb" text-anchor="middle">User Queries & Inputs</text>
+        <text x="240" y="120" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#1d4ed8" text-anchor="middle">name="alice", id="msg_1"</text>
+
+        <!-- 3. AIMessage -->
+        <rect x="345" y="75" width="130" height="52" rx="5" fill="#faf5ff" stroke="#8b5cf6" stroke-width="1.5"/>
+        <text x="410" y="93" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#6b21a8" text-anchor="middle">AIMessage</text>
+        <text x="410" y="108" font-family="'Segoe UI', sans-serif" font-size="8" fill="#7c3aed" text-anchor="middle">Model Responses</text>
+        <text x="410" y="120" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#581c87" text-anchor="middle">tool_calls=[{id, args}]</text>
+
+        <!-- 4. ToolMessage -->
+        <rect x="505" y="75" width="130" height="52" rx="5" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+        <text x="570" y="93" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#065f46" text-anchor="middle">ToolMessage</text>
+        <text x="570" y="108" font-family="'Segoe UI', sans-serif" font-size="8" fill="#059669" text-anchor="middle">Tool Execution Result</text>
+        <text x="570" y="120" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#047857" text-anchor="middle">tool_call_id="call_123"</text>
+
+        <!-- Multi-Turn Sequence Diagram at Bottom -->
+        <rect x="15" y="145" width="620" height="105" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.2"/>
+        <text x="325" y="162" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#334155" text-anchor="middle">Multi-Turn Tool Execution Handshake in Message State</text>
+
+        <!-- Turn 1 -->
+        <rect x="30" y="174" width="130" height="64" rx="4" fill="#eff6ff" stroke="#bfdbfe"/>
+        <text x="95" y="190" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#1e40af" text-anchor="middle">1. Initial Input</text>
+        <text x="95" y="205" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155" text-anchor="middle">[SystemMessage,</text>
+        <text x="95" y="218" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155" text-anchor="middle"> HumanMessage]</text>
+        <text x="95" y="231" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#2563eb" text-anchor="middle">-> Sent to LLM</text>
+
+        <line x1="162" y1="206" x2="182" y2="206" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#marrow)"/>
+
+        <!-- Turn 2 -->
+        <rect x="185" y="174" width="135" height="64" rx="4" fill="#faf5ff" stroke="#ddd6fe"/>
+        <text x="252" y="190" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#6b21a8" text-anchor="middle">2. Tool Call Request</text>
+        <text x="252" y="205" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155" text-anchor="middle">AIMessage(content='',</text>
+        <text x="252" y="218" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155" text-anchor="middle"> tool_calls=[{id:'call_1'}])</text>
+        <text x="252" y="231" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#7c3aed" text-anchor="middle">-> Appended to State</text>
+
+        <line x1="322" y1="206" x2="342" y2="206" stroke="#8b5cf6" stroke-width="1.8" marker-end="url(#marrow)"/>
+
+        <!-- Turn 3 -->
+        <rect x="345" y="174" width="135" height="64" rx="4" fill="#ecfdf5" stroke="#a7f3d0"/>
+        <text x="412" y="190" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#065f46" text-anchor="middle">3. Tool Observation</text>
+        <text x="412" y="205" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155" text-anchor="middle">ToolMessage(content='..',</text>
+        <text x="412" y="218" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155" text-anchor="middle"> tool_call_id='call_1')</text>
+        <text x="412" y="231" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#059669" text-anchor="middle">-> Python Executes</text>
+
+        <line x1="482" y1="206" x2="502" y2="206" stroke="#10b981" stroke-width="1.8" marker-end="url(#marrow-green)"/>
+
+        <!-- Turn 4 -->
+        <rect x="505" y="174" width="120" height="64" rx="4" fill="#f0fdf4" stroke="#86efac"/>
+        <text x="565" y="190" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#15803d" text-anchor="middle">4. Final Answer</text>
+        <text x="565" y="205" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155" text-anchor="middle">Final AIMessage</text>
+        <text x="565" y="218" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155" text-anchor="middle">Natural Language</text>
+        <text x="565" y="231" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#166534" text-anchor="middle">-> User Receives</text>
+    </svg>
+    """
+
+def get_svg_structured_output_pipeline():
+    """Vector SVG diagram for Structured Output compilation and validation pipeline."""
+    return """
+    <svg width="650" height="240" viewBox="0 0 650 240" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="sarrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+            </marker>
+            <marker id="sarrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+            </marker>
+        </defs>
+
+        <!-- Step 1: Schema Definition -->
+        <rect x="15" y="30" width="135" height="175" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="15" y="30" width="135" height="28" rx="6" fill="#3b82f6"/>
+        <text x="82" y="49" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">1. Schema Definition</text>
+        <text x="82" y="78" font-family="'Segoe UI', sans-serif" font-size="8.8" font-weight="bold" fill="#1e40af" text-anchor="middle">Python Schemas</text>
+        <rect x="25" y="92" width="115" height="22" rx="3" fill="#dbeafe"/>
+        <text x="82" y="106" font-family="'Segoe UI', sans-serif" font-size="8" fill="#1e40af" text-anchor="middle">Pydantic BaseModel</text>
+        <rect x="25" y="120" width="115" height="22" rx="3" fill="#dbeafe"/>
+        <text x="82" y="134" font-family="'Segoe UI', sans-serif" font-size="8" fill="#1e40af" text-anchor="middle">TypedDict + Annotated</text>
+        <rect x="25" y="148" width="115" height="22" rx="3" fill="#dbeafe"/>
+        <text x="82" y="162" font-family="'Segoe UI', sans-serif" font-size="8" fill="#1e40af" text-anchor="middle">@dataclass Model</text>
+        <text x="82" y="192" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#475569" text-anchor="middle">Field(description="...")</text>
+
+        <!-- Arrow 1 to 2 -->
+        <line x1="152" y1="117" x2="175" y2="117" stroke="#3b82f6" stroke-width="2" marker-end="url(#sarrow)"/>
+
+        <!-- Step 2: LangChain Binding Compiler -->
+        <rect x="178" y="30" width="135" height="175" rx="6" fill="#faf5ff" stroke="#8b5cf6" stroke-width="1.5"/>
+        <rect x="178" y="30" width="135" height="28" rx="6" fill="#8b5cf6"/>
+        <text x="245" y="49" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">2. Schema Binding</text>
+        <text x="245" y="78" font-family="'Segoe UI', sans-serif" font-size="8.8" font-weight="bold" fill="#6b21a8" text-anchor="middle">Compiler Layer</text>
+        <rect x="188" y="92" width="115" height="32" rx="3" fill="#ede9fe"/>
+        <text x="245" y="105" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#581c87" text-anchor="middle">with_structured_</text>
+        <text x="245" y="117" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#581c87" text-anchor="middle">output(Schema)</text>
+        <text x="245" y="142" font-family="'Segoe UI', sans-serif" font-size="8" fill="#6b21a8" text-anchor="middle">Translates to:</text>
+        <text x="245" y="157" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#4c1d95" text-anchor="middle">JSON Schema Tool</text>
+        <text x="245" y="172" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#7e22ce" text-anchor="middle">Strict Type Checking</text>
+        <text x="245" y="192" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#475569" text-anchor="middle">include_raw=True/False</text>
+
+        <!-- Arrow 2 to 3 -->
+        <line x1="315" y1="117" x2="338" y2="117" stroke="#8b5cf6" stroke-width="2" marker-end="url(#sarrow)"/>
+
+        <!-- Step 3: Model Inference & Tool Call Emission -->
+        <rect x="340" y="30" width="135" height="175" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+        <rect x="340" y="30" width="135" height="28" rx="6" fill="#f59e0b"/>
+        <text x="407" y="49" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">3. Model Execution</text>
+        <text x="407" y="78" font-family="'Segoe UI', sans-serif" font-size="8.8" font-weight="bold" fill="#92400e" text-anchor="middle">Groq LPU Engine</text>
+        <rect x="350" y="92" width="115" height="32" rx="3" fill="#fde68a"/>
+        <text x="407" y="105" font-family="'Segoe UI', sans-serif" font-size="8" fill="#78350f" text-anchor="middle">Forces Function Call</text>
+        <text x="407" y="117" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#78350f" text-anchor="middle">tool_choice="auto"</text>
+        <text x="407" y="145" font-family="'Segoe UI', sans-serif" font-size="8" fill="#92400e" text-anchor="middle">Model generates:</text>
+        <rect x="350" y="152" width="115" height="36" rx="3" fill="#ffffff" stroke="#fbbf24"/>
+        <text x="407" y="166" font-family="'Courier New', monospace" font-size="7.5" fill="#1e293b" text-anchor="middle">{"title":"Avengers",</text>
+        <text x="407" y="179" font-family="'Courier New', monospace" font-size="7.5" fill="#1e293b" text-anchor="middle"> "year": 2019, ...}</text>
+
+        <!-- Arrow 3 to 4 -->
+        <line x1="477" y1="117" x2="500" y2="117" stroke="#f59e0b" stroke-width="2" marker-end="url(#sarrow)"/>
+
+        <!-- Step 4: Validation & Python Object Return -->
+        <rect x="502" y="30" width="135" height="175" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="502" y="30" width="135" height="28" rx="6" fill="#10b981"/>
+        <text x="569" y="49" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">4. Validated Output</text>
+        <text x="569" y="78" font-family="'Segoe UI', sans-serif" font-size="8.8" font-weight="bold" fill="#065f46" text-anchor="middle">Parser & Instantiator</text>
+        <rect x="512" y="92" width="115" height="32" rx="3" fill="#d1fae5"/>
+        <text x="569" y="105" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#047857" text-anchor="middle">Movie(title=...,</text>
+        <text x="569" y="117" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#047857" text-anchor="middle"> year=2019, ...)</text>
+        <text x="569" y="145" font-family="'Segoe UI', sans-serif" font-size="8" fill="#065f46" text-anchor="middle">Zero regex needed</text>
+        <text x="569" y="160" font-family="'Segoe UI', sans-serif" font-size="8" fill="#065f46" text-anchor="middle">Type Safe Objects</text>
+        <rect x="512" y="172" width="115" height="20" rx="3" fill="#a7f3d0"/>
+        <text x="569" y="186" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#065f46" text-anchor="middle">IDE Auto-Complete</text>
+    </svg>
+    """
+
 def escape_html(text: str) -> str:
     """Escape text for safe HTML rendering."""
     return (text.replace("&", "&amp;")
@@ -572,6 +742,10 @@ def build_pdf_document(nb_data: dict) -> str:
         return build_guide_2(fname, cells, today)
     elif "3-toolcall" in fname:
         return build_guide_3(fname, cells, today)
+    elif "4-messages" in fname:
+        return build_guide_4(fname, cells, today)
+    elif "5-structure" in fname:
+        return build_guide_5(fname, cells, today)
     else:
         return build_generic_guide(fname, cells, today)
 
@@ -1513,6 +1687,917 @@ for tool_call in ai_msg.tool_calls:
 </html>
 """
     return html
+
+def build_guide_4(fname, cells, today):
+    """Build canonical 12-section educational guide for 4-messages.ipynb."""
+    svg_diagram = get_svg_messages_hierarchy()
+    html_template = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>__FNAME__ - Educational Study Guide</title>
+    <style>__CSS_STYLES__</style>
+</head>
+<body>
+
+<!-- Section A: Cover Page -->
+<div class="cover-page">
+    <span class="cover-badge">LangChain 1.4+ • Core Foundation Guide</span>
+    <h1 class="cover-title">LangChain Core Message Architecture</h1>
+    <p class="cover-subtitle">Mastering SystemMessage, HumanMessage, AIMessage, and ToolMessage in Conversational Agents</p>
+    
+    <p style="font-size: 10.5pt; color: #475569; max-width: 580px; margin-top: 15px;">
+        An authoritative technical deep dive into LangChain's message polymorphism. Deconstructs role-based
+        conversational state, persona steering, metadata tracing (<code>name</code>, <code>id</code>), historical message
+        injection, and the multi-turn tool calling handshake.
+    </p>
+
+    <div class="cover-meta">
+        <div class="cover-meta-grid">
+            <div class="meta-item"><strong>Target Notebook:</strong> <code>__FNAME__</code></div>
+            <div class="meta-item"><strong>Generation Date:</strong> __TODAY__</div>
+            <div class="meta-item"><strong>Language & Runtime:</strong> Python 3.14 • Virtualenv (.venv)</div>
+            <div class="meta-item"><strong>Core Framework:</strong> LangChain 1.4.7 • Groq (openai/gpt-oss-20b)</div>
+        </div>
+    </div>
+</div>
+
+<!-- Section B: Learning Objectives -->
+<h2>B. Learning Objectives</h2>
+<p>After studying this notebook and study guide, you will master:</p>
+<ul>
+    <li><strong>Core Message Class Polymorphism:</strong> Understand how <code>BaseMessage</code> serves as the parent abstraction for <code>SystemMessage</code>, <code>HumanMessage</code>, <code>AIMessage</code>, and <code>ToolMessage</code>.</li>
+    <li><strong>Persona Steering via System Prompts:</strong> Direct the model's domain expertise, tone, formatting constraints, and reasoning protocols using <code>SystemMessage</code>.</li>
+    <li><strong>Speaker Identification & Observability:</strong> Use optional message metadata attributes (<code>name</code> for multi-agent disambiguation and <code>id</code> for distributed execution tracing).</li>
+    <li><strong>Context Seeding & Conversation History:</strong> Manually reconstruct multi-turn dialogue histories using synthetic <code>AIMessage</code> exemplars.</li>
+    <li><strong>The Two-Turn Tool Handshake:</strong> Deconstruct the exact protocol linking <code>AIMessage.tool_calls</code> to <code>ToolMessage(tool_call_id=...)</code> for autonomous tool execution.</li>
+    <li><strong>Provider-Agnostic Message Normalization:</strong> Recognize how LangChain bridges native provider message formats across Groq, OpenAI, Anthropic, and Google GenAI.</li>
+</ul>
+
+<!-- Section C: Prerequisites & Setup -->
+<h2>C. Prerequisites & Setup</h2>
+<div class="callout callout-note">
+    <div class="callout-title">Environment Specification</div>
+    This notebook runs against the high-throughput <strong>Groq LPU Inference Cloud</strong> executing the <code>openai/gpt-oss-20b</code> open-weights reasoning model.
+</div>
+<table>
+    <tr>
+        <th>Component</th>
+        <th>Configuration / Package</th>
+        <th>Purpose</th>
+    </tr>
+    <tr>
+        <td>Python Runtime</td>
+        <td><code>Python &gt;= 3.14</code></td>
+        <td>Modern runtime supporting advanced type hinting and fast async execution.</td>
+    </tr>
+    <tr>
+        <td>Virtual Environment</td>
+        <td><code>.venv</code> (managed via <code>uv</code>)</td>
+        <td>Strictly isolates dependencies defined in <code>pyproject.toml</code>.</td>
+    </tr>
+    <tr>
+        <td>Environment File</td>
+        <td><code>.env</code> in workspace root</td>
+        <td>Securely provides <code>GROQ_API_KEY</code> without hardcoding credentials.</td>
+    </tr>
+    <tr>
+        <td>Core Dependencies</td>
+        <td><code>langchain>=1.4.7</code>, <code>langchain-groq</code>, <code>python-dotenv</code></td>
+        <td>Supplies universal chat model interfaces and provider bridge drivers.</td>
+    </tr>
+</table>
+<div class="callout callout-warning">
+    <div class="callout-title">Security Best Practice</div>
+    Never commit real API keys to version control. Always verify that <code>.env</code> is tracked in <code>.gitignore</code> and use <code>.env.example</code> for team onboarding.
+</div>
+
+<!-- Section D: Topic Overview -->
+<div class="page-break-before"></div>
+<h2>D. Topic Overview: The Architecture of Structured Messages</h2>
+<p>
+    In simplistic LLM interactions, prompts are passed as plain strings: <code>model.invoke("Who are you?")</code>. However, production agentic architectures and conversational applications cannot rely on unstructured strings. Real-world LLM APIs (including OpenAI ChatML, Anthropic Messages API, and Groq) expect a chronological array of distinct message objects, each representing an explicit role and semantic purpose.
+</p>
+<p>
+    LangChain models this reality through a polymorphic hierarchy rooted in <code>BaseMessage</code> (located in <code>langchain_core.messages</code>). Each message subclass encapsulates:
+</p>
+<ol>
+    <li><strong>Role Semantics:</strong> Identifies whether the content originates from the system administrator (<code>SystemMessage</code>), the end user (<code>HumanMessage</code>), the generative assistant (<code>AIMessage</code>), or external code execution (<code>ToolMessage</code>).</li>
+    <li><strong>Structured Payloads:</strong> Allows messages to carry structured metadata beyond plain strings, such as <code>tool_calls</code> dictionaries, token usage records, and cryptographic signatures.</li>
+    <li><strong>Observability Attributes:</strong> Provides native properties including <code>id</code> (for LangSmith distributed tracing) and <code>name</code> (for differentiating distinct speakers in multi-agent collaboration).</li>
+</ol>
+
+<!-- Section E: Detailed Notebook Walkthrough -->
+<h2>E. Detailed Notebook Walkthrough & Cell Dissection</h2>
+
+<h3>Cell 0: Markdown Section Header</h3>
+<pre><code>### Message</code></pre>
+<p><strong>Analysis:</strong> Establishes the study module exploring LangChain's message system.</p>
+
+<h3>Cell 1: Baseline Invocation & Chat Model Initialization</h3>
+<pre><code>import os
+from langchain.chat_models import init_chat_model
+
+os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
+
+model = init_chat_model("groq:openai/gpt-oss-20b")
+
+model.invoke("HI")</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Output (AIMessage)</span>
+AIMessage(content='Hello! How can I help you today?', additional_kwargs={'reasoning_content': 'User says "HI". We should respond politely.'}, response_metadata={'token_usage': {'completion_tokens': 29, 'prompt_tokens': 72, 'total_tokens': 101, 'completion_time': 0.030370052, 'model_name': 'openai/gpt-oss-20b', 'model_provider': 'groq'}})
+</div>
+<p><strong>Deconstruction & Key Mechanics:</strong></p>
+<ul>
+    <li><code>init_chat_model("groq:openai/gpt-oss-20b")</code>: Instantiates a standardized <code>ChatGroq</code> model wrapper under LangChain's unified factory interface.</li>
+    <li><strong>Automatic String Coercion:</strong> Passing the raw string <code>"HI"</code> causes LangChain to automatically wrap the string into a single <code>HumanMessage(content="HI")</code> before transmitting it to the Groq API.</li>
+    <li><strong>Reasoning Metadata:</strong> In <code>additional_kwargs['reasoning_content']</code>, we observe the open-weights model's internal thought deliberation (<code>User says "HI". We should respond politely.</code>) generated prior to the user-facing output.</li>
+</ul>
+
+<div class="avoid-break">
+<h3>Cell 2: Persona Steering via SystemMessage</h3>
+<pre><code>from langchain.messages import SystemMessage, HumanMessage, AIMessage
+
+messages = [
+    SystemMessage("You are a professional football coach"),
+    HumanMessage("Give detailed analysis of Kylian Mbappe Playstyle")
+]
+
+response = model.invoke(messages)
+response.content</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Result (Excerpts)</span>
+## Kylian Mbappé – Play-style Analysis  
+*(Perspective of a professional football coach – tactical, technical, and developmental insights)*  
+
+### 1. Core Physical & Technical Profile  
+| Attribute | Typical Rating (0–10) | Key Observations |
+| Pace & Acceleration | 10/10 | Exceptional burst over 5–15 meters; unmatched top speed... |
+| Finishing & Ball Striking | 9.0/10 | Lethal across the goalkeeper; curler into far corner... |
+...
+</div>
+<p><strong>Architectural Rationale:</strong></p>
+<ul>
+    <li><code>SystemMessage</code> instructs the LLM before any user input is processed. It anchors the model's tone, terminology, and evaluation criteria into those of a professional sports coach.</li>
+    <li>Notice how the response immediately adopts tactical jargon (e.g., "half-spaces", "low defensive block", "counter-press transition"). Without the <code>SystemMessage</code>, the model would produce a generic biographical summary.</li>
+</ul>
+</div>
+
+<div class="avoid-break">
+<h3>Cell 3: Strict Behavioral Guidelines & Comparative Prompting</h3>
+<pre><code>system_msg = SystemMessage(\"\"\"You are an expert in football tactics.
+Always provide examples and explain your reasoning.
+Be concise but thorough in you explanations.
+\"\"\")
+
+human_msg = HumanMessage("who is better in attacking and defence lamine yamal vs kyliam mbappe")
+
+messages = [
+    system_msg,
+    human_msg
+]
+
+response = model.invoke(messages)
+print(response.content)</code></pre>
+<div class="output-box">
+    <span class="output-label">Printed Stream Output</span>
+**Short answer:**  
+- **Attacking:** Kylian Mbappé is far superior.  
+- **Defensive contribution:** Mbappé also edges out Yamal, but Yamal’s defensive stats are limited and come from youth-level play.
+
+## 1. Attacking comparison
+| Metric | Mbappé (2023-24) | Yamal (2023-24) |
+| Goals / 90 min | 0.95 | 0.28 |
+...
+</div>
+<p><strong>Key Mechanics:</strong> Demonstrates multi-line system prompts enforcing constraints: providing concrete examples, structured tables, and concise reasoning.</p>
+</div>
+
+<div class="page-break-before"></div>
+<h3>Cell 4: Message Metadata Attributes (Speaker Disambiguation & Tracing)</h3>
+<pre><code>human_msg = HumanMessage(
+    content="Hello",
+    name="alice",   # Optional: Identifies the speaker in multi-user/multi-agent chats
+    id="msg_123"    # Optional: Unique identifier for application telemetry/tracing
+)</code></pre>
+<p><strong>Deep-Dive on Optional Parameters:</strong></p>
+<table>
+    <tr>
+        <th>Attribute</th>
+        <th>Type</th>
+        <th>Primary Purpose in Production</th>
+    </tr>
+    <tr>
+        <td><code>name</code></td>
+        <td><code>str | None</code></td>
+        <td>Crucial for multi-party conversations (e.g., Group Chats, Multi-Agent Debates). Allows the model to distinguish between inputs from "alice", "bob", or specialized agent nodes ("researcher", "critic").</td>
+    </tr>
+    <tr>
+        <td><code>id</code></td>
+        <td><code>str | None</code></td>
+        <td>Used for distributed tracing (LangSmith, OpenTelemetry) and database synchronization. Allows updating, rating, or referencing specific messages in persistent storage.</td>
+    </tr>
+</table>
+
+<div class="avoid-break">
+<h3>Cell 5: Simulating Prior Conversation History</h3>
+<pre><code># Manual example AI message to seed conversation context
+ai_msg = AIMessage("I would be happy to help you with that question")
+
+system_msg = SystemMessage("You are a professional cook, always give detailed ingredients list, and exact step wise instructions")
+
+human_msg = HumanMessage("tell me how to cook chicken changezi")
+
+messages = [
+    system_msg,
+    human_msg,
+    ai_msg
+]
+
+response = model.invoke(messages)
+print(response.content)</code></pre>
+<div class="output-box">
+    <span class="output-label">Printed Output</span>
+## Chicken Changzi (Changezi Chicken)  
+*A classic, savory-spicy Mughlai-style chicken dish that showcases the deep umami of rich tomato gravy and aromatic spices...*
+
+### 1. Ingredients
+| Category | Ingredient | Quantity | Notes |
+...
+</div>
+<p><strong>Pedagogical Insight:</strong> Demonstrates how conversational memory is maintained in stateless HTTP APIs. By passing a list of alternating <code>HumanMessage</code> and <code>AIMessage</code> objects, the application reconstructs the illusion of memory for the LLM.</p>
+</div>
+
+<div class="avoid-break">
+<h3>Cell 6: The Synthetic Tool Calling Handshake</h3>
+<pre><code># 1. Model emits a structured tool call request
+ai_message = AIMessage(
+    content=[],
+    tool_calls=[{
+        "name": "get_weather",
+        "args": {
+            "location": "Delhi"
+        },
+        "id": "call_123"
+    }]
+)
+
+# 2. Host Python runtime executes tool and obtains result
+weather_result = "Sunny, 32 C"
+
+from langchain.messages import ToolMessage
+
+# 3. Wrap tool execution result linked by ID
+tool_message = ToolMessage(
+    content=weather_result,
+    tool_call_id="call_123"  # Must match the call id exactly!
+)
+
+# 4. Continue conversation with full context
+messages = [
+    HumanMessage("What's the weather in Delhi right now?"),
+    ai_message,
+    tool_message
+]
+
+response = model.invoke(messages)
+print(response.content)</code></pre>
+<div class="output-box">
+    <span class="output-label">Final Synthesized Output</span>
+The weather in Delhi right now is sunny with a temperature of 32°C.
+</div>
+<p><strong>The 4-Step Tool Handshake Protocol:</strong></p>
+<ol>
+    <li>The user submits a prompt requiring external live data (<code>"What's the weather in Delhi?"</code>).</li>
+    <li>The model determines it needs a tool, producing an <code>AIMessage</code> where <code>content</code> is empty or minimal, and <code>tool_calls</code> contains the function name, arguments, and a unique <code>id="call_123"</code>.</li>
+    <li>The Python runtime runs the code and returns the observation wrapped in a <code>ToolMessage</code> explicitly referencing <code>tool_call_id="call_123"</code>.</li>
+    <li>The entire sequence <code>[HumanMessage, AIMessage, ToolMessage]</code> is passed back to the model, allowing it to synthesize a final natural-language response.</li>
+</ol>
+</div>
+
+<!-- Section F: End-to-End Diagram -->
+<div class="page-break-before"></div>
+<h2>F. End-to-End Message Architecture & Handshake Diagram</h2>
+<p>The diagram below visualizes the class inheritance hierarchy and the exact 4-turn state handshake executed during tool orchestration:</p>
+
+<div class="diagram-container">
+    __SVG_DIAGRAM__
+    <div class="diagram-caption">Figure 4.1: LangChain BaseMessage Architecture and Multi-Turn Tool Execution Handshake</div>
+</div>
+
+<!-- Section G: Important APIs & Classes Reference -->
+<h2>G. Important APIs & Classes Reference</h2>
+<table>
+    <tr>
+        <th>Class / Function</th>
+        <th>Import Path</th>
+        <th>Key Attributes / Parameters</th>
+        <th>Description & Role</th>
+    </tr>
+    <tr>
+        <td><code>BaseMessage</code></td>
+        <td><code>langchain_core.messages</code></td>
+        <td><code>content</code>, <code>id</code>, <code>name</code>, <code>additional_kwargs</code></td>
+        <td>Root polymorphic message abstraction across all LangChain components.</td>
+    </tr>
+    <tr>
+        <td><code>SystemMessage</code></td>
+        <td><code>langchain.messages</code></td>
+        <td><code>content</code> (instructions / persona)</td>
+        <td>Sets system-level prompt guidelines, role behaviors, and constraints.</td>
+    </tr>
+    <tr>
+        <td><code>HumanMessage</code></td>
+        <td><code>langchain.messages</code></td>
+        <td><code>content</code>, <code>name</code>, <code>id</code></td>
+        <td>Represents inputs and queries originating from human users.</td>
+    </tr>
+    <tr>
+        <td><code>AIMessage</code></td>
+        <td><code>langchain.messages</code></td>
+        <td><code>content</code>, <code>tool_calls</code>, <code>usage_metadata</code></td>
+        <td>Represents assistant completions or structured tool call requests.</td>
+    </tr>
+    <tr>
+        <td><code>ToolMessage</code></td>
+        <td><code>langchain.messages</code></td>
+        <td><code>content</code>, <code>tool_call_id</code>, <code>name</code></td>
+        <td>Contains the output produced by a local tool, linked via <code>tool_call_id</code>.</td>
+    </tr>
+</table>
+
+<!-- Section H: Common Errors, Debugging & Troubleshooting -->
+<h2>H. Common Errors, Debugging & Troubleshooting</h2>
+
+<div class="callout callout-error">
+    <div class="callout-title">Trap 1: Mismatched tool_call_id in ToolMessage</div>
+    <p><strong>Symptom:</strong> API returns <code>400 Bad Request: Invalid tool_call_id</code> or model produces bizarre hallucinations.</p>
+    <p><strong>Root Cause:</strong> The model emits a tool call with a generated ID (e.g. <code>id="call_987abc"</code>). If the application returns a <code>ToolMessage</code> with a mismatched ID or hardcoded placeholder, the provider cannot link the observation back to the requesting call.</p>
+    <p><strong>Fix:</strong> Always dynamically copy the ID directly from the tool call object: <code>ToolMessage(content=result, tool_call_id=tool_call['id'])</code>.</p>
+</div>
+
+<div class="callout callout-warning">
+    <div class="callout-title">Trap 2: Passing Raw Strings in a Message List</div>
+    <p><strong>Symptom:</strong> <code>ValueError: Expected a BaseMessage object, got 'Tell me a joke'</code>.</p>
+    <p><strong>Root Cause:</strong> While <code>model.invoke("raw string")</code> is allowed, passing a list mixing strings and message objects (e.g. <code>[SystemMessage(...), "raw string"]</code>) is invalid.</p>
+    <p><strong>Fix:</strong> Ensure all items in a message list are instances of <code>BaseMessage</code>: <code>[SystemMessage(...), HumanMessage(content="...")]</code>.</p>
+</div>
+
+<!-- Section I: Practical Example -->
+<h2>I. Practical Example: Stateful Chat History Serializer</h2>
+<p>In production applications, message histories must be serialized to JSON databases (PostgreSQL, Redis, MongoDB) and restored across web sessions:</p>
+
+<pre><code>from langchain_core.messages import (
+    messages_to_dict,
+    messages_from_dict,
+    SystemMessage,
+    HumanMessage,
+    AIMessage
+)
+
+# 1. Active conversation state in memory
+history = [
+    SystemMessage(content="You are a helpful coding tutor."),
+    HumanMessage(content="What is Python list comprehension?", id="req_001"),
+    AIMessage(content="It's a concise way to create lists: [x for x in iterable].", id="res_001")
+]
+
+# 2. Serialize to standard JSON for database storage
+serialized_json = messages_to_dict(history)
+
+# 3. Deserialize back into strongly-typed LangChain objects upon next user turn
+restored_history = messages_from_dict(serialized_json)
+assert isinstance(restored_history[0], SystemMessage)
+assert restored_history[1].id == "req_001"</code></pre>
+
+<!-- Section J: Key Takeaways -->
+<h2>J. Key Takeaways & Conceptual Map</h2>
+<ul>
+    <li><strong>Messages Replace Strings:</strong> Professional LangChain development operates on sequences of <code>BaseMessage</code> objects, not plain strings.</li>
+    <li><strong>SystemMessage Shapes the Persona:</strong> Use system messages to constrain output formats, adopt specialized domains, and establish boundaries.</li>
+    <li><strong>Metadata Enables Enterprise Tracing:</strong> Use <code>id</code> for observability and <code>name</code> for speaker disambiguation in multi-agent environments.</li>
+    <li><strong>Tool Calling is a Handshake:</strong> An <code>AIMessage</code> requests a tool via <code>tool_calls</code>; the host environment executes the tool and responds with a <code>ToolMessage</code> matching the exact <code>tool_call_id</code>.</li>
+</ul>
+
+<!-- Section K: Practice Exercises -->
+<div class="page-break-before"></div>
+<h2>K. Practice Exercises & Knowledge Checks</h2>
+
+<div class="exercise-box">
+    <div class="exercise-question">Question 1 (Conceptual): Why does ToolMessage require a tool_call_id attribute?</div>
+    <p>Why can't LangChain just assume the latest tool result matches the latest user question?</p>
+    <div class="answer-box">
+        <strong>Answer:</strong> Modern LLMs support <em>parallel tool calling</em>, meaning a single model response can emit multiple tool calls simultaneously (e.g., fetching weather for Delhi, Tokyo, and London in one turn). The <code>tool_call_id</code> is the cryptographic foreign key that pairs each observation precisely with its specific request.
+    </div>
+</div>
+
+<div class="exercise-box">
+    <div class="exercise-question">Question 2 (Code Tracing): In Cell 6, why is AIMessage initialized with content=[]?</div>
+    <p>Does the model output text when making a tool call?</p>
+    <div class="answer-box">
+        <strong>Answer:</strong> When an LLM decides to invoke a tool, its generative budget is directed entirely into formulating the structured tool arguments inside <code>tool_calls</code>. It intentionally leaves conversational <code>content</code> empty (or as an empty list) because it must await the tool observation before generating natural-language text.
+    </div>
+</div>
+
+<div class="exercise-box">
+    <div class="exercise-question">Question 3 (Architecture): How does the name attribute on HumanMessage prevent multi-agent confusion?</div>
+    <div class="answer-box">
+        <strong>Answer:</strong> In multi-agent architectures (or group chat systems), multiple participants write to the same shared message list. Attaching <code>name="researcher"</code> or <code>name="critic"</code> allows the downstream model to understand who said what without corrupting the message text itself.
+    </div>
+</div>
+
+<!-- Section L: Further Learning -->
+<h2>L. Further Learning & Official Documentation</h2>
+<ul>
+    <li><a href="https://python.langchain.com/docs/concepts/#messages">LangChain Messages Concept Guide</a></li>
+    <li><a href="https://console.groq.com/docs/models">Groq Cloud Model Documentation</a></li>
+    <li>Next study guide in sequence: <strong>5-structure.pdf</strong> (Structured Outputs & Pydantic Schemas).</li>
+</ul>
+
+</body>
+</html>
+"""
+    return (html_template
+            .replace("__FNAME__", fname)
+            .replace("__TODAY__", today)
+            .replace("__CSS_STYLES__", CSS_STYLES)
+            .replace("__SVG_DIAGRAM__", svg_diagram))
+
+
+def build_guide_5(fname, cells, today):
+    """Build canonical 12-section educational guide for 5-structure.ipynb."""
+    svg_diagram = get_svg_structured_output_pipeline()
+    html_template = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>__FNAME__ - Educational Study Guide</title>
+    <style>__CSS_STYLES__</style>
+</head>
+<body>
+
+<!-- Section A: Cover Page -->
+<div class="cover-page">
+    <span class="cover-badge">LangChain 1.4+ • Advanced Schema Extraction</span>
+    <h1 class="cover-title">Structured Outputs &amp; Schema Extraction</h1>
+    <p class="cover-subtitle">Enforcing Type Safety, Validation, and Deterministic Schemas via Pydantic, TypedDict, DataClasses, and Agent response_format</p>
+    
+    <p style="font-size: 10.5pt; color: #475569; max-width: 580px; margin-top: 15px;">
+        An exhaustive architectural guide to deterministic LLM extraction. Explores how LangChain compiles
+        Python type schemas into function-calling constraints, extracts flat and nested Pydantic models, leverages
+        lightweight TypedDict structures, inspects raw reasoning metadata, and binds structured response formats directly into autonomous agents.
+    </p>
+
+    <div class="cover-meta">
+        <div class="cover-meta-grid">
+            <div class="meta-item"><strong>Target Notebook:</strong> <code>__FNAME__</code></div>
+            <div class="meta-item"><strong>Generation Date:</strong> __TODAY__</div>
+            <div class="meta-item"><strong>Language &amp; Runtime:</strong> Python 3.14 • Virtualenv (.venv)</div>
+            <div class="meta-item"><strong>Core Framework:</strong> LangChain 1.4.7 • Pydantic v2 • Groq</div>
+        </div>
+    </div>
+</div>
+
+<!-- Section B: Learning Objectives -->
+<h2>B. Learning Objectives</h2>
+<p>After studying this notebook and study guide, you will master:</p>
+<ul>
+    <li><strong>The Deterministic Schema Guarantee:</strong> Understand why enterprise production applications demand validated data schemas over unstructured generative text.</li>
+    <li><strong>Pydantic BaseModel Compilation:</strong> Construct robust Pydantic schemas with <code>Field(description=...)</code> and enforce data types across primitives and nested models.</li>
+    <li><strong>Dual Payload Extraction with include_raw:</strong> Capture raw generation metadata (reasoning traces, token usage, tool call envelopes) alongside validated domain objects.</li>
+    <li><strong>Hierarchical &amp; Nested Schemas:</strong> Design complex multi-level data models containing lists of sub-models and nullable optional attributes (<code>budget: float | None</code>).</li>
+    <li><strong>Lightweight Schemas with TypedDict:</strong> Leverage native Python typing (<code>TypedDict</code> and <code>Annotated</code>) when third-party Pydantic classes are undesirable.</li>
+    <li><strong>Agentic Extraction via response_format:</strong> Integrate structured extraction directly into LangChain's <code>create_agent</code> for autonomous extraction loops.</li>
+</ul>
+
+<!-- Section C: Prerequisites & Setup -->
+<h2>C. Prerequisites &amp; Setup</h2>
+<div class="callout callout-note">
+    <div class="callout-title">Environment Specification</div>
+    This notebook runs against the high-throughput <strong>Groq LPU Inference Cloud</strong> executing the <code>openai/gpt-oss-20b</code> open-weights reasoning model.
+</div>
+<table>
+    <tr>
+        <th>Component</th>
+        <th>Configuration / Package</th>
+        <th>Purpose</th>
+    </tr>
+    <tr>
+        <td>Python Runtime</td>
+        <td><code>Python &gt;= 3.14</code></td>
+        <td>Modern runtime supporting advanced type hinting (<code>float | None</code>) and fast native execution.</td>
+    </tr>
+    <tr>
+        <td>Virtual Environment</td>
+        <td><code>.venv</code> (managed via <code>uv</code>)</td>
+        <td>Isolates dependencies defined in <code>pyproject.toml</code>.</td>
+    </tr>
+    <tr>
+        <td>Validation Libraries</td>
+        <td><code>pydantic>=2.0</code>, <code>typing_extensions</code></td>
+        <td>Provides runtime data validation, serialization, and type introspection.</td>
+    </tr>
+    <tr>
+        <td>Core Dependencies</td>
+        <td><code>langchain>=1.4.7</code>, <code>langchain-groq</code>, <code>python-dotenv</code></td>
+        <td>Provides model initialization and <code>with_structured_output</code> compiler layer.</td>
+    </tr>
+</table>
+<div class="callout callout-warning">
+    <div class="callout-title">Security Best Practice</div>
+    Never commit real API keys to version control. Always verify that <code>.env</code> is tracked in <code>.gitignore</code> and use <code>.env.example</code> for team onboarding.
+</div>
+
+<!-- Section D: Topic Overview -->
+<div class="page-break-before"></div>
+<h2>D. Topic Overview: The Shift from Generative Text to Deterministic Schemas</h2>
+<p>
+    Standard LLM completions return free-form text: strings of paragraphs, markdown bullet points, or informal prose. While pleasant for human reading, software applications, microservices, and databases cannot reliably ingest free-form text without fragile, regex-heavy post-processing.
+</p>
+<p>
+    LangChain solves this through the universal <code>with_structured_output(schema)</code> abstraction. Rather than asking the model to "please output JSON" via system prompt formatting instructions, LangChain leverages modern model <strong>tool / function calling mechanisms</strong>:
+</p>
+<ol>
+    <li><strong>Schema Compilation:</strong> LangChain inspects the Python schema (Pydantic model or TypedDict) and compiles it into an exact JSON Schema definition.</li>
+    <li><strong>Tool Binding &amp; Enforcement:</strong> The JSON Schema is transmitted to the provider API as a mandatory tool call. The provider forces the model to emit arguments matching the schema.</li>
+    <li><strong>Validation &amp; Coercion:</strong> Upon receiving the JSON payload, LangChain feeds it into Pydantic, validating types, enforcing constraints, and returning an instantiated Python object directly to your code.</li>
+</ol>
+
+<!-- Section E: Detailed Notebook Walkthrough -->
+<h2>E. Detailed Notebook Walkthrough &amp; Cell Dissection</h2>
+
+<h3>Cell 0: Markdown Section Header</h3>
+<pre><code>### Structure</code></pre>
+<p><strong>Analysis:</strong> Establishes the study module exploring structured data extraction.</p>
+
+<h3>Cell 1: Model Initialization &amp; Provider Profile Inspection</h3>
+<pre><code>import os
+from langchain.chat_models import init_chat_model
+
+os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
+
+model = init_chat_model("groq:openai/gpt-oss-20b")
+
+model</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Output (Model Profile)</span>
+ChatGroq(metadata={'lc_versions': {'langchain-core': '1.7.0', 'langchain': '1.4.7'}, profile={'name': 'GPT OSS 20B', 'release_date': '2025-08-05', 'open_weights': True, 'max_input_tokens': 131072, 'max_output_tokens': 65536, 'text_inputs': True, 'image_inputs': False, 'tool_calling': True, 'structured_output': True})
+</div>
+<p><strong>Key Mechanics:</strong></p>
+<ul>
+    <li>The model profile confirms native support for <code>'tool_calling': True</code> and <code>'structured_output': True</code>, enabling reliable schema enforcement without fallback prompt hacks.</li>
+    <li><code>max_input_tokens: 131072</code> provides substantial headroom for ingesting large documents while extracting structured records.</li>
+</ul>
+
+<h3>Cell 2: Markdown Section Header</h3>
+<pre><code>### Pyantic</code></pre>
+<p><strong>Analysis:</strong> Focuses on Pydantic v2 schema definitions.</p>
+
+<div class="avoid-break">
+<h3>Cell 3: Flat Pydantic Model Definition &amp; Structured Invocation</h3>
+<pre><code>from pydantic import BaseModel, Field
+
+class Movie(BaseModel):
+    title: str = Field(description="title of the movie")
+    year: int = Field(description="year the move was released")
+    director: str = Field(description="director of the movie")
+    rating: float = Field(description="movie rating out of 10")
+
+model_with_structure = model.with_structured_output(Movie)
+
+response = model_with_structure.invoke("Tell me about movie avengers endgame")
+
+response</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Result (Validated Object)</span>
+Movie(title='Avengers: Endgame', year=2019, director='Anthony Russo', rating=8.4)
+</div>
+<p><strong>Detailed Analysis:</strong></p>
+<ul>
+    <li><code>Field(description="...")</code>: Crucial pedagogical element. LangChain exports these descriptions directly into the JSON Schema. The LLM reads these descriptions to determine what data belongs in each property.</li>
+    <li><code>response</code> is <em>not</em> a string or dictionary; it is a live <code>Movie</code> Pydantic class instance. Developers get complete IDE autocomplete: <code>response.title</code>, <code>response.year</code>, <code>response.rating</code>.</li>
+</ul>
+</div>
+
+<div class="page-break-before"></div>
+<h3>Cell 4: Dual Output Inspection via include_raw=True</h3>
+<pre><code># Pydantic can also include raw message along with structure
+model_with_structure = model.with_structured_output(Movie, include_raw=True)
+
+response = model_with_structure.invoke("Tell me about movie avengers endgame")
+
+response</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Result (Dictionary with Raw and Parsed)</span>
+{'raw': AIMessage(content='', additional_kwargs={'reasoning_content': 'We need to output a response. The user wants information about the movie "Avengers: Endgame". We can use the function. The function requires director, rating, title, year. We\\'ll call the function.', 'tool_calls': [{'id': 'fc_cfe...', 'function': {'arguments': '{"director":"Anthony Russo","rating":8.4,"title":"Avengers: Endgame","year":2019}', 'name': 'Movie'}, 'type': 'function'}]}, response_metadata={'token_usage': {'completion_tokens': 98, 'prompt_tokens': 165, 'total_tokens': 263}}),
+ 'parsed': Movie(title='Avengers: Endgame', year=2019, director='Anthony Russo', rating=8.4),
+ 'parsing_error': None}
+</div>
+<p><strong>Architectural Rationale:</strong></p>
+<ul>
+    <li>Setting <code>include_raw=True</code> returns a 3-key dictionary: <code>raw</code>, <code>parsed</code>, and <code>parsing_error</code>.</li>
+    <li><strong>Observability &amp; Auditing:</strong> The <code>raw</code> key preserves the underlying <code>AIMessage</code>, complete with token usage and internal reasoning. If validation fails, <code>parsed</code> is <code>None</code> and <code>parsing_error</code> captures the exact Pydantic <code>ValidationError</code> for graceful recovery.</li>
+</ul>
+
+<div class="avoid-break">
+<h3>Cell 5: Nested Pydantic Hierarchies &amp; Optional Fields</h3>
+<pre><code># Nested pydantic structure
+class actor(BaseModel):
+    name: str
+    role: str
+
+class movie(BaseModel):
+    title: str
+    year: int
+    cast: list[actor]
+    genres: list[str]
+    budget: float | None = Field(None, description="Budget In Millions USD")
+
+model_with_structure = model.with_structured_output(movie)
+
+response = model_with_structure.invoke("Tell me about movie avengers endgame")
+
+response</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Result (Nested Object)</span>
+movie(title='Avengers: Endgame',
+      year=2019,
+      cast=[actor(name='Robert Downey Jr.', role='Tony Stark / Iron Man'),
+            actor(name='Chris Evans', role='Steve Rogers / Captain America'),
+            actor(name='Mark Ruffalo', role='Bruce Banner / Hulk'),
+            actor(name='Chris Hemsworth', role='Thor'),
+            actor(name='Scarlett Johansson', role='Natasha Romanoff / Black Widow')],
+      genres=['Action', 'Adventure', 'Drama', 'Sci-Fi'],
+      budget=356.0)
+</div>
+<p><strong>Advanced Modeling Features:</strong></p>
+<ul>
+    <li><code>cast: list[actor]</code>: The model automatically formats an array of JSON objects matching the <code>actor</code> schema.</li>
+    <li><code>budget: float | None = Field(None, ...)</code>: Declares an optional attribute with a default of <code>None</code>. If the model does not know the budget, it will not fail validation.</li>
+</ul>
+</div>
+
+<h3>Cell 6: Markdown Section Header</h3>
+<pre><code>### TypedDict</code></pre>
+<p><strong>Analysis:</strong> Transitioning to lightweight dictionary-based typing.</p>
+
+<div class="avoid-break">
+<h3>Cell 7: Flat TypedDict Schema Definition</h3>
+<pre><code>from typing_extensions import TypedDict, Annotated
+
+class movie(TypedDict):
+    \"\"\"a movie with details\"\"\"
+    title: Annotated[str, ..., "title of the movie"]
+    year: Annotated[int, ..., "year the move was released"]
+    director: Annotated[str, ..., "director of the movie"]
+    rating: Annotated[float, ..., "movie rating out of 10"]
+
+model_with_structure = model.with_structured_output(movie)
+
+response = model_with_structure.invoke("Tell me about avengers endgame")
+
+response</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Result (Pure Python Dictionary)</span>
+{'director': 'Anthony Russo and Joe Russo',
+ 'rating': 8.4,
+ 'title': 'Avengers: Endgame',
+ 'year': 2019}
+</div>
+<p><strong>Key Mechanics:</strong> <code>Annotated[type, ..., "description"]</code> injects field descriptions into the JSON Schema without requiring Pydantic. The result is a standard Python <code>dict</code>.</p>
+</div>
+
+<div class="avoid-break">
+<h3>Cell 8: Nested TypedDict Schema</h3>
+<pre><code># Nested TypedDict structure
+class actor(TypedDict):
+    name: str
+    role: str
+
+class movie(TypedDict):
+    title: str
+    year: int
+    cast: list[actor]
+    genres: list[str]
+    budget: float | None = Field(None, description="Budget In Millions USD")
+
+model_with_structure = model.with_structured_output(movie)
+
+response = model_with_structure.invoke("Tell me about movie avengers endgame")
+
+response</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Result (Nested Dictionary)</span>
+{'budget': 356000000,
+ 'cast': [{'name': 'Robert Downey Jr.', 'role': 'Tony Stark / Iron Man'},
+          {'name': 'Chris Evans', 'role': 'Steve Rogers / Captain America'},
+          {'name': 'Mark Ruffalo', 'role': 'Bruce Banner / Hulk'},
+          {'name': 'Chris Hemsworth', 'role': 'Thor'},
+          {'name': 'Scarlett Johansson', 'role': 'Natasha Romanoff / Black Widow'}],
+ 'genres': ['Action', 'Adventure', 'Sci-Fi'],
+ 'title': 'Avengers: Endgame',
+ 'year': 2019}
+</div>
+<p><strong>Observation:</strong> Returns a clean nested dictionary structure. Notice that while Pydantic returned <code>356.0</code> (millions), here the model emitted <code>356000000</code> integer.</p>
+</div>
+
+<h3>Cell 9: Markdown Section Header</h3>
+<pre><code>### DataClasses</code></pre>
+<p><strong>Analysis:</strong> Exploring Python dataclasses integrated into LangChain agents.</p>
+
+<div class="avoid-break">
+<h3>Cell 10: Agent Structured Output via response_format</h3>
+<pre><code>from dataclasses import dataclass
+from langchain.agents import create_agent
+
+@dataclass
+class ContactInfo(BaseModel):
+    \"\"\"Contact information for a person.\"\"\"
+    name: str = Field(description="The name of the person")
+    email: str = Field(description="The email address of the person")
+    phone: str = Field(description="The phone number of the person")
+
+model = init_chat_model("groq:openai/gpt-oss-20b")
+
+agent = create_agent(
+    model=model,
+    response_format=ContactInfo  # Auto-selects ProviderStrategy
+)
+
+result = agent.invoke({
+    "messages": [{
+        "role": "user",
+        "content": "Extract contact info from: John Doe, john@example.com, (555) 123-4567"
+    }]
+})
+
+result</code></pre>
+<div class="output-box">
+    <span class="output-label">Agent State Output (Excerpts)</span>
+{'messages': [HumanMessage(content='Extract contact info from: John Doe, john@example.com, (555) 123-4567'),
+              AIMessage(content='{"name":"John Doe","email":"john@example.com","phone":"(555) 123-4567"}', ...)],
+ 'structured_response': ContactInfo(name='John Doe', email='john@example.com', phone='(555) 123-4567')}
+</div>
+<p><strong>Architectural Breakthrough:</strong> In modern LangChain agents, passing <code>response_format=ContactInfo</code> automatically instructs the agent's <code>CompiledStateGraph</code> to extract and validate the final answer into a strongly-typed schema.</p>
+</div>
+
+<div class="avoid-break">
+<h3>Cell 11: Accessing the Validated Agent Response</h3>
+<pre><code>result["structured_response"]</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Result</span>
+ContactInfo(name='John Doe', email='john@example.com', phone='(555) 123-4567')
+</div>
+<p><strong>Explanation:</strong> The application extracts the typed entity directly via <code>result["structured_response"]</code> without needing to parse the raw text inside <code>result["messages"]</code>.</p>
+</div>
+
+<!-- Section F: End-to-End Execution Flow Diagram -->
+<div class="page-break-before"></div>
+<h2>F. End-to-End Structured Output Pipeline Diagram</h2>
+<p>The diagram below traces the end-to-end lifecycle of schema compilation, model function-calling constraints, and validation:</p>
+
+<div class="diagram-container">
+    __SVG_DIAGRAM__
+    <div class="diagram-caption">Figure 5.1: LangChain Structured Output Compilation and Validation Pipeline</div>
+</div>
+
+<!-- Section G: Important APIs & Classes Reference -->
+<h2>G. Important APIs &amp; Classes Reference</h2>
+<table>
+    <tr>
+        <th>API / Function</th>
+        <th>Module / Class</th>
+        <th>Parameters &amp; Flags</th>
+        <th>Description &amp; Key Role</th>
+    </tr>
+    <tr>
+        <td><code>with_structured_output</code></td>
+        <td><code>BaseChatModel</code></td>
+        <td><code>schema</code>, <code>include_raw=False</code>, <code>method="function_calling"</code></td>
+        <td>Compiles a schema into a model-enforced output wrapper returning validated objects.</td>
+    </tr>
+    <tr>
+        <td><code>BaseModel</code></td>
+        <td><code>pydantic</code></td>
+        <td>Class inheritance</td>
+        <td>Primary schema base class providing type enforcement and automated JSON serialization.</td>
+    </tr>
+    <tr>
+        <td><code>Field</code></td>
+        <td><code>pydantic</code></td>
+        <td><code>description</code>, <code>default</code>, <code>ge</code>, <code>le</code></td>
+        <td>Attaches semantic field documentation passed into the LLM's function definition.</td>
+    </tr>
+    <tr>
+        <td><code>TypedDict</code></td>
+        <td><code>typing_extensions</code></td>
+        <td>Dictionary typing</td>
+        <td>Lightweight schema alternative returning native Python dictionaries.</td>
+    </tr>
+    <tr>
+        <td><code>Annotated</code></td>
+        <td><code>typing_extensions</code></td>
+        <td><code>Annotated[type, ..., description]</code></td>
+        <td>Injects documentation metadata into TypedDict fields for model schema generation.</td>
+    </tr>
+    <tr>
+        <td><code>response_format</code></td>
+        <td><code>langchain.agents.create_agent</code></td>
+        <td><code>schema=Class</code></td>
+        <td>Instructs an autonomous agent graph to produce a validated <code>structured_response</code>.</td>
+    </tr>
+</table>
+
+<!-- Section H: Common Errors, Debugging & Troubleshooting -->
+<h2>H. Common Errors, Debugging &amp; Troubleshooting</h2>
+
+<div class="callout callout-error">
+    <div class="callout-title">Trap 1: Missing Field Descriptions Lead to Hallucinated Data</div>
+    <p><strong>Symptom:</strong> The model places irrelevant data into fields or guesses incorrect formats.</p>
+    <p><strong>Root Cause:</strong> If a model has <code>budget: float</code> without a description, the LLM does not know if the unit is Dollars, Euros, Millions, or Exact Cents. In Cell 5, <code>Field(description="Budget In Millions USD")</code> ensured <code>356.0</code> rather than ambiguous integer units.</p>
+    <p><strong>Fix:</strong> Always provide explicit descriptions for every field in Pydantic or TypedDict.</p>
+</div>
+
+<div class="callout callout-warning">
+    <div class="callout-title">Trap 2: Strict Type Validation Rejections</div>
+    <p><strong>Symptom:</strong> <code>pydantic_core._pydantic_core.ValidationError: Input should be a valid integer</code>.</p>
+    <p><strong>Root Cause:</strong> The model emits <code>"year": "2019 (May)"</code> as a string when an <code>int</code> was strictly required.</p>
+    <p><strong>Fix:</strong> Use <code>include_raw=True</code> to inspect the failure, or use flexible Pydantic field validators / string sanitizers before coercion.</p>
+</div>
+
+<!-- Section I: Practical Example -->
+<h2>I. Practical Example: Enterprise Extractor with Validation Fallback</h2>
+<pre><code>from pydantic import BaseModel, Field, ValidationError
+
+class UserProfile(BaseModel):
+    full_name: str = Field(description="Full personal name")
+    age: int = Field(description="Age in years")
+    interests: list[str] = Field(description="List of primary hobbies or interests")
+
+extractor = model.with_structured_output(UserProfile, include_raw=True)
+
+raw_text = "Hi, I am Sarah Jenkins, twenty-eight years old, and I love hiking and photography."
+
+result = extractor.invoke(raw_text)
+
+if result['parsed'] is not None:
+    profile: UserProfile = result['parsed']
+    print(f"Extracted: {profile.full_name}, Age: {profile.age}, Interests: {profile.interests}")
+else:
+    print(f"Validation Failed: {result['parsing_error']}")
+    print(f"Raw Model Payload: {result['raw'].additional_kwargs}")</code></pre>
+
+<!-- Section J: Key Takeaways -->
+<h2>J. Key Takeaways &amp; Conceptual Map</h2>
+<ul>
+    <li><strong>Structure Replaces Regex:</strong> <code>with_structured_output</code> provides validated Python objects directly from generative models.</li>
+    <li><strong>Descriptions Are Functional Prompts:</strong> Field descriptions are not comments; they are actively compiled into the LLM's function schema.</li>
+    <li><strong>include_raw is Essential for Auditing:</strong> Always use <code>include_raw=True</code> in production to retain token usage, reasoning traces, and error context.</li>
+    <li><strong>Agents Support response_format:</strong> In modern LangChain 1.4+, agents output structured records alongside full multi-turn conversational traces.</li>
+</ul>
+
+<!-- Section K: Practice Exercises -->
+<div class="page-break-before"></div>
+<h2>K. Practice Exercises &amp; Knowledge Checks</h2>
+
+<div class="exercise-box">
+    <div class="exercise-question">Question 1 (Conceptual): What is the core difference between Pydantic and TypedDict when used with with_structured_output?</div>
+    <div class="answer-box">
+        <strong>Answer:</strong> Pydantic validates inputs and returns a strongly-typed class instance with methods and attribute access (<code>obj.title</code>). <code>TypedDict</code> performs compile-time type-hinting and returns a standard Python dictionary (<code>obj['title']</code>).
+    </div>
+</div>
+
+<div class="exercise-box">
+    <div class="exercise-question">Question 2 (Code Tracing): What does response['raw'] contain when include_raw=True is passed?</div>
+    <div class="answer-box">
+        <strong>Answer:</strong> It contains the underlying <code>AIMessage</code> instance emitted by the model, including <code>content</code>, <code>tool_calls</code>, <code>response_metadata</code> (token usage, execution time), and <code>additional_kwargs['reasoning_content']</code>.
+    </div>
+</div>
+
+<div class="exercise-box">
+    <div class="exercise-question">Question 3 (Implementation): How do you define an optional field in Pydantic v2 with a default of None?</div>
+    <div class="answer-box">
+        <strong>Answer:</strong> <code>field_name: type | None = Field(None, description="...")</code>. Specifying <code>None</code> as the default value allows Pydantic to instantiate the model even if the LLM omits the key.
+    </div>
+</div>
+
+<!-- Section L: Further Learning -->
+<h2>L. Further Learning &amp; Official Documentation</h2>
+<ul>
+    <li><a href="https://python.langchain.com/docs/how_to/structured_output/">LangChain Structured Outputs Guide</a></li>
+    <li><a href="https://docs.pydantic.dev/latest/">Pydantic v2 Official Documentation</a></li>
+    <li>Previous study guide in sequence: <strong>4-messages.pdf</strong> (Core Message Architecture).</li>
+</ul>
+
+</body>
+</html>
+"""
+    return (html_template
+            .replace("__FNAME__", fname)
+            .replace("__TODAY__", today)
+            .replace("__CSS_STYLES__", CSS_STYLES)
+            .replace("__SVG_DIAGRAM__", svg_diagram))
+
 
 # Generic Fallback Builder
 def build_generic_guide(fname, cells, today):

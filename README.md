@@ -9,6 +9,8 @@ My hands-on journey learning LangChain, LLMs, tool calling, and Agentic AI and m
 | [LangChain Intro](langchain-study/1-langchainIntro.ipynb) | Agents, custom tools | [PDF](pdf/1-langchainIntro.pdf) |
 | [Model Integration](langchain-study/2-modelintegration.ipynb) | Gemini, streaming, batching | [PDF](pdf/2-modelintegration.pdf) |
 | [Tool Calling](langchain-study/3-toolcall.ipynb) | Groq, tool binding, execution loops | [PDF](pdf/3-toolcall.pdf) |
+| [Core Messages](langchain-study/4-messages.ipynb) | Message types, personas, speaker metadata, tool handshake | [PDF](pdf/4-messages.pdf) |
+| [Structured Outputs](langchain-study/5-structure.ipynb) | Pydantic v2, TypedDict, schemas, agent response formats | [PDF](pdf/5-structure.pdf) |
 | [Agent Starter](langchain-study/langchainIntro.ipynb) | Introductory experiments | — |
 
 ---
@@ -41,6 +43,8 @@ uv run jupyter lab
 - [x] LangChain agents and custom tools
 - [x] LLM integration, streaming, and batching
 - [x] Tool calling and execution loops
+- [x] Message types, system personas, and multi-turn tool handshakes
+- [x] Structured output extraction, Pydantic schemas, and agent response formats
 
 ---
 
