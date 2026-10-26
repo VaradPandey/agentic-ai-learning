@@ -721,6 +721,285 @@ def get_svg_structured_output_pipeline():
     </svg>
     """
 
+def get_svg_middleware_interceptor_architecture():
+    """Vector SVG diagram illustrating LangChain 1.4 Agent Middleware Interceptor Architecture."""
+    return """
+    <svg width="650" height="260" viewBox="0 0 650 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="mw-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+            </marker>
+            <marker id="mw-arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#8b5cf6" />
+            </marker>
+            <marker id="mw-arrow-amber" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+            </marker>
+            <marker id="mw-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+            </marker>
+            <marker id="mw-arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" />
+            </marker>
+        </defs>
+
+        <!-- Outer Boundary: CompiledStateGraph with Middleware Pipeline -->
+        <rect x="150" y="15" width="485" height="230" rx="8" fill="#f8fafc" stroke="#64748b" stroke-width="1.5" stroke-dasharray="4"/>
+        <text x="165" y="34" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#475569">LangChain 1.4 CompiledStateGraph (Agent Lifecycle)</text>
+
+        <!-- 1. User Input & Config -->
+        <rect x="15" y="80" width="115" height="75" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <text x="72" y="100" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="bold" fill="#1e40af" text-anchor="middle">User Invocation</text>
+        <text x="72" y="116" font-family="'Segoe UI', sans-serif" font-size="8.5" fill="#334155" text-anchor="middle">HumanMessage</text>
+        <rect x="25" y="126" width="95" height="20" rx="3" fill="#dbeafe"/>
+        <text x="72" y="139" font-family="'Consolas', monospace" font-size="7.5" fill="#1d4ed8" text-anchor="middle">thread_id: "test-1"</text>
+
+        <!-- Arrow to Checkpointer -->
+        <line x1="130" y1="117" x2="165" y2="117" stroke="#3b82f6" stroke-width="1.8" marker-end="url(#mw-arrow)"/>
+
+        <!-- 2. Checkpointer -->
+        <rect x="170" y="80" width="105" height="75" rx="6" fill="#fef3c7" stroke="#f59e0b" stroke-width="1.5"/>
+        <text x="222" y="100" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#92400e" text-anchor="middle">Checkpointer</text>
+        <text x="222" y="115" font-family="'Consolas', monospace" font-size="8" fill="#b45309" text-anchor="middle">InMemorySaver</text>
+        <text x="222" y="132" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#78350f" text-anchor="middle">Loads state for</text>
+        <text x="222" y="143" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#78350f" text-anchor="middle">active thread_id</text>
+
+        <!-- Arrow to Pre-Model Middleware -->
+        <line x1="275" y1="117" x2="295" y2="117" stroke="#f59e0b" stroke-width="1.8" marker-end="url(#mw-arrow-amber)"/>
+
+        <!-- 3. Summarization Middleware Hook -->
+        <rect x="300" y="65" width="105" height="105" rx="6" fill="#ecfeff" stroke="#06b6d4" stroke-width="1.5"/>
+        <text x="352" y="84" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#0e7490" text-anchor="middle">Summarization</text>
+        <text x="352" y="96" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#0e7490" text-anchor="middle">Middleware</text>
+        <rect x="308" y="106" width="89" height="34" rx="3" fill="#cffafe"/>
+        <text x="352" y="119" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#155e75" text-anchor="middle">Trigger Check:</text>
+        <text x="352" y="131" font-family="'Consolas', monospace" font-size="7.5" font-weight="bold" fill="#164e63" text-anchor="middle">N&gt;=10 or T&gt;=550</text>
+        <text x="352" y="154" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#0e7490" text-anchor="middle">Compresses State</text>
+
+        <!-- Arrow to Model -->
+        <line x1="405" y1="117" x2="425" y2="117" stroke="#06b6d4" stroke-width="1.8" marker-end="url(#mw-arrow)"/>
+
+        <!-- 4. Chat Model Decision -->
+        <rect x="430" y="55" width="95" height="125" rx="6" fill="#faf5ff" stroke="#8b5cf6" stroke-width="1.5"/>
+        <text x="477" y="74" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#6b21a8" text-anchor="middle">Chat Model</text>
+        <text x="477" y="88" font-family="'Consolas', monospace" font-size="7.5" fill="#7c3aed" text-anchor="middle">gpt-oss-20b</text>
+        
+        <rect x="438" y="98" width="79" height="30" rx="3" fill="#ede9fe"/>
+        <text x="477" y="111" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#581c87" text-anchor="middle">Evaluates Prompt</text>
+        <text x="477" y="121" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#4c1d95" text-anchor="middle">&amp; Decides Action</text>
+
+        <rect x="438" y="136" width="79" height="34" rx="3" fill="#ffffff" stroke="#c4b5fd"/>
+        <text x="477" y="149" font-family="'Segoe UI', sans-serif" font-size="7" fill="#6b21a8" text-anchor="middle">Path A: Text Output</text>
+        <text x="477" y="161" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#7c3aed" text-anchor="middle">Path B: Tool Call</text>
+
+        <!-- Arrow to HITL Middleware -->
+        <line x1="525" y1="117" x2="545" y2="117" stroke="#8b5cf6" stroke-width="1.8" marker-end="url(#mw-arrow-purple)"/>
+
+        <!-- 5. HITL Interceptor -->
+        <rect x="550" y="65" width="75" height="105" rx="6" fill="#fff1f2" stroke="#f43f5e" stroke-width="1.5"/>
+        <text x="587" y="84" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#be123c" text-anchor="middle">HITL</text>
+        <text x="587" y="96" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#be123c" text-anchor="middle">Middleware</text>
+        <rect x="556" y="106" width="63" height="36" rx="3" fill="#ffe4e6"/>
+        <text x="587" y="118" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#9f1239" text-anchor="middle">interrupt_on</text>
+        <text x="587" y="129" font-family="'Segoe UI', sans-serif" font-size="7" fill="#881337" text-anchor="middle">Pauses Tool</text>
+        <text x="587" y="138" font-family="'Segoe UI', sans-serif" font-size="7" fill="#881337" text-anchor="middle">Execution</text>
+        <text x="587" y="158" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#e11d48" text-anchor="middle">__interrupt__</text>
+
+        <!-- Bottom Feedback Loops -->
+        <!-- Interrupt signal back to user -->
+        <path d="M 587 170 L 587 215 L 72 215 L 72 160" fill="none" stroke="#ef4444" stroke-width="1.5" stroke-dasharray="3" marker-end="url(#mw-arrow-red)"/>
+        <text x="325" y="210" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#b91c1c" text-anchor="middle">Pause &amp; Emit __interrupt__ (Human reviews: Approve, Edit, Reject via Command)</text>
+
+        <!-- Tool execution loop -->
+        <path d="M 625 105 L 640 105 L 640 45 L 222 45 L 222 75" fill="none" stroke="#10b981" stroke-width="1.5" marker-end="url(#mw-arrow-green)"/>
+        <text x="430" y="40" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#047857" text-anchor="middle">Approved Tool Execution -&gt; ToolMessage -&gt; Checkpoint Update</text>
+    </svg>
+    """
+
+def get_svg_summarization_middleware_dataflow():
+    """Vector SVG diagram illustrating SummarizationMiddleware Compaction Data Flow."""
+    return """
+    <svg width="650" height="260" viewBox="0 0 650 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="sm-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#0284c7" />
+            </marker>
+            <marker id="sm-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+            </marker>
+        </defs>
+
+        <!-- Left Container: Before Summarization (State Explosion) -->
+        <rect x="15" y="20" width="230" height="225" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+        <rect x="15" y="20" width="230" height="28" rx="6" fill="#64748b"/>
+        <text x="130" y="39" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Unmanaged State (10 Messages)</text>
+
+        <rect x="25" y="58" width="210" height="20" rx="3" fill="#fee2e2" stroke="#fca5a5"/>
+        <text x="35" y="72" font-family="'Consolas', monospace" font-size="8" fill="#991b1b">Msg 1: Human("What is 2+2?")</text>
+
+        <rect x="25" y="82" width="210" height="20" rx="3" fill="#fee2e2" stroke="#fca5a5"/>
+        <text x="35" y="96" font-family="'Consolas', monospace" font-size="8" fill="#991b1b">Msg 2: AI("2 + 2 = 4")</text>
+
+        <rect x="25" y="106" width="210" height="20" rx="3" fill="#fee2e2" stroke="#fca5a5"/>
+        <text x="35" y="120" font-family="'Consolas', monospace" font-size="8" fill="#991b1b">Msg 3: Human("What is 10*5?")</text>
+
+        <rect x="25" y="130" width="210" height="20" rx="3" fill="#fee2e2" stroke="#fca5a5"/>
+        <text x="35" y="144" font-family="'Consolas', monospace" font-size="8" fill="#991b1b">Msg 4: AI("10 * 5 = 50")</text>
+
+        <rect x="25" y="154" width="210" height="20" rx="3" fill="#fee2e2" stroke="#fca5a5"/>
+        <text x="35" y="168" font-family="'Consolas', monospace" font-size="8" fill="#991b1b">Msg 5: Human("What is 100/4?")</text>
+
+        <rect x="25" y="178" width="210" height="20" rx="3" fill="#fee2e2" stroke="#fca5a5"/>
+        <text x="35" y="192" font-family="'Consolas', monospace" font-size="8" fill="#991b1b">Msg 6: AI("100 / 4 = 25")</text>
+
+        <rect x="25" y="202" width="210" height="35" rx="3" fill="#fef3c7" stroke="#fcd34d"/>
+        <text x="130" y="216" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#92400e" text-anchor="middle">Msgs 7–10: 15-7 &amp; 3*3 Q&amp;A</text>
+        <text x="130" y="228" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#b45309" text-anchor="middle">Threshold Met: trigger=("messages", 10)</text>
+
+        <!-- Center: Summarization Compactor Engine -->
+        <g transform="translate(260, 60)">
+            <rect x="0" y="0" width="125" height="145" rx="6" fill="#ecfeff" stroke="#0284c7" stroke-width="1.5"/>
+            <text x="62" y="22" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#0369a1" text-anchor="middle">Summarizer LLM</text>
+            <text x="62" y="36" font-family="'Segoe UI', sans-serif" font-size="8" fill="#0284c7" text-anchor="middle">Compaction Engine</text>
+            
+            <line x1="-12" y1="72" x2="-2" y2="72" stroke="#0284c7" stroke-width="2" marker-end="url(#sm-arrow)"/>
+            
+            <rect x="8" y="48" width="109" height="85" rx="4" fill="#ffffff" stroke="#bae6fd"/>
+            <text x="62" y="63" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#0c4a6e" text-anchor="middle">Extracts Key State:</text>
+            <text x="14" y="77" font-family="'Consolas', monospace" font-size="7" fill="#0369a1">• SESSION INTENT</text>
+            <text x="14" y="90" font-family="'Consolas', monospace" font-size="7" fill="#0369a1">• SUMMARY (Q&amp;A)</text>
+            <text x="14" y="103" font-family="'Consolas', monospace" font-size="7" fill="#0369a1">• ARTIFACTS</text>
+            <text x="14" y="116" font-family="'Consolas', monospace" font-size="7" fill="#0369a1">• NEXT STEPS</text>
+            <text x="62" y="127" font-family="'Segoe UI', sans-serif" font-size="6.5" font-weight="bold" fill="#0284c7" text-anchor="middle">keep=("messages", 4)</text>
+
+            <line x1="126" y1="72" x2="138" y2="72" stroke="#10b981" stroke-width="2" marker-end="url(#sm-arrow-green)"/>
+        </g>
+
+        <!-- Right Container: After Summarization (Compressed Clean State) -->
+        <rect x="405" y="20" width="230" height="225" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <rect x="405" y="20" width="230" height="28" rx="6" fill="#16a34a"/>
+        <text x="520" y="39" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Compacted State (6 Messages)</text>
+
+        <!-- 1. Synthetic Summary Message -->
+        <rect x="415" y="58" width="210" height="52" rx="4" fill="#dcfce7" stroke="#4ade80" stroke-width="1.2"/>
+        <text x="425" y="73" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#166534">1. Injected Summary Message</text>
+        <text x="425" y="86" font-family="'Consolas', monospace" font-size="7.5" fill="#15803d">HumanMessage(content="## SUMMARY...")</text>
+        <text x="425" y="98" font-family="'Consolas', monospace" font-size="7.5" fill="#166534">additional_kwargs={'lc_source': 'summarization'}</text>
+
+        <!-- 2. Retained Recent Messages (keep=4) -->
+        <rect x="415" y="116" width="210" height="22" rx="3" fill="#ffffff" stroke="#bbf7d0"/>
+        <text x="425" y="131" font-family="'Consolas', monospace" font-size="7.5" fill="#334155">2. AIMessage("15 - 7 = 8")</text>
+
+        <rect x="415" y="142" width="210" height="22" rx="3" fill="#ffffff" stroke="#bbf7d0"/>
+        <text x="425" y="157" font-family="'Consolas', monospace" font-size="7.5" fill="#334155">3. HumanMessage("What is 3*3?")</text>
+
+        <rect x="415" y="168" width="210" height="22" rx="3" fill="#ffffff" stroke="#bbf7d0"/>
+        <text x="425" y="183" font-family="'Consolas', monospace" font-size="7.5" fill="#334155">4. AIMessage("3 * 3 = 9")</text>
+
+        <!-- 3. New Turn Messages -->
+        <rect x="415" y="194" width="210" height="22" rx="3" fill="#eff6ff" stroke="#93c5fd"/>
+        <text x="425" y="209" font-family="'Consolas', monospace" font-size="7.5" fill="#1e40af">5. HumanMessage("What is 4*4?")</text>
+
+        <rect x="415" y="220" width="210" height="20" rx="3" fill="#eff6ff" stroke="#93c5fd"/>
+        <text x="425" y="234" font-family="'Consolas', monospace" font-size="7.5" fill="#1e40af">6. AIMessage("4 * 4 = 16")</text>
+    </svg>
+    """
+
+def get_svg_hitl_middleware_dataflow():
+    """Vector SVG diagram illustrating HumanInTheLoopMiddleware 3-Way Decision Data Flow."""
+    return """
+    <svg width="650" height="300" viewBox="0 0 650 300" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="hitl-arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#3b82f6" />
+            </marker>
+            <marker id="hitl-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+            </marker>
+            <marker id="hitl-arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" />
+            </marker>
+            <marker id="hitl-arrow-amber" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#f59e0b" />
+            </marker>
+        </defs>
+
+        <!-- Top Box: Phase 1 - Tool Interception & Graph Suspension -->
+        <rect x="15" y="10" width="620" height="100" rx="6" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+        <rect x="15" y="10" width="620" height="24" rx="6" fill="#1e293b"/>
+        <text x="325" y="27" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">Phase 1: Tool Call Interception &amp; State Checkpointing</text>
+
+        <!-- Step 1: LLM Tool Call Request -->
+        <rect x="25" y="42" width="175" height="58" rx="4" fill="#faf5ff" stroke="#c084fc"/>
+        <text x="112" y="58" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#6b21a8" text-anchor="middle">1. Model Emits Tool Call</text>
+        <text x="112" y="72" font-family="'Consolas', monospace" font-size="7.5" fill="#581c87" text-anchor="middle">send_email_tool(recipient=...,</text>
+        <text x="112" y="83" font-family="'Consolas', monospace" font-size="7.5" fill="#581c87" text-anchor="middle">subject=..., body=...)</text>
+
+        <line x1="200" y1="71" x2="225" y2="71" stroke="#8b5cf6" stroke-width="1.8" marker-end="url(#hitl-arrow-blue)"/>
+
+        <!-- Step 2: HITL Middleware Intercepts -->
+        <rect x="230" y="42" width="180" height="58" rx="4" fill="#fff1f2" stroke="#f43f5e"/>
+        <text x="320" y="58" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#be123c" text-anchor="middle">2. HITL Middleware Intercepts</text>
+        <text x="320" y="72" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#9f1239" text-anchor="middle">Matches interrupt_on["send_email_tool"]</text>
+        <text x="320" y="85" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#e11d48" text-anchor="middle">HALTS execution before tool runs</text>
+
+        <line x1="410" y1="71" x2="435" y2="71" stroke="#f43f5e" stroke-width="1.8" marker-end="url(#hitl-arrow-red)"/>
+
+        <!-- Step 3: Checkpoint & Yield Interrupt -->
+        <rect x="440" y="42" width="185" height="58" rx="4" fill="#fef3c7" stroke="#fcd34d"/>
+        <text x="532" y="58" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#92400e" text-anchor="middle">3. Yields __interrupt__</text>
+        <text x="532" y="72" font-family="'Consolas', monospace" font-size="7.5" fill="#78350f" text-anchor="middle">Saved in checkpointer (thread_id)</text>
+        <text x="532" y="85" font-family="'Consolas', monospace" font-size="7" fill="#b45309" text-anchor="middle">allowed_decisions: [approve, edit, reject]</text>
+
+        <!-- Downward connecting lines to Phase 2 branches -->
+        <line x1="532" y1="100" x2="532" y2="120" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="115" y1="120" x2="532" y2="120" stroke="#64748b" stroke-width="1.5"/>
+        <line x1="115" y1="120" x2="115" y2="135" stroke="#10b981" stroke-width="1.5" marker-end="url(#hitl-arrow-green)"/>
+        <line x1="325" y1="120" x2="325" y2="135" stroke="#ef4444" stroke-width="1.5" marker-end="url(#hitl-arrow-red)"/>
+        <line x1="532" y1="120" x2="532" y2="135" stroke="#f59e0b" stroke-width="1.5" marker-end="url(#hitl-arrow-amber)"/>
+
+        <!-- Bottom Box: Phase 2 - 3-Way Resume Protocol -->
+        <!-- Branch A: APPROVE -->
+        <rect x="15" y="140" width="195" height="150" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <rect x="15" y="140" width="195" height="24" rx="6" fill="#16a34a"/>
+        <text x="112" y="156" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Branch A: Approve (Cell 8)</text>
+        <rect x="25" y="172" width="175" height="32" rx="3" fill="#dcfce7"/>
+        <text x="112" y="185" font-family="'Consolas', monospace" font-size="7.5" font-weight="bold" fill="#14532d" text-anchor="middle">Command(resume={</text>
+        <text x="112" y="196" font-family="'Consolas', monospace" font-size="7.5" font-weight="bold" fill="#14532d" text-anchor="middle">"decisions": [{"type":"approve"}]})</text>
+        <text x="112" y="220" font-family="'Segoe UI', sans-serif" font-size="8" fill="#166534" text-anchor="middle">1. Tool executes with original args</text>
+        <text x="112" y="234" font-family="'Segoe UI', sans-serif" font-size="8" fill="#166534" text-anchor="middle">2. Real email dispatched</text>
+        <rect x="25" y="248" width="175" height="32" rx="3" fill="#ffffff" stroke="#86efac"/>
+        <text x="112" y="261" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#15803d" text-anchor="middle">Final Model Output:</text>
+        <text x="112" y="273" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#166534" text-anchor="middle">"✅ Email has been sent to..."</text>
+
+        <!-- Branch B: REJECT -->
+        <rect x="225" y="140" width="200" height="150" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <rect x="225" y="140" width="200" height="24" rx="6" fill="#dc2626"/>
+        <text x="325" y="156" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Branch B: Reject (Cell 9)</text>
+        <rect x="235" y="172" width="180" height="32" rx="3" fill="#fee2e2"/>
+        <text x="325" y="185" font-family="'Consolas', monospace" font-size="7.5" fill="#7f1d1d" text-anchor="middle">Command(resume={</text>
+        <text x="325" y="196" font-family="'Consolas', monospace" font-size="7.5" fill="#7f1d1d" text-anchor="middle">"decisions": [{"type":"reject"}]})</text>
+        <text x="325" y="220" font-family="'Segoe UI', sans-serif" font-size="8" fill="#991b1b" text-anchor="middle">1. Tool execution bypassed completely</text>
+        <text x="325" y="234" font-family="'Segoe UI', sans-serif" font-size="8" fill="#991b1b" text-anchor="middle">2. Model receives rejection notice</text>
+        <rect x="235" y="248" width="180" height="32" rx="3" fill="#ffffff" stroke="#fca5a5"/>
+        <text x="325" y="261" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#b91c1c" text-anchor="middle">Polite Fallback Output:</text>
+        <text x="325" y="273" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#991b1b" text-anchor="middle">"I'm sorry, I can't send it now..."</text>
+
+        <!-- Branch C: EDIT -->
+        <rect x="440" y="140" width="195" height="150" rx="6" fill="#fffbeb" stroke="#fde68a" stroke-width="1.5"/>
+        <rect x="440" y="140" width="195" height="24" rx="6" fill="#d97706"/>
+        <text x="537" y="156" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Branch C: Edit (Cell 10)</text>
+        <rect x="448" y="172" width="179" height="32" rx="3" fill="#fef3c7"/>
+        <text x="537" y="184" font-family="'Consolas', monospace" font-size="7" font-weight="bold" fill="#78350f" text-anchor="middle">Command(resume={"decisions": [{</text>
+        <text x="537" y="195" font-family="'Consolas', monospace" font-size="7" font-weight="bold" fill="#78350f" text-anchor="middle">"type":"edit", "edited_action":..}]})</text>
+        <text x="537" y="220" font-family="'Segoe UI', sans-serif" font-size="7.8" fill="#92400e" text-anchor="middle">1. Human fixes typo in recipient</text>
+        <text x="537" y="234" font-family="'Segoe UI', sans-serif" font-size="7.8" fill="#92400e" text-anchor="middle">2. Tool runs with corrected args</text>
+        <rect x="448" y="248" width="179" height="32" rx="3" fill="#ffffff" stroke="#fde68a"/>
+        <text x="537" y="261" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#b45309" text-anchor="middle">Corrected Execution:</text>
+        <text x="537" y="273" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#92400e" text-anchor="middle">"✅ Email sent to varad0404@..."</text>
+    </svg>
+    """
+
 def escape_html(text: str) -> str:
     """Escape text for safe HTML rendering."""
     return (text.replace("&", "&amp;")
@@ -746,6 +1025,8 @@ def build_pdf_document(nb_data: dict) -> str:
         return build_guide_4(fname, cells, today)
     elif "5-structure" in fname:
         return build_guide_5(fname, cells, today)
+    elif "6-middleware" in fname:
+        return build_guide_6(fname, cells, today)
     else:
         return build_generic_guide(fname, cells, today)
 
@@ -2598,6 +2879,646 @@ else:
             .replace("__CSS_STYLES__", CSS_STYLES)
             .replace("__SVG_DIAGRAM__", svg_diagram))
 
+
+def build_guide_6(fname, cells, today):
+    """Build canonical 12-section educational guide for 6-middleware.ipynb."""
+    svg1 = get_svg_middleware_interceptor_architecture()
+    svg2 = get_svg_summarization_middleware_dataflow()
+    svg3 = get_svg_hitl_middleware_dataflow()
+
+    html_template = """<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>__FNAME__ - Educational Study Guide</title>
+    <style>__CSS_STYLES__</style>
+</head>
+<body>
+
+<!-- Section A: Cover Page -->
+<div class="cover-page">
+    <span class="cover-badge">LangChain 1.4+ • Agentic Lifecycle &amp; Governance</span>
+    <h1 class="cover-title">Agent Middleware &amp; Execution Governance</h1>
+    <p class="cover-subtitle">Mastering SummarizationMiddleware (Message &amp; Token Triggers), HumanInTheLoopMiddleware (Approve, Edit, Reject), and Checkpointed Resilience</p>
+    
+    <p style="font-size: 10.5pt; color: #475569; max-width: 580px; margin-top: 15px;">
+        An authoritative technical deep dive into agent lifecycle interception and governance. Deconstructs
+        how enterprise AI agents bound context consumption using automated sliding-window summarizers, halt
+        high-stakes tool execution via Human-In-The-Loop approval gates, and maintain persistent state checkpoints.
+    </p>
+
+    <div class="cover-meta">
+        <div class="cover-meta-grid">
+            <div class="meta-item"><strong>Target Notebook:</strong> <code>__FNAME__</code></div>
+            <div class="meta-item"><strong>Generation Date:</strong> __TODAY__</div>
+            <div class="meta-item"><strong>Language &amp; Runtime:</strong> Python 3.14 • Virtualenv (.venv)</div>
+            <div class="meta-item"><strong>Core Framework:</strong> LangChain 1.4.7 • LangGraph 0.3+ • Groq</div>
+        </div>
+    </div>
+</div>
+
+<!-- Section B: Learning Objectives -->
+<h2>B. Learning Objectives</h2>
+<p>After studying this notebook and study guide, you will master:</p>
+<ul>
+    <li><strong>The Agent Interceptor Architecture:</strong> Understand how LangChain 1.4 wraps compiled state graphs with middleware to inject pre-model, pre-tool, and post-execution hooks without altering business logic.</li>
+    <li><strong>Checkpointer &amp; Thread-State Binding:</strong> Configure <code>InMemorySaver</code> and understand why persistent session state via <code>thread_id</code> is mandatory for pausing and resuming agents.</li>
+    <li><strong>Message-Count Summarization:</strong> Configure <code>SummarizationMiddleware(trigger=("messages", N), keep=("messages", K))</code> to automatically compact long conversation histories while preserving the latest turns.</li>
+    <li><strong>Token-Budget Summarization:</strong> Enforce strict token consumption ceilings (<code>trigger=("tokens", 550), keep=("tokens", 200)</code>) to prevent context exhaustion, rate limits, and latency spikes across multi-turn tool loops.</li>
+    <li><strong>Human-In-The-Loop Governance:</strong> Intercept dangerous or sensitive tool invocations (such as sending emails or modifying databases) before execution using <code>HumanInTheLoopMiddleware</code> and <code>interrupt_on</code>.</li>
+    <li><strong>The 3-Way Human Review Protocol:</strong> Master the <code>langgraph.types.Command(resume=...)</code> protocol to dynamically <strong>Approve</strong>, <strong>Reject</strong>, or <strong>Edit</strong> tool parameters before dispatching actions.</li>
+</ul>
+
+<!-- Section C: Prerequisites & Setup -->
+<h2>C. Prerequisites &amp; Setup</h2>
+<div class="callout callout-note">
+    <div class="callout-title">Environment Specification</div>
+    This notebook runs against the high-throughput <strong>Groq LPU Inference Cloud</strong> executing the <code>openai/gpt-oss-20b</code> reasoning model (131,072 input context window, native tool-calling and reasoning traces enabled).
+</div>
+<table>
+    <tr>
+        <th>Component</th>
+        <th>Configuration / Package</th>
+        <th>Purpose</th>
+    </tr>
+    <tr>
+        <td>Python Runtime</td>
+        <td><code>Python &gt;= 3.14</code></td>
+        <td>Modern runtime supporting advanced type hinting, dictionary unions, and high-performance execution.</td>
+    </tr>
+    <tr>
+        <td>Virtual Environment</td>
+        <td><code>.venv</code> (managed via <code>uv</code>)</td>
+        <td>Strictly isolates dependencies defined in <code>pyproject.toml</code>.</td>
+    </tr>
+    <tr>
+        <td>State Checkpointer</td>
+        <td><code>langgraph.checkpoint.memory.InMemorySaver</code></td>
+        <td>Thread-isolated in-memory storage required to suspend and resume graphs during human reviews.</td>
+    </tr>
+    <tr>
+        <td>Core Dependencies</td>
+        <td><code>langchain>=1.4.7</code>, <code>langchain-groq</code>, <code>langgraph</code>, <code>python-dotenv</code></td>
+        <td>Supplies universal agent constructors, middleware abstractions, and Groq inference drivers.</td>
+    </tr>
+</table>
+<div class="callout callout-warning">
+    <div class="callout-title">Security &amp; Safety Rule</div>
+    Never allow autonomous models unsupervised access to external side-effecting APIs (e.g., payment gateways, email dispatches, file deletion). In production, sensitive functions must always be guarded by <code>HumanInTheLoopMiddleware</code>.
+</div>
+
+<!-- Section D: Topic Overview -->
+<div class="page-break-before"></div>
+<h2>D. Topic Overview: The Architecture of Agent Middleware &amp; Governance</h2>
+<p>
+    In raw LLM pipelines, autonomous agents loop without friction: the model decides on a tool, the runtime executes it, and the observation is immediately fed back into the context. While powerful, this unconstrained autonomy introduces two major enterprise vulnerabilities:
+</p>
+<ol>
+    <li><strong>Context Window Blowout &amp; Cost Explosion:</strong> Long-running conversational agents or multi-step researchers rapidly accumulate messages and tool outputs. Without proactive memory pruning, token counts grow linearly, quickly triggering provider rate limits, ballooning API costs, and causing latency degradation.</li>
+    <li><strong>Uncontrolled Side Effects &amp; Hallucinated Actions:</strong> If an autonomous agent decides to execute a destructive or public action (e.g., emailing a customer, deleting database records, executing financial trades), standard autonomous loops dispatch the call immediately without human oversight.</li>
+</ol>
+<p>
+    LangChain 1.4 addresses these challenges through the <strong>Agent Middleware System</strong> built atop LangGraph's <code>CompiledStateGraph</code>. Middleware acts as an interceptor pipeline surrounding the model decision node and tool execution nodes:
+</p>
+
+<!-- Embedded Master Architecture Diagram -->
+<div style="text-align: center; margin: 15px 0;">
+    __SVG_DIAGRAM_1__
+    <p style="font-size: 8.5pt; color: #64748b; margin-top: 5px;"><em>Figure 6.1: LangChain 1.4 Agent Lifecycle Interceptor Pipeline with Checkpointer, Summarization, and HITL Gates.</em></p>
+</div>
+
+<p>
+    As illustrated above, every incoming message is assigned a <code>thread_id</code> managed by a <code>checkpointer</code>. Before the model is called, <strong>SummarizationMiddleware</strong> checks memory thresholds and compacts history if required. When the model emits a tool call, <strong>HumanInTheLoopMiddleware</strong> checks whether the targeted tool requires approval. If intercepted, the entire state machine suspends execution, yields an <code>__interrupt__</code> payload to the client, and waits for a signed human <code>Command</code> before proceeding.
+</p>
+
+<!-- Section E: Detailed Notebook Walkthrough -->
+<div class="page-break-before"></div>
+<h2>E. Detailed Notebook Walkthrough &amp; Cell Dissection</h2>
+
+<h3>Cell 0: Markdown Section Header</h3>
+<pre><code>### Middleware</code></pre>
+<p><strong>Analysis:</strong> Establishes the study module exploring agent middleware interceptors.</p>
+
+<h3>Cell 1: Environment &amp; Secret Initialization</h3>
+<pre><code>import os
+from dotenv import load_dotenv
+
+load_dotenv()
+os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")</code></pre>
+<p><strong>Deconstruction:</strong> Loads local environment variables from <code>.env</code> and configures the <code>GROQ_API_KEY</code> credential in the process environment. This ensures secure API communication without hardcoding keys.</p>
+
+<h3>Cell 2: Markdown Section Header</h3>
+<pre><code>### Summrization Middleware</code></pre>
+<p><strong>Analysis:</strong> Initiates the analysis of automated context compression middleware.</p>
+
+<h3>Cell 3: Imports &amp; Model Profile Inspection</h3>
+<pre><code>from langchain.chat_models import init_chat_model
+from langchain.agents import create_agent
+from langchain.agents.middleware import SummarizationMiddleware
+from langgraph.checkpoint.memory import InMemorySaver
+from langchain_core.messages import HumanMessage, SystemMessage
+from langchain_core.tools import tool
+
+model = init_chat_model("groq:openai/gpt-oss-20b")
+model</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Output (Model Profile)</span>
+ChatGroq(metadata={'lc_versions': {'langchain-core': '1.7.0', 'langchain': '1.4.7'}}, profile={'name': 'GPT OSS 20B', 'release_date': '2025-08-05', 'open_weights': True, 'max_input_tokens': 131072, 'max_output_tokens': 65536, 'text_inputs': True, 'reasoning_output': True, 'tool_calling': True, 'structured_output': True}, ...)
+</div>
+<p><strong>Architectural Rationale:</strong></p>
+<ul>
+    <li><code>init_chat_model("groq:openai/gpt-oss-20b")</code>: Initializes Groq's high-throughput open-weights reasoning model.</li>
+    <li><code>InMemorySaver()</code>: An essential component. Middleware that pauses execution or manages persistent thread state requires a state saver. <code>InMemorySaver</code> stores thread checkpoints in RAM.</li>
+</ul>
+
+<div class="avoid-break">
+<h3>Cell 4: Message-Length Based Summarization</h3>
+<pre><code># Message Length Based Summarization
+agent = create_agent(
+    model=model,
+    checkpointer=InMemorySaver(),
+    middleware=[
+        SummarizationMiddleware(
+            model=model,
+            trigger=("messages", 10), # summarize after 10 messages
+            keep=("messages", 4)
+        )
+    ]
+)
+
+config = {"configurable": {"thread_id": "test-1"}}
+
+questions = [
+    "What is 2+2?",
+    "What is 10*5?",
+    "What is 100/4?",
+    "What is 15-7?",
+    "What is 3*3?",
+    "What is 4*4?",
+]
+
+for question in questions:
+    response = agent.invoke({"messages": [HumanMessage(content=question)]}, config)
+    print(f"Messages: {len(response['messages'])}")</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Output (Message Count Tracing)</span>
+Messages: 2
+Messages: 4
+Messages: 6
+Messages: 8
+Messages: 10
+Messages: 6
+</div>
+<p><strong>Detailed Analysis &amp; Compaction Mechanics:</strong></p>
+<ol>
+    <li><strong>Threshold Accumulation (Turns 1 to 5):</strong> Each user query produces 1 <code>HumanMessage</code> and 1 <code>AIMessage</code>. The conversation grows steadily: 2 $\rightarrow$ 4 $\rightarrow$ 6 $\rightarrow$ 8 $\rightarrow$ 10 messages.</li>
+    <li><strong>Compaction Trigger Firing (Turn 6):</strong> On the 6th question (<code>"What is 4*4?"</code>), the middleware detects that message count has reached the trigger threshold of <code>10</code>.</li>
+    <li><strong>Structured Background Summarization:</strong> The middleware invokes the background summarizer model with a specialized prompt to extract:
+        <ul>
+            <li><code>## SESSION INTENT</code>: Solves arithmetic queries.</li>
+            <li><code>## SUMMARY</code>: Compact bullet points of questions 1 through 4 and their results.</li>
+            <li><code>## ARTIFACTS</code>: Any code or data created.</li>
+            <li><code>## NEXT STEPS</code>: Current pending question to answer.</li>
+        </ul>
+    </li>
+    <li><strong>State Pruning:</strong> The oldest 6 messages are replaced by a single synthetic <code>HumanMessage</code> tagged with <code>additional_kwargs={'lc_source': 'summarization'}</code>.</li>
+    <li><strong>Retention of Recent History:</strong> Because <code>keep=("messages", 4)</code> was specified, the 4 most recent messages (Turn 4 &amp; Turn 5 Q&amp;A) are preserved intact alongside the summary. Adding the new Turn 6 query and response yields: $1\text{ (Summary)} + 4\text{ (Retained)} + 1\text{ (New Turn AI)} = 6\text{ messages}$!</li>
+</ol>
+</div>
+
+<div class="page-break-before"></div>
+<h3>Cell 5: Token-Size Based Summarization</h3>
+<pre><code># Token Size Summarization
+@tool
+def search_hostels(city: str) -> str:
+    \"\"\"Search hotels - returns long response to use more tokens.\"\"\"
+    return f\"\"\"Hotels in {city}:
+    1. Grand Hotel - 5 star, $350/night, spa, pool, gym
+    2. City Inn - 4 star, $180/night, business center
+    3. Budget Stay - 3 star, $75/night, free wifi\"\"\"
+
+agent = create_agent(
+    model=model,
+    tools=[search_hostels],
+    checkpointer=InMemorySaver(),
+    middleware=[
+        SummarizationMiddleware(
+            model=model,
+            trigger=("tokens", 550),
+            keep=("tokens", 200)
+        )
+    ]
+)
+
+config = {"configurable": {"thread_id": "test-1"}}
+
+def count_tokens(messages):
+    total_chars = sum(len(str(message.content)) for message in messages)
+    return total_chars // 4
+
+cities = ["Paris", "London", "Tokyo", "New York", "Dubai", "Singapore"]
+
+for city in cities:
+    response = agent.invoke({"messages": [HumanMessage(content=f"Find hotels in {city}")]}, config=config)
+    tokens = count_tokens(response["messages"])
+    print(f"{city}: ~{tokens} tokens, {len(response['messages'])} messages")</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Output (Token Stabilization Tracing)</span>
+Paris: ~210 tokens, 4 messages
+London: ~409 tokens, 8 messages
+Tokyo: ~459 tokens, 5 messages
+New York: ~499 tokens, 5 messages
+Dubai: ~497 tokens, 5 messages
+Singapore: ~512 tokens, 5 messages
+</div>
+<p><strong>Deconstruction &amp; Token Budget Mechanics:</strong></p>
+<ul>
+    <li><code>count_tokens(messages)</code>: Implements the industry heuristic of $\\sim 4\text{ characters} \approx 1\text{ token}$.</li>
+    <li><strong>Turn 1 &amp; Turn 2:</strong> Paris generates 4 messages (User, AI tool_call, Tool result, AI formatted table) totaling 210 tokens. London appends another 4 messages, raising the token footprint to 409 tokens (8 messages).</li>
+    <li><strong>Turn 3 (Tokyo - Trigger Met):</strong> Ingesting Tokyo would push the context past the 550 token ceiling. The middleware intercepts, invokes the summarizer, collapses Paris and London into a structured summary markdown, retains ~200 tokens of recent context, and returns a compacted 5-message state with only 459 tokens!</li>
+    <li><strong>Continuous Token Bounding:</strong> Across New York, Dubai, and Singapore, the token count stabilizes in a tight band around ~497–512 tokens. The context never runs away linearly, ensuring predictable latency and zero token overflow errors.</li>
+</ul>
+
+<h3>Cell 6: Markdown Section Header</h3>
+<pre><code>### Human In The Loop Middleware</code></pre>
+<p><strong>Analysis:</strong> Introduces human approval gates and interactive execution control.</p>
+
+<div class="avoid-break">
+<h3>Cell 7: Intercepting High-Stakes Tools via interrupt_on</h3>
+<pre><code>from langchain.agents.middleware import HumanInTheLoopMiddleware
+
+def read_email_tool(email: str) -> str:
+    \"\"\"Mock Function to read an email by its id\"\"\"
+    return f"Email Content for ID: {email}"
+
+def send_email_tool(recipient: str, subject: str, body: str) -> str:
+    \"\"\"Mock function to send an email\"\"\"
+    return f"Email sent to {recipient} with subject: {subject}"
+
+agent = create_agent(
+    model=model,
+    tools=[read_email_tool, send_email_tool],
+    checkpointer=InMemorySaver(),
+    middleware=[HumanInTheLoopMiddleware(
+        interrupt_on={
+            "send_email_tool": {
+                "allowed_decisions": ["approve", "edit", "reject"]
+            },
+            "read_email_tool": False,
+        }
+    )]
+)
+
+config = {"configurable": {"thread_id": "test-approve"}}
+
+email = "varad0404@gmail.com"
+subject = "greetings"
+body = "how are you"
+
+result = agent.invoke(
+    {"messages": [HumanMessage(content=f"send email to {email}, with subject: {subject} containing text: {body}")]},
+    config=config
+)
+result</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Output (State Suspension &amp; __interrupt__)</span>
+{'messages': [HumanMessage(content='send email to varad0404@gmail.com...'),
+              AIMessage(content='', tool_calls=[{'name': 'send_email_tool', 'args': {'body': 'how are you', 'recipient': 'varad0404@gmail.com', 'subject': 'greetings'}, 'id': 'fc_36d...'}])],
+ '__interrupt__': [Interrupt(value={'action_requests': [{'name': 'send_email_tool',
+                                                         'args': {'body': 'how are you', 'recipient': 'varad0404@gmail.com', 'subject': 'greetings'},
+                                                         'description': "Tool execution requires approval\\n\\nTool: send_email_tool\\nArgs: {'body': 'how are you', 'recipient': 'varad0404@gmail.com', 'subject': 'greetings'}"}],
+                                   'review_configs': [{'action_name': 'send_email_tool', 'allowed_decisions': ['approve', 'edit', 'reject']}]},
+                             id='cac6e32465a2b8d14fc3f5bc59fb0358', response_schema=None)]}
+</div>
+<p><strong>Critical Architectural Highlights:</strong></p>
+<ol>
+    <li><strong>Selective Interception:</strong> <code>read_email_tool: False</code> executes automatically without pausing because reading data carries low operational risk. In contrast, <code>send_email_tool</code> is guarded with <code>allowed_decisions: ["approve", "edit", "reject"]</code>.</li>
+    <li><strong>Halted Execution:</strong> Notice that <code>send_email_tool</code> was <em>not</em> executed. No <code>ToolMessage</code> exists in the message list.</li>
+    <li><strong>The <code>__interrupt__</code> Structure:</strong> The graph yields an <code>Interrupt</code> object containing the exact proposed arguments (<code>action_requests</code>) and the approved decision schema. The current graph state is safely serialized into the <code>InMemorySaver</code> under <code>test-approve</code>.</li>
+</ol>
+</div>
+
+<div class="page-break-before"></div>
+<h3>Cell 8: Decision Path A - Human Approval (approve)</h3>
+<pre><code># approve
+from langgraph.types import Command
+
+if "__interrupt__" in result:
+    print("PAUSED waiting for approval...")
+
+    result = agent.invoke(
+        Command(
+            resume={
+                "decisions": [
+                    {"type": "approve"}
+                ]
+            }
+        ),
+        config=config
+    )
+
+    print(f"Result: {result['messages'][-1].content}")</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Result</span>
+PAUSED waiting for approval...
+Result: ✅ Your email has been sent to **varad0404@gmail.com** with the subject **“greetings”** and the message **“how are you.”**
+</div>
+<p><strong>Mechanics:</strong> Passing <code>Command(resume={"decisions": [{"type": "approve"}]})</code> informs the state machine that the human operator authorized the action. The graph resumes from the exact paused node, invokes <code>send_email_tool</code> with the original arguments, collects the tool result, and prompts the LLM to formulate the final confirmation response.</p>
+
+<div class="avoid-break">
+<h3>Cell 9: Decision Path B - Human Rejection (reject)</h3>
+<pre><code># reject
+# (Agent initialized with same config & prompt)
+result = agent.invoke(
+    {"messages": [HumanMessage(content=f"send email to {email}, with subject: {subject} containing text: {body}")]},
+    config=config
+)
+
+if "__interrupt__" in result:
+    print("PAUSED waiting for approval...")
+
+    result = agent.invoke(
+        Command(
+            resume={
+                "decisions": [
+                    {"type": "reject"}
+                ]
+            }
+        ),
+        config=config
+    )
+
+    print(f"Result: {result['messages'][-1].content}")</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Result</span>
+PAUSED waiting for approval...
+Result: I’m sorry, but I can’t send the email directly right now.  
+Would you like me to draft the email for you so you can copy it into your own mail client?
+</div>
+<p><strong>Mechanics:</strong> When the human supplies <code>{"type": "reject"}</code>, the middleware cancels the tool execution. The underlying Python function is never called. A rejection notification is fed into the conversation state, allowing the LLM to understand that permission was denied and gracefully pivot to an alternative solution (offering to draft text instead of sending).</p>
+</div>
+
+<div class="avoid-break">
+<h3>Cell 10: Decision Path C - Human Modification (edit)</h3>
+<pre><code># edit
+# (Agent initialized with same configuration)
+correct_email = "varad0404@gmail.com"
+wrong_email = "vrad0404@gmail.com"
+subject = "greetings"
+body = "how are you"
+
+# Prompt contains typo in recipient
+result = agent.invoke(
+    {"messages": [HumanMessage(content=f"send email to {wrong_email}, with subject: {subject} containing text: {body}")]},
+    config=config
+)
+
+if "__interrupt__" in result:
+    print("PAUSED waiting for approval...")
+
+    result = agent.invoke(
+        Command(
+            resume={
+                "decisions": [
+                    {
+                        "type": "edit",
+                        "edited_action": {
+                            "name": "send_email_tool",
+                            "args": {
+                                "recipient": correct_email,
+                                "subject": subject,
+                                "body": body
+                            }
+                        }
+                    }
+                ]
+            }
+        ),
+        config=config
+    )
+
+    print(f"Result: {result['messages'][-1].content}")</code></pre>
+<div class="output-box">
+    <span class="output-label">Execution Result</span>
+PAUSED waiting for approval...
+Result: ✅ Email sent to varad0404@gmail.com with subject “greetings” and body “how are you”.
+</div>
+<p><strong>Mechanics:</strong> The human detects a critical typo in the recipient's email address (<code>vrad0404@...</code>). Instead of rejecting the entire run or starting over, the operator provides <code>edited_action</code> containing the corrected parameters. The middleware injects the modified dictionary into the tool dispatcher, executing the function with <code>varad0404@gmail.com</code> without re-prompting the LLM.</p>
+</div>
+
+<!-- Section F: End-to-End Execution Flow & Dataflow Diagrams -->
+<div class="page-break-before"></div>
+<h2>F. End-to-End Execution Flow &amp; Dedicated Dataflow Diagrams</h2>
+<p>
+    The notebook highlights two distinct middleware paradigms: <strong>Autonomous Memory Optimization</strong> (Summarization) and <strong>Human-Supervised Execution Governance</strong> (HITL). Below are the explicit dataflow diagrams capturing the internal mechanics of each middleware.
+</p>
+
+<h3>1. SummarizationMiddleware Dataflow (Message Count &amp; Token Budgeting)</h3>
+<p>
+    When conversation length or token consumption crosses configured thresholds, the middleware interrupts the message append pipeline, invokes a dedicated summarizer model, and injects a single structured recap.
+</p>
+
+<!-- Diagram 2: Summarization Dataflow -->
+<div style="text-align: center; margin: 15px 0;">
+    __SVG_DIAGRAM_2__
+    <p style="font-size: 8.5pt; color: #64748b; margin-top: 5px;"><em>Figure 6.2: State Compaction Cycle: 10 Accumulated Messages Compressed into 1 Summary Message + 4 Preserved Turns.</em></p>
+</div>
+
+<h3>2. HumanInTheLoopMiddleware 3-Way Decision Dataflow</h3>
+<p>
+    When an agent targets an intercepted tool, execution is suspended, allowing external operators to evaluate arguments and select one of three resolution paths.
+</p>
+
+<!-- Diagram 3: HITL 3-Way Dataflow -->
+<div style="text-align: center; margin: 15px 0;">
+    __SVG_DIAGRAM_3__
+    <p style="font-size: 8.5pt; color: #64748b; margin-top: 5px;"><em>Figure 6.3: The 3-Way HITL Review Protocol: Interception, State Checkpointing, and Branching Resumption (Approve, Reject, Edit).</em></p>
+</div>
+
+<!-- Section G: Reference Guide -->
+<div class="page-break-before"></div>
+<h2>G. Reference Guide: Key Classes, Functions &amp; Configurations</h2>
+<table>
+    <tr>
+        <th>Class / Function</th>
+        <th>Import Path</th>
+        <th>Key Parameters &amp; Configurations</th>
+        <th>Runtime Role &amp; Behavior</th>
+    </tr>
+    <tr>
+        <td><code>SummarizationMiddleware</code></td>
+        <td><code>langchain.agents.middleware</code></td>
+        <td><code>model</code>, <code>trigger=("messages"|"tokens", N)</code>, <code>keep=("messages"|"tokens", K)</code></td>
+        <td>Lifecycle hook that monitors message history and replaces older turns with a structured summary when thresholds are met.</td>
+    </tr>
+    <tr>
+        <td><code>HumanInTheLoopMiddleware</code></td>
+        <td><code>langchain.agents.middleware</code></td>
+        <td><code>interrupt_on: dict[str, dict | bool]</code>, <code>allowed_decisions: list[str]</code></td>
+        <td>Intercepts designated tool calls, halts graph execution, and emits an <code>Interrupt</code> payload for human review.</td>
+    </tr>
+    <tr>
+        <td><code>InMemorySaver</code></td>
+        <td><code>langgraph.checkpoint.memory</code></td>
+        <td>None (in-memory dictionary backend)</td>
+        <td>Checkpointer required to serialize, persist, and resume graph execution states across thread boundaries.</td>
+    </tr>
+    <tr>
+        <td><code>Command</code></td>
+        <td><code>langgraph.types</code></td>
+        <td><code>resume: dict</code>, <code>update: dict (optional)</code></td>
+        <td>Control signal used to unpause an interrupted graph and pass back review decisions (approve, reject, edit).</td>
+    </tr>
+    <tr>
+        <td><code>Interrupt</code></td>
+        <td><code>langgraph.types</code></td>
+        <td><code>value: dict</code>, <code>id: str</code></td>
+        <td>Payload yielded in <code>response['__interrupt__']</code> describing the pending tool call and available decision options.</td>
+    </tr>
+</table>
+
+<!-- Section H: Common Errors & Troubleshooting -->
+<h2>H. Common Errors, Debugging &amp; Troubleshooting Guide</h2>
+
+<div class="callout callout-error">
+    <div class="callout-title">1. Missing Checkpointer When Using Interrupts or Memory</div>
+    <p><strong>Symptom:</strong> <code>RuntimeError: State machine requires a checkpointer to support interrupt() or resume().</code></p>
+    <p><strong>Cause:</strong> Attempting to initialize <code>create_agent(middleware=[HumanInTheLoopMiddleware(...)])</code> without supplying <code>checkpointer=InMemorySaver()</code>.</p>
+    <p><strong>Fix:</strong> Always pass a checkpointer instance. LangGraph cannot pause execution or resume without a state storage layer.</p>
+</div>
+
+<div class="callout callout-warning">
+    <div class="callout-title">2. Invoking an Interrupted Agent Without thread_id</div>
+    <p><strong>Symptom:</strong> <code>ValueError: No thread_id provided in configuration. Cannot locate checkpoint.</code></p>
+    <p><strong>Cause:</strong> Calling <code>agent.invoke(...)</code> without <code>config={"configurable": {"thread_id": "session_abc"}}</code>.</p>
+    <p><strong>Fix:</strong> All stateful sessions and interrupted agents require an explicit <code>thread_id</code> so the checkpointer can index and retrieve the paused node.</p>
+</div>
+
+<div class="callout callout-warning">
+    <div class="callout-title">3. Malformed Command.resume Payload Structure</div>
+    <p><strong>Symptom:</strong> <code>ValidationError: Expected 'decisions' list with valid 'type' key.</code></p>
+    <p><strong>Cause:</strong> Passing raw strings like <code>Command(resume="approve")</code> instead of the expected schema: <code>Command(resume={"decisions": [{"type": "approve"}]})</code>.</p>
+    <p><strong>Fix:</strong> Always format the resume dictionary to match the <code>allowed_decisions</code> specified in <code>review_configs</code>.</p>
+</div>
+
+<!-- Section I: Practical Extensions -->
+<div class="page-break-before"></div>
+<h2>I. Practical Extensions &amp; Production Design Patterns</h2>
+
+<h3>Pattern: Unified Production Agent with Persistent Database Checkpointing</h3>
+<p>
+    In real-world enterprise deployments, in-memory checkpointers lose all state if the application restarts. The code below demonstrates how to combine both <strong>Summarization</strong> and <strong>HITL</strong> with production-grade persistence and domain-specific approval filtering:
+</p>
+
+<pre><code>import os
+from langchain.agents import create_agent
+from langchain.agents.middleware import SummarizationMiddleware, HumanInTheLoopMiddleware
+from langgraph.checkpoint.memory import InMemorySaver # In production: from langgraph.checkpoint.postgres import PostgresSaver
+
+# 1. Initialize models and checkpointer
+# In production: checkpointer = PostgresSaver.from_conn_string(os.getenv("DATABASE_URL"))
+checkpointer = InMemorySaver()
+
+# 2. Define tools
+def execute_sql_query(query: str) -> str:
+    \"\"\"Execute SQL against reporting database.\"\"\"
+    return f"Executed query: {query}"
+
+def export_csv_report(filename: str) -> str:
+    \"\"\"Export generated analytics data to CSV.\"\"\"
+    return f"Saved report to {filename}"
+
+# 3. Create agent with multi-middleware governance
+governed_agent = create_agent(
+    model=model,
+    tools=[execute_sql_query, export_csv_report],
+    checkpointer=checkpointer,
+    middleware=[
+        # A. Protect against token blowout
+        SummarizationMiddleware(
+            model=model,
+            trigger=("tokens", 2000),
+            keep=("tokens", 800)
+        ),
+        # B. Guard destructive SQL queries
+        HumanInTheLoopMiddleware(
+            interrupt_on={
+                "execute_sql_query": {
+                    "allowed_decisions": ["approve", "edit", "reject"]
+                },
+                "export_csv_report": False # Read-only action runs freely
+            }
+        )
+    ]
+)</code></pre>
+
+<!-- Section J: Key Takeaways -->
+<h2>J. Key Takeaways &amp; Conceptual Map</h2>
+<ul>
+    <li><strong>Middleware Decouples Concerns:</strong> Middleware allows developers to manage memory limits, auditing, and safety gates outside of the core prompt engineering workflow.</li>
+    <li><strong>Checkpointers Enable State Resumption:</strong> Any agent workflow that requires pauses, reviews, or multi-turn conversational history must be bound to a checkpointer with an explicit <code>thread_id</code>.</li>
+    <li><strong>Summarization Prevents Runaway Costs:</strong> <code>SummarizationMiddleware</code> converts linear token accumulation into a bounded, predictable memory ceiling via structured LLM recaps.</li>
+    <li><strong>HITL Gives Humans Final Authority:</strong> The 3-way resume protocol (Approve, Reject, Edit) guarantees that autonomous agents never execute sensitive real-world side effects without human verification.</li>
+</ul>
+
+<!-- Section K: Practice Exercises -->
+<div class="page-break-before"></div>
+<h2>K. Practice Exercises &amp; Knowledge Checks</h2>
+
+<div class="exercise-box">
+    <div class="exercise-question">Question 1 (Conceptual): Why does HumanInTheLoopMiddleware require an active checkpointer to work?</div>
+    <p>What would happen if an agent encountered an interrupt without a checkpointer configured?</p>
+    <div class="answer-box">
+        <strong>Answer:</strong> An interrupt suspends Python execution mid-graph. To allow the process to exit, return an HTTP response, or wait hours for a human review, the entire execution state (active node, call stack, message history) must be serialized and saved to durable storage. Without a checkpointer, the state would vanish from RAM upon function return.
+    </div>
+</div>
+
+<div class="exercise-box">
+    <div class="exercise-question">Question 2 (Code Tracing): In Cell 4, why does the message count drop from 10 to 6 instead of 4?</div>
+    <div class="answer-box">
+        <strong>Answer:</strong> <code>keep=("messages", 4)</code> dictates how many *existing* messages to preserve alongside the new summary. When the trigger fired on Turn 6:
+        <ul>
+            <li>1 synthetic summary message is injected: <code>HumanMessage(lc_source='summarization')</code>.</li>
+            <li>4 recent messages are retained from history (Turns 4 &amp; 5).</li>
+            <li>1 new model response message is generated for the Turn 6 question.</li>
+        </ul>
+        Total messages = $1 + 4 + 1 = 6$ messages.
+    </div>
+</div>
+
+<div class="exercise-box">
+    <div class="exercise-question">Question 3 (Operational): How does the 'edit' decision prevent hallucinated tool parameters?</div>
+    <div class="answer-box">
+        <strong>Answer:</strong> When an LLM generates a tool call with slight inaccuracies (e.g., misspelled email <code>vrad0404@gmail.com</code> or wrong SQL table name), passing <code>{"type": "edit", "edited_action": {...}}</code> replaces the tool arguments *in-flight*. The tool executes immediately with the verified human input without requiring another expensive or unreliable LLM re-generation turn.
+    </div>
+</div>
+
+<div class="exercise-box">
+    <div class="exercise-question">Question 4 (Architecture): What is the key advantage of token-based triggers over message-based triggers in tool-heavy agents?</div>
+    <div class="answer-box">
+        <strong>Answer:</strong> Tool outputs vary wildly in size: a single database or web search tool result can return 2,000 tokens in one message, whereas a simple greeting returns 5 tokens. Message-count triggers treat both identically, risking severe context overflow on data-dense outputs. Token-based triggers monitor actual byte and token volume, providing deterministic protection against rate limits.
+    </div>
+</div>
+
+<!-- Section L: Further Learning -->
+<h2>L. Further Learning &amp; Official Documentation</h2>
+<ul>
+    <li><a href="https://python.langchain.com/docs/how_to/agent_middleware/">LangChain Agent Middleware Guide</a></li>
+    <li><a href="https://langchain-ai.github.io/langgraph/how-tos/human-in-the-loop/">LangGraph Human-In-The-Loop Documentation</a></li>
+    <li><a href="https://langchain-ai.github.io/langgraph/concepts/persistence/">LangGraph Persistence &amp; Checkpointers</a></li>
+    <li>Previous study guides in sequence: <strong>4-messages.pdf</strong> and <strong>5-structure.pdf</strong>.</li>
+</ul>
+
+</body>
+</html>
+"""
+    return (html_template
+            .replace("__FNAME__", fname)
+            .replace("__TODAY__", today)
+            .replace("__CSS_STYLES__", CSS_STYLES)
+            .replace("__SVG_DIAGRAM_1__", svg1)
+            .replace("__SVG_DIAGRAM_2__", svg2)
+            .replace("__SVG_DIAGRAM_3__", svg3))
 
 # Generic Fallback Builder
 def build_generic_guide(fname, cells, today):
