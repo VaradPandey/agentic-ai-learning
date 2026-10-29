@@ -11,9 +11,14 @@ dependencies = [
     "langchain-google-genai>=4.4.2",
     "langchain-groq>=1.1.3",
     "langchain-openai>=1.7.2",
+    "langsmith>=0.14.12",
     "pypdf>=6.21.2",
     "python-dotenv>=1.2.4",
 ]
+
+[project.urls]
+Homepage = "https://github.com/VaradPandey/agentic-ai-learning"
+Repository = "https://github.com/VaradPandey/agentic-ai-learning"
 
 [build-system]
 requires = ["uv_build>=0.13.5,<0.14.0"]

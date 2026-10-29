@@ -29,8 +29,8 @@ My hands-on journey learning LangChain, LangGraph, RAG architectures, LLM tool c
 Requires Python and [uv](https://docs.astral.sh/uv/).
 
 ```bash
-git clone https://github.com/VaradPandey/langchain-agentic-ai-learning.git
-cd Agentic-AI
+git clone https://github.com/VaradPandey/agentic-ai-learning.git
+cd "Agentic AI"
 uv sync
 ```
 
