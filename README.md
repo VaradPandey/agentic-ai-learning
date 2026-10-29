@@ -1,8 +1,10 @@
-# LangChain & Agentic AI Learning
+# Agentic AI Learning (LangChain, LangGraph, RAG & Agents)
 
-My hands-on journey learning LangChain, LLMs, tool calling, and Agentic AI and more through Jupyter notebooks and PDF study guides.
+My hands-on journey learning LangChain, LangGraph, RAG architectures, LLM tool calling, and autonomous Agentic AI systems through Jupyter notebooks and PDF study guides.
 
-## 📚 Learning Notebooks
+## 📚 Study Modules
+
+### 🦜 LangChain Study (`langchain-study/`)
 
 | Notebook | Topics | Guide |
 | :--- | :--- | :---: |
@@ -14,6 +16,12 @@ My hands-on journey learning LangChain, LLMs, tool calling, and Agentic AI and m
 | [Middleware & Governance](langchain-study/6-middleware.ipynb) | Summarization (length & token), HumanInTheLoop (approve, edit, reject) | [PDF](pdf/6-middleware.pdf) |
 | [Agent Starter](langchain-study/langchainIntro.ipynb) | Introductory experiments | — |
 
+### 🕸️ LangGraph Study (`langgraph-study/`)
+*Stateful agents, multi-agent workflows, human-in-the-loop graphs, and persistence.* (In progress)
+
+### 🔍 Retrieval-Augmented Generation (`rag-study/`)
+*Document chunking, vector embeddings, hybrid search, rerankers, and agentic RAG.* (In progress)
+
 ---
 
 ## ⚙️ Setup
@@ -22,7 +30,7 @@ Requires Python and [uv](https://docs.astral.sh/uv/).
 
 ```bash
 git clone https://github.com/VaradPandey/langchain-agentic-ai-learning.git
-cd langchain-agentic-ai-learning
+cd Agentic-AI
 uv sync
 ```
 
@@ -47,17 +55,21 @@ uv run jupyter lab
 - [x] Message types, system personas, and multi-turn tool handshakes
 - [x] Structured output extraction, Pydantic schemas, and agent response formats
 - [x] Agent middleware, automated sliding summarization, and human-in-the-loop governance (approve, edit, reject)
+- [ ] LangGraph cyclic workflows & supervisor agents
+- [ ] RAG pipelines & Vector database retrieval
 
 ---
 
 ## 📁 Project Structure
 
 ```text
-langchain-study/ — Jupyter notebooks
-pdf/             — PDF study guides
-src/             — Python source code
-task/            — PDF generation tools and instructions
-scratch/         — Experiments and temporary work
+langchain-study/ — LangChain notebooks & foundational agent experiments
+langgraph-study/ — LangGraph cyclical workflows and state graphs
+rag-study/       — RAG pipelines, embeddings, and retrieval workflows
+pdf/             — High-resolution PDF study guides
+src/             — Reusable Python source package (agentic_ai_learning)
+task/            — PDF generation tools and styling assets
+scratch/         — Quick experiments and temporary scratchpads
 ```
 
-This repository will grow as I explore more LangChain and Agentic AI concepts.
+This repository will grow as I explore more Agentic AI, LangGraph, and RAG concepts.

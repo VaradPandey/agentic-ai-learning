@@ -1,7 +1,7 @@
 [project]
-name = "langchain-learn"
+name = "agentic-ai-learning"
 version = "0.1.0"
-description = "Langchain Learning Project"
+description = "Agentic AI Learning: LangChain, LangGraph, RAG, and Autonomous Agents"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
