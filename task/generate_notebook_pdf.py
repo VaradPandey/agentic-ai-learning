@@ -1000,6 +1000,374 @@ def get_svg_hitl_middleware_dataflow():
     </svg>
     """
 
+def get_svg_langgraph_state_machine():
+    """Vector SVG diagram illustrating LangGraph State Machine, State TypedDict, and add_messages reducer."""
+    return """
+    <svg width="680" height="230" viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="sm-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+            </marker>
+            <marker id="sm-arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3aed" />
+            </marker>
+            <marker id="sm-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669" />
+            </marker>
+        </defs>
+
+        <!-- 1. State Definition & Reducer Box -->
+        <rect x="10" y="15" width="200" height="200" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="10" y="15" width="200" height="30" rx="8" fill="#3b82f6"/>
+        <text x="110" y="35" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">1. State Definition &amp; Reducer</text>
+        
+        <rect x="22" y="55" width="176" height="38" rx="4" fill="#ffffff" stroke="#bfdbfe"/>
+        <text x="30" y="70" font-family="'Courier New', monospace" font-size="8" font-weight="bold" fill="#1e3a8a">class State(TypedDict):</text>
+        <text x="42" y="83" font-family="'Courier New', monospace" font-size="7.5" fill="#2563eb">messages: Annotated[list,</text>
+        <text x="105" y="83" font-family="'Courier New', monospace" font-size="7.5" font-weight="bold" fill="#dc2626">add_messages]</text>
+
+        <text x="110" y="110" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#1e40af" text-anchor="middle">add_messages Reducer Role:</text>
+        <text x="25" y="128" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155">• Appends new incoming messages</text>
+        <text x="25" y="143" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155">• Overwrites by matching message ID</text>
+        <text x="25" y="158" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155">• Converts strings/dicts to BaseMessage</text>
+        <rect x="22" y="172" width="176" height="30" rx="4" fill="#dbeafe"/>
+        <text x="110" y="186" font-family="'Segoe UI', sans-serif" font-size="7.8" font-weight="bold" fill="#1e40af" text-anchor="middle">Prevents State Key Overwrites!</text>
+        <text x="110" y="196" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#1e3a8a" text-anchor="middle">(Accumulates turn history)</text>
+
+        <!-- Arrow 1 to 2 -->
+        <line x1="210" y1="115" x2="235" y2="115" stroke="#3b82f6" stroke-width="2" marker-end="url(#sm-arrow)"/>
+
+        <!-- 2. Node Function Box -->
+        <rect x="240" y="15" width="200" height="200" rx="8" fill="#faf5ff" stroke="#8b5cf6" stroke-width="1.5"/>
+        <rect x="240" y="15" width="200" height="30" rx="8" fill="#8b5cf6"/>
+        <text x="340" y="35" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">2. Node Function (Brain)</text>
+
+        <rect x="252" y="55" width="176" height="48" rx="4" fill="#ffffff" stroke="#e9d5ff"/>
+        <text x="260" y="70" font-family="'Courier New', monospace" font-size="8" font-weight="bold" fill="#581c87">def chatbot(state: State):</text>
+        <text x="272" y="83" font-family="'Courier New', monospace" font-size="7.5" fill="#6b21a8">return {"messages": [</text>
+        <text x="284" y="95" font-family="'Courier New', monospace" font-size="7.5" fill="#6b21a8">llm.invoke(state["messages"])]}</text>
+
+        <text x="340" y="120" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#6b21a8" text-anchor="middle">Execution Principles:</text>
+        <text x="255" y="138" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155">• Receives full state dict snapshot</text>
+        <text x="255" y="153" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155">• Returns partial delta update dict</text>
+        <text x="255" y="168" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155">• Never mutates state in-place</text>
+        <rect x="252" y="176" width="176" height="26" rx="4" fill="#f3e8ff"/>
+        <text x="340" y="193" font-family="'Segoe UI', sans-serif" font-size="7.8" font-weight="bold" fill="#6b21a8" text-anchor="middle">Pure Functional State Transformation</text>
+
+        <!-- Arrow 2 to 3 -->
+        <line x1="440" y1="115" x2="465" y2="115" stroke="#8b5cf6" stroke-width="2" marker-end="url(#sm-arrow-purple)"/>
+
+        <!-- 3. Compiled Graph Engine Box -->
+        <rect x="470" y="15" width="200" height="200" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="470" y="15" width="200" height="30" rx="8" fill="#10b981"/>
+        <text x="570" y="35" font-family="'Segoe UI', sans-serif" font-size="11" font-weight="bold" fill="#ffffff" text-anchor="middle">3. Compiled StateGraph</text>
+
+        <g transform="translate(485, 55)">
+            <circle cx="20" cy="25" r="16" fill="#64748b"/>
+            <text x="20" y="28" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle">START</text>
+
+            <line x1="36" y1="25" x2="60" y2="25" stroke="#64748b" stroke-width="2" marker-end="url(#sm-arrow)"/>
+
+            <rect x="62" y="10" width="56" height="30" rx="5" fill="#8b5cf6"/>
+            <text x="90" y="28" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle">chatbot</text>
+
+            <line x1="118" y1="25" x2="140" y2="25" stroke="#64748b" stroke-width="2" marker-end="url(#sm-arrow)"/>
+
+            <circle cx="156" cy="25" r="16" fill="#0f172a"/>
+            <text x="156" y="28" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#ffffff" text-anchor="middle">END</text>
+        </g>
+
+        <text x="570" y="118" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#065f46" text-anchor="middle">Compilation Lifecycle:</text>
+        <text x="485" y="136" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155">• Validates node connectivity &amp; edges</text>
+        <text x="485" y="151" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155">• Binds optional state checkpointer</text>
+        <text x="485" y="166" font-family="'Segoe UI', sans-serif" font-size="8" fill="#334155">• Exposes .invoke(), .stream(), .astream()</text>
+        <rect x="482" y="176" width="176" height="26" rx="4" fill="#d1fae5"/>
+        <text x="570" y="193" font-family="'Segoe UI', sans-serif" font-size="7.8" font-weight="bold" fill="#065f46" text-anchor="middle">CompiledStateGraph Executable</text>
+    </svg>
+    """
+
+def get_svg_langgraph_react_cycle():
+    """Vector SVG comparing Static Linear Tool Graph (Cell 8) vs ReAct Dynamic Cyclic Graph (Cell 10)."""
+    return """
+    <svg width="680" height="280" viewBox="0 0 680 280" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="rc-arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+            </marker>
+            <marker id="rc-arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3aed" />
+            </marker>
+            <marker id="rc-arrow-amber" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#d97706" />
+            </marker>
+            <marker id="rc-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669" />
+            </marker>
+            <marker id="rc-arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626" />
+            </marker>
+        </defs>
+
+        <!-- TOP PANEL: Cell 8 Static Tool Graph (Terminal Dead End) -->
+        <rect x="10" y="10" width="660" height="115" rx="8" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <rect x="10" y="10" width="660" height="24" rx="8" fill="#ef4444"/>
+        <text x="25" y="26" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#ffffff">A. Cell 8 Static Tool Execution Graph (Premature Termination / Broken Feedback Loop)</text>
+
+        <!-- Nodes in Row 1 -->
+        <!-- START -->
+        <circle cx="45" cy="72" r="15" fill="#64748b"/>
+        <text x="45" y="75" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#ffffff" text-anchor="middle">START</text>
+
+        <line x1="60" y1="72" x2="85" y2="72" stroke="#64748b" stroke-width="2" marker-end="url(#rc-arrow-blue)"/>
+
+        <!-- tool_calling_llm -->
+        <rect x="90" y="52" width="115" height="40" rx="6" fill="#8b5cf6"/>
+        <text x="147" y="68" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff" text-anchor="middle">tool_calling_llm</text>
+        <text x="147" y="82" font-family="'Courier New', monospace" font-size="7" fill="#ede9fe" text-anchor="middle">llm.bind_tools()</text>
+
+        <!-- Conditional Diamond: tools_condition -->
+        <line x1="205" y1="72" x2="235" y2="72" stroke="#8b5cf6" stroke-width="2" marker-end="url(#rc-arrow-purple)"/>
+
+        <polygon points="270,50 305,72 270,94 235,72" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+        <text x="270" y="70" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#92400e" text-anchor="middle">tools_</text>
+        <text x="270" y="80" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#92400e" text-anchor="middle">condition</text>
+
+        <!-- Path to tools -->
+        <line x1="305" y1="72" x2="340" y2="72" stroke="#d97706" stroke-width="2" marker-end="url(#rc-arrow-amber)"/>
+        <text x="322" y="64" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#b45309">tools</text>
+
+        <!-- tools Node -->
+        <rect x="345" y="52" width="100" height="40" rx="6" fill="#10b981"/>
+        <text x="395" y="68" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff" text-anchor="middle">tools (ToolNode)</text>
+        <text x="395" y="82" font-family="'Segoe UI', sans-serif" font-size="7" fill="#d1fae5" text-anchor="middle">Tavily / Multiply</text>
+
+        <!-- Dead end edge to END -->
+        <line x1="445" y1="72" x2="480" y2="72" stroke="#dc2626" stroke-width="2.5" marker-end="url(#rc-arrow-red)"/>
+
+        <!-- END -->
+        <circle cx="500" cy="72" r="15" fill="#dc2626"/>
+        <text x="500" y="75" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#ffffff" text-anchor="middle">END</text>
+
+        <!-- Warning Callout Box on Right -->
+        <rect x="530" y="44" width="130" height="56" rx="4" fill="#fee2e2" stroke="#f87171"/>
+        <text x="595" y="58" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#991b1b" text-anchor="middle">Flaw: No Feedback Loop!</text>
+        <text x="536" y="72" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#7f1d1d">• ToolMessage is stored</text>
+        <text x="536" y="83" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#7f1d1d">• LLM never sees tool output</text>
+        <text x="536" y="94" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#7f1d1d">• No final answer generated</text>
+
+
+        <!-- BOTTOM PANEL: Cell 10 ReAct Dynamic Cyclic Execution Loop -->
+        <rect x="10" y="135" width="660" height="135" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <rect x="10" y="135" width="660" height="24" rx="8" fill="#16a34a"/>
+        <text x="25" y="151" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#ffffff">B. Cell 10 ReAct Cyclic Execution Graph (Closed-Loop Reasoning &amp; Acting Agent)</text>
+
+        <!-- START -->
+        <circle cx="45" cy="195" r="15" fill="#64748b"/>
+        <text x="45" y="198" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#ffffff" text-anchor="middle">START</text>
+
+        <line x1="60" y1="195" x2="85" y2="195" stroke="#64748b" stroke-width="2" marker-end="url(#rc-arrow-blue)"/>
+
+        <!-- tool_calling_llm -->
+        <rect x="90" y="175" width="115" height="40" rx="6" fill="#8b5cf6"/>
+        <text x="147" y="191" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff" text-anchor="middle">tool_calling_llm</text>
+        <text x="147" y="205" font-family="'Courier New', monospace" font-size="7" fill="#ede9fe" text-anchor="middle">llm_with_tool</text>
+
+        <line x1="205" y1="195" x2="235" y2="195" stroke="#8b5cf6" stroke-width="2" marker-end="url(#rc-arrow-purple)"/>
+
+        <!-- tools_condition diamond -->
+        <polygon points="270,173 305,195 270,217 235,195" fill="#fef3c7" stroke="#d97706" stroke-width="1.5"/>
+        <text x="270" y="193" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#92400e" text-anchor="middle">tools_</text>
+        <text x="270" y="203" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#92400e" text-anchor="middle">condition</text>
+
+        <!-- Branch 1: If tool calls exist -> tools -->
+        <line x1="305" y1="195" x2="340" y2="195" stroke="#d97706" stroke-width="2" marker-end="url(#rc-arrow-amber)"/>
+        <text x="322" y="187" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#b45309">tools</text>
+
+        <!-- tools Node -->
+        <rect x="345" y="175" width="100" height="40" rx="6" fill="#10b981"/>
+        <text x="395" y="191" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff" text-anchor="middle">tools (ToolNode)</text>
+        <text x="395" y="205" font-family="'Segoe UI', sans-serif" font-size="7" fill="#d1fae5" text-anchor="middle">Executes Python Tools</text>
+
+        <!-- CYCLIC EDGE: tools back to tool_calling_llm -->
+        <path d="M 395 215 L 395 250 L 147 250 L 147 220" fill="none" stroke="#059669" stroke-width="2.5" stroke-dasharray="4" marker-end="url(#rc-arrow-green)"/>
+        <text x="270" y="244" font-family="'Segoe UI', sans-serif" font-size="7.8" font-weight="bold" fill="#047857" text-anchor="middle">Cyclic Feedback Edge: builder.add_edge("tools", "tool_calling_llm")</text>
+
+        <!-- Branch 2: tools_condition -> END (when no tool calls exist) -->
+        <path d="M 270 173 L 270 152 L 480 152 L 480 185" fill="none" stroke="#64748b" stroke-width="2" marker-end="url(#rc-arrow-blue)"/>
+        <text x="375" y="148" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#475569">END (Final Answer Synthesized)</text>
+
+        <!-- END Node -->
+        <circle cx="480" cy="195" r="15" fill="#0f172a"/>
+        <text x="480" y="198" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#ffffff" text-anchor="middle">END</text>
+
+        <!-- Success Callout Box on Right -->
+        <rect x="520" y="168" width="140" height="70" rx="4" fill="#dcfce7" stroke="#4ade80"/>
+        <text x="590" y="182" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#14532d" text-anchor="middle">True ReAct Convergence</text>
+        <text x="526" y="196" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#166534">• Observation returned</text>
+        <text x="526" y="208" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#166534">• LLM synthesizes answer</text>
+        <text x="526" y="220" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#166534">• Multi-hop chaining enabled</text>
+        <text x="526" y="232" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#166534">• Terminates when done</text>
+    </svg>
+    """
+
+def get_svg_langgraph_memory_saver():
+    """Vector SVG illustrating MemorySaver checkpointer, thread_id session isolation, and multi-turn persistence."""
+    return """
+    <svg width="680" height="245" viewBox="0 0 680 245" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="ms-arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+            </marker>
+            <marker id="ms-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669" />
+            </marker>
+            <marker id="ms-arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3aed" />
+            </marker>
+        </defs>
+
+        <!-- Outer Framework Boundary -->
+        <rect x="10" y="10" width="660" height="225" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+        <text x="25" y="28" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="bold" fill="#1e293b">LangGraph State Checkpointing Architecture (MemorySaver &amp; thread_id Isolation)</text>
+
+        <!-- TURN 1 COLUMN -->
+        <rect x="25" y="42" width="200" height="180" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1"/>
+        <rect x="25" y="42" width="200" height="22" rx="6" fill="#3b82f6"/>
+        <text x="125" y="57" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Turn 1 (thread_id: "1")</text>
+
+        <rect x="35" y="72" width="180" height="34" rx="4" fill="#ffffff" stroke="#bfdbfe"/>
+        <text x="42" y="84" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#1e40af">Client Invocation 1:</text>
+        <text x="42" y="96" font-family="'Courier New', monospace" font-size="7" fill="#1e293b">{"messages": "Hi my name is Varad"}</text>
+
+        <line x1="125" y1="108" x2="125" y2="122" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ms-arrow-blue)"/>
+
+        <rect x="35" y="125" width="180" height="32" rx="4" fill="#dbeafe"/>
+        <text x="125" y="138" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Agent Processing &amp; Output</text>
+        <text x="125" y="149" font-family="'Courier New', monospace" font-size="7" fill="#1e40af" text-anchor="middle">"Hello Varad! How can I help?"</text>
+
+        <line x1="125" y1="160" x2="125" y2="174" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#ms-arrow-blue)"/>
+
+        <rect x="35" y="177" width="180" height="36" rx="4" fill="#bfdbfe"/>
+        <text x="125" y="189" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Checkpoint Snapshot Saved</text>
+        <text x="125" y="201" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e40af" text-anchor="middle">Key: thread_id="1", state=[H1, A1]</text>
+
+        <!-- TURN 2 COLUMN -->
+        <rect x="240" y="42" width="200" height="180" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1"/>
+        <rect x="240" y="42" width="200" height="22" rx="6" fill="#16a34a"/>
+        <text x="340" y="57" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Turn 2 (thread_id: "1")</text>
+
+        <rect x="250" y="72" width="180" height="34" rx="4" fill="#ffffff" stroke="#bbf7d0"/>
+        <text x="257" y="84" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#166534">Client Invocation 2 (No History!):</text>
+        <text x="257" y="96" font-family="'Courier New', monospace" font-size="7" fill="#1e293b">{"messages": "what is my name"}</text>
+
+        <line x1="340" y1="108" x2="340" y2="122" stroke="#16a34a" stroke-width="1.5" marker-end="url(#ms-arrow-green)"/>
+
+        <rect x="250" y="125" width="180" height="32" rx="4" fill="#dcfce7"/>
+        <text x="340" y="137" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#14532d" text-anchor="middle">Checkpointer Restores [H1, A1]</text>
+        <text x="340" y="148" font-family="'Segoe UI', sans-serif" font-size="7" fill="#166534" text-anchor="middle">add_messages merges new query H2</text>
+
+        <line x1="340" y1="160" x2="340" y2="174" stroke="#16a34a" stroke-width="1.5" marker-end="url(#ms-arrow-green)"/>
+
+        <rect x="250" y="177" width="180" height="36" rx="4" fill="#bbf7d0"/>
+        <text x="340" y="189" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#14532d" text-anchor="middle">Accurate Contextual Recall!</text>
+        <text x="340" y="201" font-family="'Courier New', monospace" font-size="7" font-weight="bold" fill="#047857" text-anchor="middle">'Your name is Varad.'</text>
+
+        <!-- THREAD ISOLATION COLUMN -->
+        <rect x="455" y="42" width="200" height="180" rx="6" fill="#faf5ff" stroke="#d8b4fe" stroke-width="1"/>
+        <rect x="455" y="42" width="200" height="22" rx="6" fill="#9333ea"/>
+        <text x="555" y="57" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Thread Isolation (thread_id: "2")</text>
+
+        <rect x="465" y="72" width="180" height="34" rx="4" fill="#ffffff" stroke="#e9d5ff"/>
+        <text x="472" y="84" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#6b21a8">New Conversation Branch:</text>
+        <text x="472" y="96" font-family="'Courier New', monospace" font-size="7" fill="#1e293b">config={"thread_id": "2"}</text>
+
+        <line x1="555" y1="108" x2="555" y2="122" stroke="#9333ea" stroke-width="1.5" marker-end="url(#ms-arrow-purple)"/>
+
+        <rect x="465" y="125" width="180" height="32" rx="4" fill="#f3e8ff"/>
+        <text x="555" y="137" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#581c87" text-anchor="middle">Zero Cross-Session Leakage</text>
+        <text x="555" y="148" font-family="'Segoe UI', sans-serif" font-size="7" fill="#6b21a8" text-anchor="middle">Fresh isolated checkpoint partition</text>
+
+        <line x1="555" y1="160" x2="555" y2="174" stroke="#9333ea" stroke-width="1.5" marker-end="url(#ms-arrow-purple)"/>
+
+        <rect x="465" y="177" width="180" height="36" rx="4" fill="#e9d5ff"/>
+        <text x="555" y="189" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#581c87" text-anchor="middle">Enterprise Multi-Tenancy</text>
+        <text x="555" y="201" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#581c87" text-anchor="middle">Supports thousands of user sessions</text>
+    </svg>
+    """
+
+def get_svg_langgraph_streaming_modes():
+    """Vector SVG illustrating comparison of updates vs values vs astream_events v2."""
+    return """
+    <svg width="680" height="235" viewBox="0 0 680 235" xmlns="http://www.w3.org/2000/svg">
+        <!-- 1. Stream Mode Updates -->
+        <rect x="10" y="10" width="210" height="215" rx="8" fill="#f8fafc" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="10" y="10" width="210" height="28" rx="8" fill="#3b82f6"/>
+        <text x="115" y="28" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">1. stream_mode="updates"</text>
+
+        <rect x="20" y="48" width="190" height="30" rx="4" fill="#eff6ff"/>
+        <text x="115" y="62" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#1e40af" text-anchor="middle">Granularity: Node Mutation Delta</text>
+        <text x="115" y="73" font-family="'Segoe UI', sans-serif" font-size="7" fill="#3b82f6" text-anchor="middle">Yields ONLY what the node returned</text>
+
+        <rect x="20" y="85" width="190" height="80" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+        <text x="26" y="99" font-family="'Courier New', monospace" font-size="7.2" font-weight="bold" fill="#0f172a"># Emitted Chunk Structure:</text>
+        <text x="26" y="113" font-family="'Courier New', monospace" font-size="7" fill="#2563eb">{</text>
+        <text x="34" y="125" font-family="'Courier New', monospace" font-size="7" fill="#1d4ed8">'SuperBot': {</text>
+        <text x="44" y="137" font-family="'Courier New', monospace" font-size="7" fill="#059669">'messages': [AIMessage(...)]</text>
+        <text x="34" y="149" font-family="'Courier New', monospace" font-size="7" fill="#1d4ed8">}</text>
+        <text x="26" y="161" font-family="'Courier New', monospace" font-size="7" fill="#2563eb">}</text>
+
+        <rect x="20" y="172" width="190" height="42" rx="4" fill="#dbeafe"/>
+        <text x="115" y="186" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#1e40af" text-anchor="middle">Best Used For:</text>
+        <text x="115" y="198" font-family="'Segoe UI', sans-serif" font-size="7" fill="#1e3a8a" text-anchor="middle">• Targeted state diffing</text>
+        <text x="115" y="208" font-family="'Segoe UI', sans-serif" font-size="7" fill="#1e3a8a" text-anchor="middle">• Node execution monitoring &amp; audit</text>
+
+        <!-- 2. Stream Mode Values -->
+        <rect x="235" y="10" width="210" height="215" rx="8" fill="#f8fafc" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="235" y="10" width="210" height="28" rx="8" fill="#10b981"/>
+        <text x="340" y="28" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">2. stream_mode="values"</text>
+
+        <rect x="245" y="48" width="190" height="30" rx="4" fill="#ecfdf5"/>
+        <text x="340" y="62" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#065f46" text-anchor="middle">Granularity: Full Graph Snapshot</text>
+        <text x="340" y="73" font-family="'Segoe UI', sans-serif" font-size="7" fill="#059669" text-anchor="middle">Yields complete state after each node</text>
+
+        <rect x="245" y="85" width="190" height="80" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+        <text x="251" y="99" font-family="'Courier New', monospace" font-size="7.2" font-weight="bold" fill="#0f172a"># Emitted Chunk Structure:</text>
+        <text x="251" y="113" font-family="'Courier New', monospace" font-size="7" fill="#059669">{</text>
+        <text x="259" y="125" font-family="'Courier New', monospace" font-size="7" fill="#047857">'messages': [</text>
+        <text x="269" y="137" font-family="'Courier New', monospace" font-size="7" fill="#1e293b">HumanMessage(...),</text>
+        <text x="269" y="149" font-family="'Courier New', monospace" font-size="7" fill="#1e293b">AIMessage(...)</text>
+        <text x="259" y="161" font-family="'Courier New', monospace" font-size="7" fill="#047857">]</text>
+        <text x="251" y="173" font-family="'Courier New', monospace" font-size="7" fill="#059669">}</text>
+
+        <rect x="245" y="172" width="190" height="42" rx="4" fill="#d1fae5"/>
+        <text x="340" y="186" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#065f46" text-anchor="middle">Best Used For:</text>
+        <text x="340" y="198" font-family="'Segoe UI', sans-serif" font-size="7" fill="#065f46" text-anchor="middle">• Real-time UI conversation feeds</text>
+        <text x="340" y="208" font-family="'Segoe UI', sans-serif" font-size="7" fill="#065f46" text-anchor="middle">• Rendering cumulative message history</text>
+
+        <!-- 3. astream_events v2 -->
+        <rect x="460" y="10" width="210" height="215" rx="8" fill="#f8fafc" stroke="#8b5cf6" stroke-width="1.5"/>
+        <rect x="460" y="10" width="210" height="28" rx="8" fill="#8b5cf6"/>
+        <text x="565" y="28" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">3. astream_events(..., version="v2")</text>
+
+        <rect x="470" y="48" width="190" height="30" rx="4" fill="#f5f3ff"/>
+        <text x="565" y="62" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#581c87" text-anchor="middle">Granularity: Token &amp; Lifecycle Events</text>
+        <text x="565" y="73" font-family="'Segoe UI', sans-serif" font-size="7" fill="#7c3aed" text-anchor="middle">Yields fine-grained execution events</text>
+
+        <rect x="470" y="85" width="190" height="80" rx="4" fill="#ffffff" stroke="#cbd5e1"/>
+        <text x="476" y="99" font-family="'Courier New', monospace" font-size="7.2" font-weight="bold" fill="#0f172a"># Emitted Event Timeline:</text>
+        <text x="476" y="113" font-family="'Courier New', monospace" font-size="7" fill="#6b21a8">• on_chain_start</text>
+        <text x="476" y="125" font-family="'Courier New', monospace" font-size="7" fill="#6b21a8">• on_chat_model_start</text>
+        <text x="476" y="137" font-family="'Courier New', monospace" font-size="7" font-weight="bold" fill="#dc2626">• on_chat_model_stream (tokens)</text>
+        <text x="476" y="149" font-family="'Courier New', monospace" font-size="7" fill="#6b21a8">• on_chat_model_end</text>
+        <text x="476" y="161" font-family="'Courier New', monospace" font-size="7" fill="#6b21a8">• on_chain_end</text>
+
+        <rect x="470" y="172" width="190" height="42" rx="4" fill="#ede9fe"/>
+        <text x="565" y="186" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#581c87" text-anchor="middle">Best Used For:</text>
+        <text x="565" y="198" font-family="'Segoe UI', sans-serif" font-size="7" fill="#581c87" text-anchor="middle">• Typewriter token streaming in UI</text>
+        <text x="565" y="208" font-family="'Segoe UI', sans-serif" font-size="7" fill="#581c87" text-anchor="middle">• Reasoning tokens &amp; latency profiling</text>
+    </svg>
+    """
+
 def escape_html(text: str) -> str:
     """Escape text for safe HTML rendering."""
     return (text.replace("&", "&amp;")
@@ -1027,6 +1395,8 @@ def build_pdf_document(nb_data: dict) -> str:
         return build_guide_5(fname, cells, today)
     elif "6-middleware" in fname:
         return build_guide_6(fname, cells, today)
+    elif "1-BasicChatBot" in fname:
+        return build_guide_langgraph_1(fname, cells, today)
     else:
         return build_generic_guide(fname, cells, today)
 
@@ -3519,6 +3889,749 @@ governed_agent = create_agent(
             .replace("__SVG_DIAGRAM_1__", svg1)
             .replace("__SVG_DIAGRAM_2__", svg2)
             .replace("__SVG_DIAGRAM_3__", svg3))
+
+def build_guide_langgraph_1(fname, cells, today):
+    """Build canonical 12-section educational guide for 1-BasicChatBot.ipynb."""
+    svg1 = get_svg_langgraph_state_machine()
+    svg2 = get_svg_langgraph_react_cycle()
+    svg3 = get_svg_langgraph_memory_saver()
+    svg4 = get_svg_langgraph_streaming_modes()
+
+    html_template = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>__FNAME__ - Educational Study Guide</title>
+    <style>__CSS_STYLES__</style>
+</head>
+<body>
+
+<!-- Section A: Cover Page -->
+<div class="cover-page">
+    <span class="cover-badge">LangGraph 0.3+ • Agentic Workflows &amp; State Machines</span>
+    <h1 class="cover-title">Building Stateful Agentic Chatbots with LangGraph</h1>
+    <p class="cover-subtitle">StateGraph Architecture, add_messages Reducers, Dynamic ReAct Tool Cycles, MemorySaver Persistence, and Multi-Modal Streaming</p>
+    
+    <p style="font-size: 10.5pt; color: #475569; max-width: 580px; margin-top: 15px;">
+        An authoritative, publication-grade technical study guide deconstructing stateful agent architectures.
+        Covers the transition from linear LLM chains to cyclical state graphs, deterministic message reducers,
+        closed-loop ReAct tool calling, cross-invocation state checkpointing via <code>MemorySaver</code>, and real-time
+        streaming telemetry with <code>astream_events v2</code>.
+    </p>
+
+    <div class="cover-meta">
+        <div class="cover-meta-grid">
+            <div class="meta-item"><strong>Target Notebook:</strong> <code>__FNAME__</code></div>
+            <div class="meta-item"><strong>Generation Date:</strong> __TODAY__</div>
+            <div class="meta-item"><strong>Language &amp; Runtime:</strong> Python 3.14 • Virtualenv (.venv)</div>
+            <div class="meta-item"><strong>Core Frameworks:</strong> LangGraph 0.3+ • LangChain 1.4.7 • Groq LPU • Tavily</div>
+        </div>
+    </div>
+</div>
+
+<!-- Section B: Learning Objectives -->
+<h2>B. Learning Objectives</h2>
+<p>After studying this notebook and study guide, you will master:</p>
+<ul>
+    <li><strong>The Graph-Based Agent Paradigm:</strong> Understand why cyclic directed graphs supersede sequential chains for autonomous agent control flow and multi-step reasoning.</li>
+    <li><strong>State Definition &amp; Reducer Mechanics:</strong> Define schema contracts with <code>TypedDict</code> and master the <code>Annotated[list, add_messages]</code> reducer to intelligently append conversation turns and update messages by ID.</li>
+    <li><strong>Pure Node Computations:</strong> Author decoupled node functions that ingest the global state snapshot and return atomic delta dictionaries without in-place mutation.</li>
+    <li><strong>Tool Integration &amp; ToolNode:</strong> Bind search and calculation tools to LLMs using <code>bind_tools()</code> and execute them safely with LangGraph's prebuilt <code>ToolNode</code>.</li>
+    <li><strong>Dynamic ReAct Feedback Loops:</strong> Route execution dynamically with <code>tools_condition</code> and construct cyclic feedback edges to enable continuous reasoning over tool observations.</li>
+    <li><strong>State Checkpointing &amp; Session Continuity:</strong> Attach <code>MemorySaver</code> to persist multi-turn conversational memory across invocations using partitioned <code>thread_id</code> configurations.</li>
+    <li><strong>Streaming Telemetry:</strong> Differentiate between node mutation streaming (<code>updates</code>), full state snapshots (<code>values</code>), and token-by-token lifecycle event streaming (<code>astream_events v2</code>).</li>
+</ul>
+
+<!-- Section C: Prerequisites, Environment & Security Setup -->
+<h2>C. Prerequisites, Environment &amp; Security Setup</h2>
+<div class="callout callout-note">
+    <div class="callout-title">Runtime &amp; API Configuration</div>
+    This notebook runs on <strong>Python 3.14</strong> within the project virtual environment. It connects to the <strong>Groq LPU Inference Engine</strong> utilizing the <code>openai/gpt-oss-20b</code> open-weights reasoning model, and the <strong>Tavily Search API</strong> for real-time external information retrieval.
+</div>
+<table>
+    <tr>
+        <th>Component</th>
+        <th>Version / Identifier</th>
+        <th>Source / Purpose</th>
+    </tr>
+    <tr>
+        <td><code>langgraph</code></td>
+        <td><code>>=0.3.0</code></td>
+        <td>Cyclical state machine engine, <code>StateGraph</code>, <code>START</code>, <code>END</code>, <code>ToolNode</code></td>
+    </tr>
+    <tr>
+        <td><code>langchain</code></td>
+        <td><code>1.4.7</code></td>
+        <td>Core agent abstractions, message schemas, and <code>init_chat_model</code> factory</td>
+    </tr>
+    <tr>
+        <td><code>langchain-groq</code></td>
+        <td><code>>=1.1.3</code></td>
+        <td>Ultra-low-latency LPU model execution (Groq chat completions)</td>
+    </tr>
+    <tr>
+        <td><code>langchain-tavily</code></td>
+        <td><code>>=0.2.18</code></td>
+        <td>Optimized autonomous search engine for AI agents (real-time web queries)</td>
+    </tr>
+    <tr>
+        <td><code>python-dotenv</code></td>
+        <td><code>>=1.2.4</code></td>
+        <td>Secure environment variable loading from local <code>.env</code> file</td>
+    </tr>
+</table>
+
+<div class="callout callout-warning">
+    <div class="callout-title">Security &amp; API Key Masking Protocol</div>
+    Never commit raw API keys to Git. Keep keys in <code>.env</code>, which is excluded by <code>.gitignore</code>:
+    <pre><code>GROQ_API_KEY=gsk_your_groq_api_key_here
+TAVILY_API_KEY=tvly-your_tavily_api_key_here</code></pre>
+</div>
+
+<!-- Section D: Comprehensive Topic Overview -->
+<div class="page-break-before"></div>
+<h2>D. Comprehensive Topic Overview</h2>
+<p>
+    Building production-grade autonomous agents requires more than prompt chaining. Real-world tasks demand
+    <strong>cycles</strong>, <strong>state accumulation</strong>, <strong>tool feedback loops</strong>, and
+    <strong>durable persistence</strong>. LangGraph was built by the LangChain team specifically to address the
+    architectural limitations of linear Directed Acyclic Graphs (DAGs).
+</p>
+
+<h3>1. Why Cyclic Graphs? From Chains to State Machines</h3>
+<p>
+    Traditional LLM pipelines (such as LangChain Expression Language or LCEL chains) enforce linear, one-way dataflow:
+    $$\text{Prompt} \longrightarrow \text{LLM} \longrightarrow \text{Parser} \longrightarrow \text{Output}$$
+    While suitable for single-turn extraction or straightforward summarization, this linear paradigm fails when an agent
+    must iterate: an agent may invoke a search tool, evaluate the returned snippets, realize that crucial facts are still
+    missing, invoke a second tool (e.g., a calculator), inspect that output, and only then formulate a final response.
+    This iterative thought-action-observation cycle is the foundation of the <strong>ReAct (Reasoning + Acting)</strong>
+    pattern. LangGraph represents this lifecycle natively as a <strong>State Machine</strong> with nodes, edges, and cycles.
+</p>
+
+<h3>2. The Three Pillars of LangGraph Architecture</h3>
+<ul>
+    <li><strong>State:</strong> A central, typed data structure (typically a Python <code>TypedDict</code> or Pydantic model) that serves as the single source of truth for the entire workflow. Every node reads from and writes to this shared state.</li>
+    <li><strong>Nodes:</strong> Regular Python functions (or prebuilt components like <code>ToolNode</code>) that receive the current state snapshot, perform a unit of computation (such as an LLM call or API query), and return a <em>delta dictionary</em> containing updates to specific state keys.</li>
+    <li><strong>Edges:</strong> Rules governing control flow between nodes. Edges can be <em>unconditional</em> (always route from Node A to Node B) or <em>conditional</em> (dynamically inspect state to choose the next node or terminate at <code>END</code>).</li>
+</ul>
+
+<h3>3. The Critical Role of Reducers (<code>add_messages</code>)</h3>
+<p>
+    By default, when a node in LangGraph returns a dictionary like <code>{"messages": [new_msg]}</code>, standard Python dictionary
+    semantics would overwrite the entire <code>messages</code> key, deleting all previous conversation history!
+    To prevent accidental data loss, LangGraph introduces <strong>Reducers</strong> via Python's <code>typing.Annotated</code>.
+    The <code>add_messages</code> reducer defines custom merge semantics:
+</p>
+<ul>
+    <li><strong>List Concatenation:</strong> Appends new incoming messages to the existing list rather than overwriting.</li>
+    <li><strong>Update-by-ID:</strong> If an incoming message shares the same unique <code>id</code> as an existing message in state, the existing message is replaced in-place (essential for Human-in-the-Loop revisions or tool response overwrites).</li>
+    <li><strong>Type Normalization:</strong> Automatically converts raw strings or primitive dictionaries into first-class LangChain message objects (e.g., <code>HumanMessage</code>, <code>AIMessage</code>).</li>
+</ul>
+
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 1: Core LangGraph State Machine Architecture</div>
+    __SVG_DIAGRAM_1__
+    <div class="diagram-caption">
+        <strong>Figure 1 Architectural Breakdown:</strong> Deconstruction of state definition, functional node execution,
+        and graph compilation. The <code>add_messages</code> reducer prevents state key erasure by merging delta updates into the cumulative turn history.
+    </div>
+</div>
+
+<!-- Section E: Detailed Notebook Walkthrough -->
+<div class="page-break-before"></div>
+<h2>E. Detailed Notebook Walkthrough</h2>
+<p>
+    The source notebook <code>1-BasicChatBot.ipynb</code> progresses methodically through four major evolutionary phases:
+    from a basic single-node conversational graph to a full ReAct agent with tools, persistent checkpoint memory, and streaming telemetry.
+</p>
+
+<h3>Phase 1: Environment Setup &amp; Basic ChatBot Graph (Cells 0–4)</h3>
+
+<h4>Cell 0 &amp; 1: Imports and Core Abstractions</h4>
+<div class="code-header">Cell 1 • Library Imports</div>
+<pre><code>import os
+from dotenv import load_dotenv
+from langchain.chat_models import init_chat_model
+from typing import Annotated
+from typing_extensions import TypedDict
+from langgraph.graph import StateGraph, START, END
+from langgraph.graph.message import add_messages #Reducer
+from IPython.display import Image, display
+from langchain_tavily import TavilySearch
+from langgraph.prebuilt import ToolNode, tools_condition</code></pre>
+<p><strong>Detailed Analysis:</strong></p>
+<ul>
+    <li><code>init_chat_model</code>: Unified model factory providing provider-agnostic model instantiation.</li>
+    <li><code>StateGraph, START, END</code>: The foundational graph builder and virtual boundary nodes. <code>START</code> indicates where execution begins upon invocation; <code>END</code> marks the terminal sink.</li>
+    <li><code>add_messages</code>: The built-in reducer function attached to the state message list.</li>
+    <li><code>ToolNode, tools_condition</code>: LangGraph's prebuilt building blocks for tool execution and conditional routing.</li>
+</ul>
+
+<h4>Cell 2: Model Instantiation via Groq LPU</h4>
+<div class="code-header">Cell 2 • Model Initialization</div>
+<pre><code>load_dotenv()
+os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
+
+llm = init_chat_model("groq:openai/gpt-oss-20b")
+llm</code></pre>
+<p><strong>Execution Output:</strong></p>
+<pre><code>ChatGroq(
+  metadata={'lc_versions': {'langchain-core': '1.7.0', 'langchain': '1.4.7'}},
+  profile={'name': 'GPT OSS 20B', 'max_input_tokens': 131072, 'max_output_tokens': 65536,
+           'tool_calling': True, 'reasoning_output': True},
+  model_name='openai/gpt-oss-20b'
+)</code></pre>
+<p><strong>Architectural Rationale:</strong> Using <code>openai/gpt-oss-20b</code> on Groq delivers sub-second inference with native tool-calling capabilities and explicit reasoning token outputs.</p>
+
+<h4>Cell 3: State Schema &amp; Node Function Definition</h4>
+<div class="code-header">Cell 3 • Defining State and Chatbot Node</div>
+<pre><code>class State(TypedDict):
+    messages: Annotated[list, add_messages]
+
+# Node Functionality
+def chatbot(state: State): # will act as node and llm calling takes place here (brain)
+    return {
+        "messages": [llm.invoke(state["messages"])]
+    }</code></pre>
+<p><strong>Line-by-Line Breakdown:</strong></p>
+<ul>
+    <li><code>class State(TypedDict):</code> Defines the graph state structure. Using <code>TypedDict</code> ensures zero runtime overhead while offering strict static type hints in modern IDEs.</li>
+    <li><code>messages: Annotated[list, add_messages]</code>: Decorates the <code>list</code> type with the <code>add_messages</code> reducer metadata. Whenever a node returns a dictionary with key <code>"messages"</code>, LangGraph routes the update through <code>add_messages(existing_messages, new_messages)</code>.</li>
+    <li><code>def chatbot(state: State):</code> The node function. Notice it receives the current <code>state</code> dictionary, calls <code>llm.invoke(state["messages"])</code>, and wraps the returned <code>AIMessage</code> in a single-element list.</li>
+    <li><strong>Critical Rule:</strong> The node function never mutates <code>state</code> directly (e.g. never calls <code>state["messages"].append(...)</code>). It returns only the delta update dictionary.</li>
+</ul>
+
+<h4>Cell 4: Assembling, Compiling &amp; Invoking the Basic Graph</h4>
+<div class="code-header">Cell 4 • Graph Assembly &amp; Execution</div>
+<pre><code># Building the StateGraph
+graph_builder = StateGraph(State)
+
+# Add node
+graph_builder.add_node("llmchatbot", chatbot)
+
+# Add edges
+graph_builder.add_edge(START, "llmchatbot")
+graph_builder.add_edge("llmchatbot", END)
+
+# Compile the graph
+graph = graph_builder.compile()
+
+display(Image(graph.get_graph().draw_mermaid_png()))
+
+response = graph.invoke({"messages": "Hi"})
+response["messages"][-1].content</code></pre>
+<p><strong>Execution Output:</strong></p>
+<pre><code>'Hello! How can I help you today?'</code></pre>
+<p><strong>Execution Lifecycle:</strong></p>
+<ol>
+    <li>The client invokes <code>graph.invoke({"messages": "Hi"})</code>.</li>
+    <li>The raw string <code>"Hi"</code> is normalized into a <code>HumanMessage(content="Hi")</code> by the reducer and placed into state.</li>
+    <li>Execution flows from <code>START</code> to the node <code>"llmchatbot"</code>.</li>
+    <li><code>chatbot(state)</code> invokes the Groq LLM with the message list. The model returns an <code>AIMessage(content="Hello! How can I help you today?")</code>.</li>
+    <li>The reducer appends the <code>AIMessage</code> to state. Execution flows to <code>END</code>.</li>
+    <li>The compiled graph returns the final accumulated state containing both the human query and AI response.</li>
+</ol>
+
+<div class="page-break-before"></div>
+<h3>Phase 2: External Tools Setup (Cells 5–7)</h3>
+
+<h4>Cell 6: Tavily Web Search Tool Exploration</h4>
+<div class="code-header">Cell 6 • Standalone Tool Verification</div>
+<pre><code># Tavily Search helps with internet exploration
+tool = TavilySearch(max_results=2)
+tool.invoke("what is LangGraph")</code></pre>
+<p><strong>Execution Output:</strong></p>
+<pre><code>{'query': 'what is LangGraph',
+ 'results': [
+   {'url': 'https://www.geeksforgeeks.org/machine-learning/what-is-langgraph',
+    'title': 'What is LangGraph - GeeksforGeeks',
+    'content': 'LangGraph is an open-source framework from LangChain designed to build and manage AI agent workflows using graph-based structures...'},
+   {'url': 'https://python.langchain.com/docs/langgraph',
+    'title': 'LangGraph Documentation',
+    'content': 'LangGraph is a library for building stateful, multi-actor applications with LLMs...'}
+ ]}</code></pre>
+<p><strong>Pedagogical Insight:</strong> Testing the tool in isolation via <code>tool.invoke()</code> confirms network access, API key validity, and expected dictionary return schema before binding it to an agent graph.</p>
+
+<h4>Cell 7: Custom Python Tool &amp; Model Binding</h4>
+<div class="code-header">Cell 7 • Defining Arithmetic Tool and Binding to LLM</div>
+<pre><code># Custom tool
+def multiply(a: int, b: int) -> int:
+    \"\"\"
+    Multiply a and b
+    Args:
+        a (int): first int
+        b (int): second int
+
+    Returns:
+        int: output int
+    \"\"\"
+    return a * b
+
+tools = [tool, multiply]
+llm_with_tool = llm.bind_tools(tools)
+llm_with_tool</code></pre>
+<p><strong>Execution Output:</strong></p>
+<pre><code>_ChatModelBinding(
+  bound=ChatGroq(model_name='openai/gpt-oss-20b', ...),
+  kwargs={'tools': [
+    {'type': 'function', 'function': {'name': 'tavily_search', 'description': '...', 'parameters': {...}}},
+    {'type': 'function', 'function': {'name': 'multiply', 'description': 'Multiply a and b', 'parameters': {'properties': {'a': {'type': 'integer'}, 'b': {'type': 'integer'}}, 'required': ['a', 'b']}}}
+  ]}
+)</code></pre>
+<p><strong>Crucial Rule:</strong> The LLM <em>never executes Python functions directly</em>. <code>bind_tools()</code> extracts function signatures, type annotations, and docstrings into an OpenAI-compatible JSON schema. The model inspects this schema and decides when to emit a structured request to call a tool.</p>
+
+<div class="page-break-before"></div>
+<h3>Phase 3: The Static Tool Graph &amp; The "Premature Termination" Pitfall (Cell 8)</h3>
+
+<h4>Cell 8: Static Graph with Linear Termination</h4>
+<div class="code-header">Cell 8 • Graph with Non-Cyclic Edge: tools -&gt; END</div>
+<pre><code># StateGraph
+def tool_calling_llm(state: State): # brain
+    return {
+        "messages": [llm_with_tool.invoke(state["messages"])]
+    }
+
+builder = StateGraph(State)
+builder.add_node("tool_calling_llm", tool_calling_llm)
+builder.add_node("tools", ToolNode(tools))
+
+# Add edges
+builder.add_edge(START, "tool_calling_llm")
+builder.add_conditional_edges("tool_calling_llm", tools_condition)
+builder.add_edge("tools", END) # &lt;-- PITFALL: Terminal edge!
+
+graph = builder.compile()
+display(Image(graph.get_graph().draw_mermaid_png()))
+
+response = graph.invoke({
+    "messages": "What is the recent mbappe vs china news about"
+})
+
+for message in response['messages']:
+    message.pretty_print()</code></pre>
+<p><strong>Execution Output Trace:</strong></p>
+<pre><code>================================ Human Message =================================
+What is the recent mbappe vs china news about
+
+================================== Ai Message ==================================
+Tool Calls:
+  tavily_search (fc_31c85fb3-9df1-416c-b2e3-26253be060fc)
+ Call ID: fc_31c85fb3-9df1-416c-b2e3-26253be060fc
+  Args:
+    query: Mbappe vs China news recent
+    search_depth: advanced
+    topic: news
+
+================================= Tool Message =================================
+Name: tavily_search
+{"query": "Mbappe vs China news recent", "results": [{"url": "...", "content": "Mbappe jokingly commented..."}]}</code></pre>
+<div class="callout callout-warning">
+    <div class="callout-title">Architectural Deconstruction of the Premature Termination Trap</div>
+    Look closely at the output: the graph executed <code>HumanMessage</code> $\rightarrow$ <code>AIMessage (Tool Call)</code> $\rightarrow$ <code>ToolMessage</code>, and then <strong>abruptly halted</strong>!
+    Why? Because line 14 declared <code>builder.add_edge("tools", END)</code>.
+    Once the <code>ToolNode</code> executed Tavily search and produced the <code>ToolMessage</code>, control routed directly to <code>END</code>.
+    The LLM was <strong>never reinvoked</strong> to read the tool's findings and synthesize a human-readable answer!
+</div>
+
+<div class="page-break-before"></div>
+<h3>Phase 4: The Dynamic ReAct Cyclic Loop (Cells 9–10)</h3>
+
+<h4>Cell 10: Closing the Loop with a Cyclic Feedback Edge</h4>
+<div class="code-header">Cell 10 • Closed-Loop ReAct Architecture</div>
+<pre><code>def tool_calling_llm(state: State):
+    return {
+        "messages": [llm_with_tool.invoke(state["messages"])]
+    }
+
+builder = StateGraph(State)
+builder.add_node("tool_calling_llm", tool_calling_llm)
+builder.add_node("tools", ToolNode(tools))
+
+builder.add_edge(START, "tool_calling_llm")
+builder.add_conditional_edges("tool_calling_llm", tools_condition)
+builder.add_edge("tools", "tool_calling_llm") # &lt;-- THE CYCLIC FEEDBACK EDGE!
+
+graph = builder.compile()
+display(Image(graph.get_graph().draw_mermaid_png()))
+
+response = graph.invoke({"messages": "Give me the ballon d'or and then multiply 5 by 10"})
+for m in response['messages']:
+    m.pretty_print()</code></pre>
+<p><strong>Execution Trace (The Complete 4-Turn ReAct Lifecycle):</strong></p>
+<pre><code>1. HumanMessage:
+   "Give me the ballon d'or and then multiply 5 by 10"
+
+2. AIMessage (Reasoning &amp; Tool Request):
+   Tool Calls:
+     tavily_search (fc_f087ec7a-618c-406f-921c-ea0b11779201)
+     Args: {'query': "most recent Ballon d'Or winner 2023", 'topic': 'general'}
+
+3. ToolMessage (External Observation):
+   Name: tavily_search
+   Content: {"query": "most recent Ballon d'Or winner 2023", "results": [{"content": "Lionel Messi won the 2023 Ballon d'Or..."}]}
+
+4. AIMessage (Synthesized Final Answer):
+   "The most recent recipient of the Ballon d'Or (as of the 2023 ceremony) is Lionel Messi...
+    Regarding the calculation: 5 * 10 = 50."</code></pre>
+<p><strong>How the ReAct Cycle Worked:</strong></p>
+<ol>
+    <li><code>tool_calling_llm</code> decided it needed external data to answer the Ballon d'Or question. It emitted a tool call request for <code>tavily_search</code>.</li>
+    <li><code>tools_condition</code> inspected the <code>AIMessage</code>. Because <code>tool_calls</code> was populated, it routed control to <code>"tools"</code>.</li>
+    <li><code>ToolNode</code> executed <code>tavily_search(...)</code>, constructed a <code>ToolMessage</code> with the raw search results, and added it to state.</li>
+    <li>The cyclic edge <code>builder.add_edge("tools", "tool_calling_llm")</code> routed execution <strong>back to the LLM node</strong>!</li>
+    <li><code>tool_calling_llm</code> ran a second time. It now saw the full history: user query + tool call request + tool results. It formulated the complete answer and computed $5 \times 10 = 50$.</li>
+    <li><code>tools_condition</code> ran again. Finding no further tool calls in the latest <code>AIMessage</code>, it routed to <code>END</code>.</li>
+</ol>
+
+<div class="page-break-before"></div>
+<h3>Phase 5: State Persistence &amp; Checkpointing (Cells 11–12)</h3>
+
+<h4>Cell 11: Compiling with <code>MemorySaver</code> and Thread Binding</h4>
+<div class="code-header">Cell 11 • Attaching Checkpointer and First Conversational Turn</div>
+<pre><code>from langgraph.checkpoint.memory import MemorySaver
+
+memory = MemorySaver()
+
+# Graph assembly
+builder = StateGraph(State)
+builder.add_node("tool_calling_llm", tool_calling_llm)
+builder.add_node("tools", ToolNode(tools))
+
+builder.add_edge(START, "tool_calling_llm")
+builder.add_conditional_edges("tool_calling_llm", tools_condition)
+builder.add_edge("tools", "tool_calling_llm")
+
+# Compile graph with checkpointer
+graph = builder.compile(checkpointer=memory)
+
+config = {"configurable": {"thread_id": "1"}} # Session identifier
+
+response = graph.invoke({"messages": "Hi my name is Varad"}, config=config)
+response['messages'][-1].content</code></pre>
+<p><strong>Execution Output:</strong> <code>'Hello Varad! How can I help you today?'</code></p>
+
+<h4>Cell 12: Contextual Recall Across Invocations</h4>
+<div class="code-header">Cell 12 • Second Turn with Zero Client History</div>
+<pre><code>response = graph.invoke({"messages": "what is my name"}, config=config)
+response['messages'][-1].content</code></pre>
+<p><strong>Execution Output:</strong> <code>'Your name is Varad.'</code></p>
+<div class="callout callout-tip">
+    <div class="callout-title">The Power of Checkpointing</div>
+    Notice that the client passed <em>only</em> <code>{"messages": "what is my name"}</code> in Cell 12! The client never passed the previous turn.
+    Because <code>thread_id="1"</code> was provided in <code>config</code>, LangGraph automatically loaded the state checkpoint saved at the end of Cell 11, applied the <code>add_messages</code> reducer to append the new question, and passed the full history to the model.
+</div>
+
+<div class="page-break-before"></div>
+<h3>Phase 6: Execution Streaming Paradigms (Cells 13–15)</h3>
+
+<h4>Cell 14: Comparing <code>stream_mode="updates"</code> vs <code>stream_mode="values"</code></h4>
+<div class="code-header">Cell 14 • Node Mutations vs State Snapshots</div>
+<pre><code>from langgraph.checkpoint.memory import MemorySaver
+memory = MemorySaver()
+
+def superbot(state: State):
+    return {"messages": [llm.invoke(state['messages'])]}
+
+graph = StateGraph(State)
+graph.add_node("SuperBot", superbot)
+graph.add_edge(START, "SuperBot")
+graph.add_edge("SuperBot", END)
+graph_builder = graph.compile(checkpointer=memory)
+
+# 1. Updates streaming -> yields node mutation deltas
+config = {"configurable": {"thread_id": "2"}}
+for chunk in graph_builder.stream({'messages': "Hi, My name is Varad And I like football"}, config, stream_mode="updates"):
+    print(chunk)
+
+# 2. Values streaming -> yields cumulative state snapshots
+config = {"configurable": {"thread_id": "3"}}
+for chunk in graph_builder.stream({'messages': "Hi, My name is Varad And I like football"}, config, stream_mode="values"):
+    print(chunk)</code></pre>
+<p><strong>Output Analysis &amp; Differences:</strong></p>
+<ul>
+    <li><code>stream_mode="updates"</code> yields:
+        <pre><code>{'SuperBot': {'messages': [AIMessage(content="Hello Varad! Great to meet a fellow football fan...")]}}</code></pre>
+        Only the changes produced by the executing node are emitted.
+    </li>
+    <li><code>stream_mode="values"</code> yields:
+        <pre><code>Step 1 (Input/START): {'messages': [HumanMessage(content="Hi, My name is Varad...")]}
+Step 2 (After SuperBot): {'messages': [HumanMessage(...), AIMessage(...)]}</code></pre>
+        The complete cumulative graph state is emitted at every transition.
+    </li>
+</ul>
+
+<h4>Cell 15: Fine-Grained Lifecycle &amp; Token Streaming with <code>astream_events v2</code></h4>
+<div class="code-header">Cell 15 • Asynchronous Event Streaming</div>
+<pre><code>config = {"configurable": {"thread_id": "4"}}
+
+async for event in graph_builder.astream_events(
+    {"messages": ["Hi My name is Varad and I like watching football"]},
+    config,
+    version="v2"
+):
+    print(event)</code></pre>
+<p><strong>Event Stream Timeline:</strong></p>
+<table>
+    <tr>
+        <th>Event Name</th>
+        <th>Emitting Component</th>
+        <th>Event Payload Details</th>
+    </tr>
+    <tr>
+        <td><code>on_chain_start</code></td>
+        <td><code>LangGraph Engine</code></td>
+        <td>Graph initialization, input payload, run ID, and thread metadata</td>
+    </tr>
+    <tr>
+        <td><code>on_chat_model_start</code></td>
+        <td><code>ChatGroq</code></td>
+        <td>Model invocation parameters, prompt messages, and temperature</td>
+    </tr>
+    <tr>
+        <td><code>on_chat_model_stream</code></td>
+        <td><code>ChatGroq</code></td>
+        <td>Incremental token chunks (<code>AIMessageChunk</code>) emitted in real time as the LPU generates text</td>
+    </tr>
+    <tr>
+        <td><code>on_chat_model_end</code></td>
+        <td><code>ChatGroq</code></td>
+        <td>Complete assembled <code>AIMessage</code>, token usage statistics, and finish reason</td>
+    </tr>
+    <tr>
+        <td><code>on_chain_end</code></td>
+        <td><code>LangGraph Engine</code></td>
+        <td>Final serialized state checkpoint written to <code>MemorySaver</code></td>
+    </tr>
+</table>
+
+<!-- Section F: End-to-End Execution Flow & Architectural Synthesis -->
+<div class="page-break-before"></div>
+<h2>F. End-to-End Execution Flow &amp; Architectural Synthesis</h2>
+<p>
+    The components explored across the notebook combine into a cohesive, fault-tolerant agent architecture.
+    The diagrams below illustrate the dynamic cyclic loop, checkpointed multi-turn memory, and streaming modes.
+</p>
+
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 2: ReAct Dynamic Cyclic Execution vs Static Linear Termination</div>
+    __SVG_DIAGRAM_2__
+    <div class="diagram-caption">
+        <strong>Figure 2 Architectural Breakdown:</strong> Panel A illustrates the premature termination defect in Cell 8, where
+        the graph terminates immediately after tool execution. Panel B demonstrates the complete ReAct architecture in Cell 10,
+        where the cyclic edge routes tool observations back to the LLM for synthesis and final answer generation.
+    </div>
+</div>
+
+<div class="diagram-container avoid-break" style="margin-top: 25px;">
+    <div class="diagram-title">Figure 3: MemorySaver State Checkpointing &amp; Multi-Turn Session Isolation</div>
+    __SVG_DIAGRAM_3__
+    <div class="diagram-caption">
+        <strong>Figure 3 Architectural Breakdown:</strong> How <code>MemorySaver</code> maintains conversation state across independent
+        invocations via <code>thread_id</code>, while guaranteeing strict isolation between concurrent user sessions.
+    </div>
+</div>
+
+<div class="diagram-container avoid-break" style="margin-top: 25px;">
+    <div class="diagram-title">Figure 4: LangGraph Execution &amp; Streaming Modes Comparison</div>
+    __SVG_DIAGRAM_4__
+    <div class="diagram-caption">
+        <strong>Figure 4 Architectural Breakdown:</strong> Comparative matrix of LangGraph streaming modalities:
+        mutation-level diffs (<code>updates</code>), snapshot states (<code>values</code>), and token-by-token lifecycle streams (<code>astream_events v2</code>).
+    </div>
+</div>
+
+<!-- Section G: Reference Guide: Important APIs & Classes -->
+<div class="page-break-before"></div>
+<h2>G. Reference Guide: Important APIs &amp; Classes</h2>
+<table>
+    <tr>
+        <th>Class / Function</th>
+        <th>Module</th>
+        <th>Key Parameters</th>
+        <th>Return / Behavior</th>
+    </tr>
+    <tr>
+        <td><code>StateGraph(state_schema)</code></td>
+        <td><code>langgraph.graph</code></td>
+        <td><code>state_schema: Type[TypedDict]</code></td>
+        <td>Initializes an uncompiled graph builder enforcing the specified state schema contract.</td>
+    </tr>
+    <tr>
+        <td><code>add_messages</code></td>
+        <td><code>langgraph.graph.message</code></td>
+        <td><code>(left: list, right: list | BaseMessage)</code></td>
+        <td>Reducer function: appends new messages, updates messages with identical IDs, and normalizes primitives.</td>
+    </tr>
+    <tr>
+        <td><code>ToolNode(tools)</code></td>
+        <td><code>langgraph.prebuilt</code></td>
+        <td><code>tools: Sequence[BaseTool | Callable]</code></td>
+        <td>Prebuilt node that inspects the latest <code>AIMessage.tool_calls</code>, executes matching tools, and returns <code>[ToolMessage]</code>.</td>
+    </tr>
+    <tr>
+        <td><code>tools_condition(state)</code></td>
+        <td><code>langgraph.prebuilt</code></td>
+        <td><code>state: dict | BaseMessage</code></td>
+        <td>Conditional edge router: returns <code>"tools"</code> if the last message contains <code>tool_calls</code>; otherwise returns <code>END</code>.</td>
+    </tr>
+    <tr>
+        <td><code>MemorySaver()</code></td>
+        <td><code>langgraph.checkpoint.memory</code></td>
+        <td>None</td>
+        <td>In-memory key-value checkpointer persisting graph state snapshots indexed by <code>thread_id</code> and checkpoint ID.</td>
+    </tr>
+    <tr>
+        <td><code>builder.compile(checkpointer=...)</code></td>
+        <td><code>langgraph.graph.StateGraph</code></td>
+        <td><code>checkpointer: BaseCheckpointSaver</code></td>
+        <td>Validates graph topology and produces an immutable, executable <code>CompiledStateGraph</code> instance.</td>
+    </tr>
+    <tr>
+        <td><code>graph.stream(input, config, stream_mode=...)</code></td>
+        <td><code>langgraph.graph.state.CompiledStateGraph</code></td>
+        <td><code>stream_mode: "updates" | "values"</code></td>
+        <td>Generator yielding node-level deltas (<code>"updates"</code>) or cumulative state snapshots (<code>"values"</code>) at each step.</td>
+    </tr>
+    <tr>
+        <td><code>graph.astream_events(input, config, version="v2")</code></td>
+        <td><code>langgraph.graph.state.CompiledStateGraph</code></td>
+        <td><code>version: "v2"</code></td>
+        <td>Async generator yielding fine-grained execution lifecycle events (tokens, tool dispatches, model completions).</td>
+    </tr>
+</table>
+
+<!-- Section H: Common Errors, Debugging & Troubleshooting -->
+<h2>H. Common Errors, Debugging &amp; Troubleshooting</h2>
+
+<div class="callout callout-error avoid-break">
+    <div class="callout-title">Pitfall 1: Omission of Reducer Decorator (State Overwrite Trap)</div>
+    <strong>Symptom:</strong> The agent only remembers the immediate last turn. All previous messages vanish from state.<br>
+    <strong>Root Cause:</strong> Defining state as <code>messages: list</code> without <code>Annotated[list, add_messages]</code>. In standard Python, updating a dictionary key replaces the entire value.<br>
+    <strong>Fix:</strong>
+    <pre><code># Incorrect: Overwrites previous turns!
+class State(TypedDict):
+    messages: list
+
+# Correct: Merges and accumulates history via reducer!
+class State(TypedDict):
+    messages: Annotated[list, add_messages]</code></pre>
+</div>
+
+<div class="callout callout-error avoid-break">
+    <div class="callout-title">Pitfall 2: Premature Terminal Edge (The Broken ReAct Loop)</div>
+    <strong>Symptom:</strong> The graph completes execution, but the user receives a raw <code>ToolMessage</code> or unparsed tool output instead of a conversational answer.<br>
+    <strong>Root Cause:</strong> Adding <code>builder.add_edge("tools", END)</code>. Execution stops as soon as the tool completes, preventing the model from synthesizing the observation.<br>
+    <strong>Fix:</strong>
+    <pre><code># Incorrect: Dead end after tool call
+builder.add_edge("tools", END)
+
+# Correct: Dynamic cyclic loop back to model node!
+builder.add_edge("tools", "tool_calling_llm")</code></pre>
+</div>
+
+<div class="callout callout-error avoid-break">
+    <div class="callout-title">Pitfall 3: Checkpointing Memory Leaks &amp; Missing thread_id</div>
+    <strong>Symptom:</strong> <code>ValueError: No thread_id provided in configurable</code>, or different users seeing each other's chat history.<br>
+    <strong>Root Cause:</strong> Invoking a checkpointer-backed graph without passing <code>config={"configurable": {"thread_id": ...}}</code>, or reusing a static hardcoded <code>thread_id="1"</code> across distinct users.<br>
+    <strong>Fix:</strong>
+    <pre><code># Generate unique session thread IDs per user session
+import uuid
+session_config = {"configurable": {"thread_id": str(uuid.uuid4())}}
+response = graph.invoke({"messages": "Hello"}, config=session_config)</code></pre>
+</div>
+
+<!-- Section I: Practical Extensions & Industry Best Practices -->
+<div class="page-break-before"></div>
+<h2>I. Practical Extensions &amp; Industry Best Practices</h2>
+<ul>
+    <li><strong>Production Checkpointers:</strong> While <code>MemorySaver</code> is ideal for local development, production multi-tenant deployments require durable, persistent storage such as <code>AsyncPostgresSaver</code> (from <code>langgraph-checkpoint-postgres</code>) or Redis checkpointers. This guarantees state survival across server restarts and horizontal scaling.</li>
+    <li><strong>Graceful Tool Error Handling:</strong> External APIs fail or return rate limits. Configure <code>ToolNode</code> with <code>handle_tool_errors=True</code> so that exceptions are caught and converted into a polite <code>ToolMessage</code> explaining the error, allowing the LLM to recover or attempt alternative tools.</li>
+    <li><strong>Context Window Pruning:</strong> Over hundreds of turns, message lists exceed LLM context windows. Combine LangGraph checkpointing with message trimming (e.g. <code>trim_messages</code>) or token-triggered summarization nodes to bound token consumption.</li>
+</ul>
+
+<!-- Section J: Key Takeaways & Conceptual Map -->
+<h2>J. Key Takeaways &amp; Conceptual Map</h2>
+<div class="callout callout-tip">
+    <div class="callout-title">Core Principles of LangGraph Development</div>
+    <ol>
+        <li><strong>State is the Single Source of Truth:</strong> Everything the agent knows, sees, and remembers resides in the typed state dictionary.</li>
+        <li><strong>Reducers Control State Mutations:</strong> Use <code>Annotated[list, add_messages]</code> to ensure conversation turns accumulate cleanly.</li>
+        <li><strong>Nodes are Pure Transformers:</strong> Nodes receive the global state snapshot and return minimal delta dictionaries.</li>
+        <li><strong>ReAct Requires Cycles:</strong> Never terminate after <code>tools</code>. Route <code>tools</code> back to the LLM node to close the thought-action-observation loop.</li>
+        <li><strong>Persistence is Opt-In:</strong> Supply a checkpointer and pass <code>thread_id</code> in the configuration to achieve stateful multi-turn memory.</li>
+        <li><strong>Stream According to Needs:</strong> Use <code>updates</code> for node debugging, <code>values</code> for full chat state, and <code>astream_events v2</code> for typewriter UI tokens.</li>
+    </ol>
+</div>
+
+<!-- Section K: Practice Exercises & Knowledge Checks -->
+<div class="page-break-before"></div>
+<h2>K. Practice Exercises &amp; Knowledge Checks</h2>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 1 (Conceptual):</strong> Explain what happens under the hood if a node in a LangGraph graph returns <code>{"messages": [AIMessage(id="msg_123", content="Revised answer")]}</code> when a message with ID <code>msg_123</code> already exists in state.
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 2 (Code Tracing):</strong> In a compiled ReAct graph with nodes <code>agent</code> and <code>tools</code>, how many times does the <code>agent</code> node execute if the user prompt is: <em>"Find the capital of France, and then find the capital of Japan"</em>, assuming the model executes searches sequentially?
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 3 (Debugging):</strong> A developer compiles their graph with <code>MemorySaver()</code> and runs:
+    <pre><code>res1 = graph.invoke({"messages": "I live in Berlin"}, config={"configurable": {"thread_id": "A"}})
+res2 = graph.invoke({"messages": "Where do I live?"}, config={"configurable": {"thread_id": "B"}})</code></pre>
+    Will <code>res2</code> know that the user lives in Berlin? Explain why or why not.
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 4 (Implementation Challenge):</strong> Write a custom conditional routing function <code>route_by_urgency(state: State) -> str</code> that inspects the latest message: if it contains the word "emergency", it routes to a node named <code>human_escalation</code>; otherwise, it routes to <code>tools_condition</code>.
+</div>
+
+<h3>Answers &amp; Complete Explanations</h3>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 1:</strong> The <code>add_messages</code> reducer detects matching IDs. Instead of appending a duplicate message, it performs an in-place replacement of the existing message with <code>id="msg_123"</code>. This allows agents or human reviewers to revise or edit previous turns without corrupting conversation flow.
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 2:</strong> The <code>agent</code> node executes <strong>3 times</strong>:
+    <ol>
+        <li>Execution 1: Emits tool call for Paris search.</li>
+        <li>Execution 2: Receives Paris result, emits tool call for Tokyo search.</li>
+        <li>Execution 3: Receives Tokyo result, synthesizes both observations, and emits the final response without tool calls, routing to <code>END</code>.</li>
+    </ol>
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 3:</strong> <strong>No.</strong> <code>MemorySaver</code> strictly partitions checkpoints by <code>thread_id</code>. Thread <code>"B"</code> has an empty independent state history and has no visibility into Thread <code>"A"</code>.
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 4:</strong>
+    <pre><code>def route_by_urgency(state: State) -> str:
+    last_message = state["messages"][-1]
+    if "emergency" in str(last_message.content).lower():
+        return "human_escalation"
+    return tools_condition(state)</code></pre>
+</div>
+
+<!-- Section L: Further Learning & Official Documentation -->
+<h2>L. Further Learning &amp; Official Documentation</h2>
+<ul>
+    <li><a href="https://langchain-ai.github.io/langgraph/">LangGraph Official Documentation</a>: Concepts, how-to guides, and tutorials on cyclical graph architecture.</li>
+    <li><a href="https://langchain-ai.github.io/langgraph/concepts/persistence/">LangGraph Persistence &amp; Checkpointing Guide</a>: Comprehensive overview of state backends, time travel, and human-in-the-loop workflows.</li>
+    <li><a href="https://python.langchain.com/docs/integrations/chat/groq/">LangChain Groq Integration</a>: High-throughput LPU model inference with OpenAI compatibility.</li>
+    <li><a href="https://docs.tavily.com/">Tavily AI Search Engine Documentation</a>: Real-time search optimization and query parameters for agentic exploration.</li>
+</ul>
+
+</body>
+</html>
+"""
+
+    return (html_template
+            .replace("__FNAME__", fname)
+            .replace("__TODAY__", today)
+            .replace("__CSS_STYLES__", CSS_STYLES)
+            .replace("__SVG_DIAGRAM_1__", svg1)
+            .replace("__SVG_DIAGRAM_2__", svg2)
+            .replace("__SVG_DIAGRAM_3__", svg3)
+            .replace("__SVG_DIAGRAM_4__", svg4))
 
 # Generic Fallback Builder
 def build_generic_guide(fname, cells, today):

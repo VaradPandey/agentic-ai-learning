@@ -5,3 +5,4 @@ langchain-google-genai
 python-dotenv
 langchain-openai
 ipykernel
+langchain_tavily

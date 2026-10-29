@@ -17,7 +17,10 @@ My hands-on journey learning LangChain, LangGraph, RAG architectures, LLM tool c
 | [Agent Starter](langchain-study/langchainIntro.ipynb) | Introductory experiments | — |
 
 ### 🕸️ LangGraph Study (`langgraph-study/`)
-*Stateful agents, multi-agent workflows, human-in-the-loop graphs, and persistence.* (In progress)
+
+| Notebook | Topics | Guide |
+| :--- | :--- | :---: |
+| [Basic ChatBot](langgraph-study/1-BasicChatBot.ipynb) | StateGraph, `add_messages` reducer, ToolNode, ReAct cyclic loops, MemorySaver persistence, streaming (`updates`, `values`, `astream_events`) | [PDF](pdf/1-BasicChatBot.pdf) |
 
 ### 🔍 Retrieval-Augmented Generation (`rag-study/`)
 *Document chunking, vector embeddings, hybrid search, rerankers, and agentic RAG.* (In progress)
@@ -55,7 +58,8 @@ uv run jupyter lab
 - [x] Message types, system personas, and multi-turn tool handshakes
 - [x] Structured output extraction, Pydantic schemas, and agent response formats
 - [x] Agent middleware, automated sliding summarization, and human-in-the-loop governance (approve, edit, reject)
-- [ ] LangGraph cyclic workflows & supervisor agents
+- [x] LangGraph state machines, cyclical ReAct loops, MemorySaver checkpointing, and execution streaming
+- [ ] Multi-agent supervisor teams and hierarchical graphs
 - [ ] RAG pipelines & Vector database retrieval
 
 ---
