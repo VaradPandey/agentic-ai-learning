@@ -17,22 +17,33 @@ The documentation system strictly adheres to the following layout:
 │   ├── NOTEBOOK_PDF_INSTRUCTIONS.md   # This master instruction file
 │   └── generate_notebook_pdf.py       # Reusable programmatic generator & validation script
 ├── pdf/
-│   ├── 1-langchainIntro.pdf          # Generated PDF matching notebook filename
-│   ├── 2-modelintegration.pdf        # Generated PDF matching notebook filename
-│   └── 3-toolcall.pdf                # Generated PDF matching notebook filename
-├── langchain-study/
-│   ├── 1-langchainIntro.ipynb        # Source notebooks (preserved, never modified)
-│   ├── 2-modelintegration.ipynb
-│   └── 3-toolcall.ipynb
+│   ├── langchain/                     # Study guides for LangChain modules
+│   │   ├── 1-langchainIntro.pdf
+│   │   ├── 2-modelintegration.pdf
+│   │   └── ...
+│   └── langgraph/                     # Study guides for LangGraph & MCP modules
+│       ├── 1-BasicChatBot.pdf
+│       ├── 2-HumanInTheLoop.pdf
+│       └── 3-MCP.pdf
+├── langchain-study/                   # Source notebooks (preserved, never modified)
+│   ├── 1-langchainIntro.ipynb
+│   └── ...
+├── langgraph-study/
+│   ├── 1-BasicChatBot.ipynb
+│   ├── 2-HumanInTheLoop.ipynb
+│   └── 3-MCP.ipynb
 ├── pyproject.toml
 └── .env
 ```
 
 ### Core File Rules:
-1. **Output Directory:** All generated PDF study guides must reside directly inside the `pdf/` directory at the project root. Never output PDFs into `task/` or within the notebook source directory.
+1. **Output Directory:** All generated PDF study guides must reside in their respective subfolder inside `pdf/`:
+   - `langchain-study/<name>.ipynb` $\rightarrow$ `pdf/langchain/<name>.pdf`
+   - `langgraph-study/<name>.ipynb` $\rightarrow$ `pdf/langgraph/<name>.pdf`
+   Never output PDFs into `task/` or within the notebook source directory.
 2. **Exact Name Mapping:** The PDF filename must mirror the notebook filename exactly with `.pdf` replacing `.ipynb`:
-   - `<notebook_filename>.ipynb` $\rightarrow$ `pdf/<notebook_filename>.pdf`
-   - Example: `3-toolcall.ipynb` $\rightarrow$ `pdf/3-toolcall.pdf`.
+   - `<notebook_filename>.ipynb` $\rightarrow$ `pdf/<module>/<notebook_filename>.pdf`
+   - Example: `2-HumanInTheLoop.ipynb` $\rightarrow$ `pdf/langgraph/2-HumanInTheLoop.pdf`.
 3. **Immutability of Source Notebooks:** Source notebooks must never be deleted, renamed, or modified during documentation generation.
 4. **Preservation of Existing PDFs:** When documenting a single notebook, only update or replace its corresponding PDF. Never overwrite unrelated PDFs.
 

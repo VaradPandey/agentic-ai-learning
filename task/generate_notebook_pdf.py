@@ -1368,6 +1368,425 @@ def get_svg_langgraph_streaming_modes():
     </svg>
     """
 
+import sys
+import os
+from pathlib import Path
+
+# Add project root to sys.path
+sys.path.append(r"C:\Users\novap\Downloads\BlazelMage\Code\Agentic AI")
+
+def get_svg_hitl_dynamic_breakpoint():
+    """Vector SVG diagram illustrating HITL dynamic breakpoint with interrupt()."""
+    return """
+    <svg width="680" height="260" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="hb-arrow" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+            </marker>
+            <marker id="hb-arrow-amber" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#d97706" />
+            </marker>
+            <marker id="hb-arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#dc2626" />
+            </marker>
+        </defs>
+
+        <!-- Outer Framework Boundary -->
+        <rect x="10" y="10" width="660" height="240" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="bold" fill="#0f172a">Phase 1: Dynamic Breakpoint Trigger &amp; Execution Suspension</text>
+
+        <!-- Step 1: User Input -->
+        <rect x="25" y="50" width="130" height="180" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="25" y="50" width="130" height="26" rx="6" fill="#3b82f6"/>
+        <text x="90" y="67" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">1. User Query</text>
+        <text x="90" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#1e40af" text-anchor="middle">graph.stream()</text>
+        <rect x="33" y="102" width="114" height="60" rx="4" fill="#ffffff" stroke="#bfdbfe"/>
+        <text x="38" y="116" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e3a8a">"I need guidance</text>
+        <text x="38" y="128" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e3a8a">for building an</text>
+        <text x="38" y="140" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e3a8a">AI agent. Request</text>
+        <text x="38" y="152" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e3a8a">assistance..."</text>
+        <rect x="33" y="170" width="114" height="48" rx="4" fill="#dbeafe"/>
+        <text x="90" y="184" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#1e40af" text-anchor="middle">thread_id: "1"</text>
+        <text x="90" y="196" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e3a8a" text-anchor="middle">Session Partition</text>
+        <text x="90" y="208" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e3a8a" text-anchor="middle">stream_mode="values"</text>
+
+        <!-- Arrow 1 to 2 -->
+        <line x1="155" y1="125" x2="180" y2="125" stroke="#3b82f6" stroke-width="2" marker-end="url(#hb-arrow)"/>
+
+        <!-- Step 2: Chatbot Decision -->
+        <rect x="185" y="50" width="145" height="180" rx="6" fill="#faf5ff" stroke="#8b5cf6" stroke-width="1.5"/>
+        <rect x="185" y="50" width="145" height="26" rx="6" fill="#8b5cf6"/>
+        <text x="257" y="67" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">2. Chatbot Node</text>
+        <text x="257" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#6b21a8" text-anchor="middle">Groq GPT-OSS 20B</text>
+        <rect x="193" y="102" width="129" height="70" rx="4" fill="#ffffff" stroke="#e9d5ff"/>
+        <text x="198" y="116" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#581c87">Evaluates Tools:</text>
+        <text x="198" y="128" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#475569">• tavily_search</text>
+        <text x="198" y="140" font-family="'Segoe UI', sans-serif" font-size="6.8" font-weight="bold" fill="#7c3aed">• human_assistance</text>
+        <text x="198" y="154" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e293b">Emits AIMessage with</text>
+        <text x="198" y="165" font-family="'Courier New', monospace" font-size="6.5" fill="#7c3aed">tool_calls=[...]</text>
+        <rect x="193" y="180" width="129" height="38" rx="4" fill="#f3e8ff"/>
+        <text x="257" y="195" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="bold" fill="#6b21a8" text-anchor="middle">Routes via</text>
+        <text x="257" y="207" font-family="'Courier New', monospace" font-size="7.2" font-weight="bold" fill="#581c87" text-anchor="middle">tools_condition</text>
+
+        <!-- Arrow 2 to 3 -->
+        <line x1="330" y1="125" x2="355" y2="125" stroke="#8b5cf6" stroke-width="2" marker-end="url(#hb-arrow)"/>
+
+        <!-- Step 3: ToolNode & interrupt() -->
+        <rect x="360" y="50" width="145" height="180" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+        <rect x="360" y="50" width="145" height="26" rx="6" fill="#f59e0b"/>
+        <text x="432" y="67" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">3. ToolNode Execution</text>
+        <text x="432" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#92400e" text-anchor="middle">human_assistance()</text>
+        <rect x="368" y="102" width="129" height="60" rx="4" fill="#ffffff" stroke="#fde68a"/>
+        <text x="374" y="116" font-family="'Courier New', monospace" font-size="6.8" font-weight="bold" fill="#b45309">interrupt({</text>
+        <text x="382" y="128" font-family="'Courier New', monospace" font-size="6.8" fill="#78350f">"query": query</text>
+        <text x="374" y="140" font-family="'Courier New', monospace" font-size="6.8" font-weight="bold" fill="#b45309">})</text>
+        <text x="432" y="154" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#92400e" text-anchor="middle">Halts node in-flight</text>
+        <rect x="368" y="170" width="129" height="48" rx="4" fill="#fef3c7"/>
+        <text x="432" y="184" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#92400e" text-anchor="middle">GraphExecutionHalted</text>
+        <text x="432" y="196" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#78350f" text-anchor="middle">Preserves execution</text>
+        <text x="432" y="208" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#78350f" text-anchor="middle">pointer at tool call</text>
+
+        <!-- Arrow 3 to 4 -->
+        <line x1="505" y1="125" x2="530" y2="125" stroke="#f59e0b" stroke-width="2" marker-end="url(#hb-arrow-amber)"/>
+
+        <!-- Step 4: Checkpointer State Freeze -->
+        <rect x="535" y="50" width="125" height="180" rx="6" fill="#fef2f2" stroke="#ef4444" stroke-width="1.5"/>
+        <rect x="535" y="50" width="125" height="26" rx="6" fill="#ef4444"/>
+        <text x="597" y="67" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">4. MemorySaver</text>
+        <text x="597" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#991b1b" text-anchor="middle">Durable Snapshot</text>
+        <rect x="543" y="102" width="109" height="60" rx="4" fill="#ffffff" stroke="#fca5a5"/>
+        <text x="548" y="116" font-family="'Segoe UI', sans-serif" font-size="6.8" font-weight="bold" fill="#dc2626">Saved Checkpoint:</text>
+        <text x="548" y="128" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#475569">• Turn history: [H, A]</text>
+        <text x="548" y="140" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#475569">• Pending tool_call</text>
+        <text x="548" y="152" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#475569">• Interrupt payload</text>
+        <rect x="543" y="170" width="109" height="48" rx="4" fill="#fee2e2"/>
+        <text x="597" y="184" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#991b1b" text-anchor="middle">PAUSED STATUS</text>
+        <text x="597" y="196" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#7f1d1d" text-anchor="middle">Awaiting Human</text>
+        <text x="597" y="208" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#7f1d1d" text-anchor="middle">Command(resume=...)</text>
+    </svg>
+    """
+
+def get_svg_hitl_resumption_flow():
+    """Vector SVG diagram illustrating resuming execution with Command(resume=...)."""
+    return """
+    <svg width="680" height="260" viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="hr-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669" />
+            </marker>
+            <marker id="hr-arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3aed" />
+            </marker>
+        </defs>
+
+        <!-- Outer Framework Boundary -->
+        <rect x="10" y="10" width="660" height="240" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+        <text x="25" y="30" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="bold" fill="#0f172a">Phase 2: Human Operator Resumption &amp; Feedback Synthesis Cycle</text>
+
+        <!-- Step 1: Human Supervisor Command -->
+        <rect x="25" y="50" width="135" height="180" rx="6" fill="#f0fdf4" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="25" y="50" width="135" height="26" rx="6" fill="#10b981"/>
+        <text x="92" y="67" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">1. Human Reviewer</text>
+        <text x="92" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#065f46" text-anchor="middle">Command(resume=...)</text>
+        <rect x="33" y="102" width="119" height="60" rx="4" fill="#ffffff" stroke="#bbf7d0"/>
+        <text x="38" y="116" font-family="'Courier New', monospace" font-size="6.5" font-weight="bold" fill="#047857">Command(resume={</text>
+        <text x="44" y="128" font-family="'Courier New', monospace" font-size="6.5" fill="#065f46">"data": "We</text>
+        <text x="44" y="140" font-family="'Courier New', monospace" font-size="6.5" fill="#065f46">recommend</text>
+        <text x="44" y="152" font-family="'Courier New', monospace" font-size="6.5" fill="#065f46">LangGraph..."})</text>
+        <rect x="33" y="170" width="119" height="48" rx="4" fill="#dcfce7"/>
+        <text x="92" y="184" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#065f46" text-anchor="middle">Session Key</text>
+        <text x="92" y="196" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#166534" text-anchor="middle">thread_id: "1"</text>
+        <text x="92" y="208" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#166534" text-anchor="middle">Reloads checkpoint</text>
+
+        <!-- Arrow 1 to 2 -->
+        <line x1="160" y1="125" x2="185" y2="125" stroke="#10b981" stroke-width="2" marker-end="url(#hr-arrow-green)"/>
+
+        <!-- Step 2: In-Flight Tool Resumes -->
+        <rect x="190" y="50" width="140" height="180" rx="6" fill="#fffbeb" stroke="#f59e0b" stroke-width="1.5"/>
+        <rect x="190" y="50" width="140" height="26" rx="6" fill="#f59e0b"/>
+        <text x="260" y="67" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">2. Tool Unpauses</text>
+        <text x="260" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#92400e" text-anchor="middle">interrupt() Returns</text>
+        <rect x="198" y="102" width="124" height="60" rx="4" fill="#ffffff" stroke="#fde68a"/>
+        <text x="203" y="116" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#78350f">1. interrupt() returns</text>
+        <text x="203" y="128" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#78350f">   resume dictionary</text>
+        <text x="203" y="140" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#78350f">2. Tool returns:</text>
+        <text x="203" y="152" font-family="'Courier New', monospace" font-size="6.5" font-weight="bold" fill="#b45309">human_response["data"]</text>
+        <rect x="198" y="170" width="124" height="48" rx="4" fill="#fef3c7"/>
+        <text x="260" y="184" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#92400e" text-anchor="middle">ToolNode Wraps:</text>
+        <text x="260" y="196" font-family="'Courier New', monospace" font-size="6.8" fill="#78350f" text-anchor="middle">ToolMessage(</text>
+        <text x="260" y="208" font-family="'Courier New', monospace" font-size="6.8" fill="#78350f" text-anchor="middle">name="human_assistance")</text>
+
+        <!-- Arrow 2 to 3 -->
+        <line x1="330" y1="125" x2="355" y2="125" stroke="#f59e0b" stroke-width="2" marker-end="url(#hr-arrow-green)"/>
+
+        <!-- Step 3: ReAct Cyclic Edge to Chatbot -->
+        <rect x="360" y="50" width="145" height="180" rx="6" fill="#faf5ff" stroke="#8b5cf6" stroke-width="1.5"/>
+        <rect x="360" y="50" width="145" height="26" rx="6" fill="#8b5cf6"/>
+        <text x="432" y="67" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">3. Chatbot (Re-Invoked)</text>
+        <text x="432" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#6b21a8" text-anchor="middle">Feedback Synthesis</text>
+        <rect x="368" y="102" width="129" height="60" rx="4" fill="#ffffff" stroke="#e9d5ff"/>
+        <text x="374" y="116" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#581c87">LLM inspects:</text>
+        <text x="374" y="128" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#475569">1. Original user query</text>
+        <text x="374" y="140" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#475569">2. AI tool_call request</text>
+        <text x="374" y="152" font-family="'Segoe UI', sans-serif" font-size="6.8" font-weight="bold" fill="#7c3aed">3. Human ToolMessage</text>
+        <rect x="368" y="170" width="129" height="48" rx="4" fill="#f3e8ff"/>
+        <text x="432" y="184" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#6b21a8" text-anchor="middle">Polishes raw notes</text>
+        <text x="432" y="196" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#581c87" text-anchor="middle">into conversational,</text>
+        <text x="432" y="208" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#581c87" text-anchor="middle">professional answer</text>
+
+        <!-- Arrow 3 to 4 -->
+        <line x1="505" y1="125" x2="530" y2="125" stroke="#8b5cf6" stroke-width="2" marker-end="url(#hr-arrow-purple)"/>
+
+        <!-- Step 4: Final Output to End User -->
+        <rect x="535" y="50" width="125" height="180" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="535" y="50" width="125" height="26" rx="6" fill="#3b82f6"/>
+        <text x="597" y="67" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">4. Final Response</text>
+        <text x="597" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#1e40af" text-anchor="middle">Delivered to Client</text>
+        <rect x="543" y="102" width="109" height="60" rx="4" fill="#ffffff" stroke="#bfdbfe"/>
+        <text x="548" y="116" font-family="'Segoe UI', sans-serif" font-size="6.8" font-weight="bold" fill="#1e40af">AIMessage:</text>
+        <text x="548" y="128" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#1e3a8a">"Sure thing! Here's</text>
+        <text x="548" y="140" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#1e3a8a">what the experts</text>
+        <text x="548" y="152" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#1e3a8a">suggested: Check out</text>
+        <rect x="543" y="170" width="109" height="48" rx="4" fill="#dbeafe"/>
+        <text x="597" y="184" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#1e40af" text-anchor="middle">ReAct Completion</text>
+        <text x="597" y="196" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e3a8a" text-anchor="middle">No further tools</text>
+        <text x="597" y="208" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e3a8a" text-anchor="middle">Routes to END</text>
+    </svg>
+    """
+
+def get_svg_hitl_comparison():
+    """Vector SVG diagram comparing static compile-time breakpoints vs dynamic in-node interrupt()."""
+    return """
+    <svg width="680" height="230" viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg">
+        <!-- Panel 1: Static Breakpoints (Compile Time) -->
+        <rect x="10" y="10" width="320" height="210" rx="8" fill="#f8fafc" stroke="#94a3b8" stroke-width="1.5"/>
+        <rect x="10" y="10" width="320" height="28" rx="8" fill="#64748b"/>
+        <text x="170" y="28" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">A. Static Breakpoints (interrupt_before / interrupt_after)</text>
+        
+        <rect x="20" y="48" width="300" height="42" rx="4" fill="#f1f5f9"/>
+        <text x="28" y="62" font-family="'Courier New', monospace" font-size="7.5" font-weight="bold" fill="#334155">graph = builder.compile(</text>
+        <text x="40" y="74" font-family="'Courier New', monospace" font-size="7.5" fill="#475569">checkpointer=memory,</text>
+        <text x="40" y="86" font-family="'Courier New', monospace" font-size="7.5" font-weight="bold" fill="#dc2626">interrupt_before=["tools"])</text>
+
+        <text x="25" y="108" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#1e293b">Characteristics &amp; Limitations:</text>
+        <text x="25" y="124" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#475569">• Coarse-grained: Pauses before ANY tool runs</text>
+        <text x="25" y="139" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#475569">• Cannot inspect internal tool arguments conditionally</text>
+        <text x="25" y="154" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#475569">• Resumed by passing None or raw state update</text>
+        <rect x="20" y="168" width="300" height="42" rx="4" fill="#fee2e2"/>
+        <text x="170" y="184" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#991b1b" text-anchor="middle">Rigid Top-Level Graph Pauses</text>
+        <text x="170" y="198" font-family="'Segoe UI', sans-serif" font-size="7" fill="#7f1d1d" text-anchor="middle">Blocks benign searches alongside high-stakes operations</text>
+
+        <!-- Panel 2: Dynamic Breakpoints (In-Node interrupt()) -->
+        <rect x="350" y="10" width="320" height="210" rx="8" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <rect x="350" y="10" width="320" height="28" rx="8" fill="#16a34a"/>
+        <text x="510" y="28" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">B. Dynamic Breakpoints (langgraph.types.interrupt())</text>
+
+        <rect x="360" y="48" width="300" height="42" rx="4" fill="#ffffff" stroke="#bbf7d0"/>
+        <text x="368" y="62" font-family="'Courier New', monospace" font-size="7.5" font-weight="bold" fill="#166534">@tool</text>
+        <text x="368" y="74" font-family="'Courier New', monospace" font-size="7.5" fill="#15803d">def human_assistance(query: str):</text>
+        <text x="380" y="86" font-family="'Courier New', monospace" font-size="7.5" font-weight="bold" fill="#047857">    data = interrupt({"query": query})</text>
+
+        <text x="365" y="108" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#14532d">Characteristics &amp; Advantages:</text>
+        <text x="365" y="124" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#166534">• Fine-grained: Pauses ONLY when specific tool runs</text>
+        <text x="365" y="139" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#166534">• Emits structured payload directly to human reviewer</text>
+        <text x="365" y="154" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#166534">• Resumed with exact return value via Command(resume=...)</text>
+        <rect x="360" y="168" width="300" height="42" rx="4" fill="#dcfce7"/>
+        <text x="510" y="184" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#14532d" text-anchor="middle">Modern Native LangGraph 0.3+ HITL Standard</text>
+        <text x="510" y="198" font-family="'Segoe UI', sans-serif" font-size="7" fill="#166534" text-anchor="middle">Autonomous tools (Tavily) execute freely; sensitive tools pause</text>
+    </svg>
+    """
+
+def get_svg_mcp_architecture():
+    """Vector SVG illustrating Model Context Protocol (MCP) Client-Server Architecture."""
+    return """
+    <svg width="680" height="240" viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="mcp-arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+            </marker>
+            <marker id="mcp-arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3aed" />
+            </marker>
+            <marker id="mcp-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669" />
+            </marker>
+        </defs>
+
+        <!-- Outer Boundary -->
+        <rect x="10" y="10" width="660" height="220" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+        <text x="25" y="28" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="bold" fill="#0f172a">Model Context Protocol (MCP) Multi-Server Architectural Overview</text>
+
+        <!-- 1. AI Host / Agent Application -->
+        <rect x="25" y="42" width="180" height="175" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="25" y="42" width="180" height="26" rx="6" fill="#3b82f6"/>
+        <text x="115" y="59" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">1. AI Host / Agent Application</text>
+        <rect x="35" y="76" width="160" height="42" rx="4" fill="#ffffff" stroke="#bfdbfe"/>
+        <text x="115" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#1e40af" text-anchor="middle">LangGraph ReAct Agent</text>
+        <text x="115" y="106" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#3b82f6" text-anchor="middle">create_react_agent(model, tools)</text>
+        <rect x="35" y="126" width="160" height="40" rx="4" fill="#dbeafe"/>
+        <text x="115" y="142" font-family="'Segoe UI', sans-serif" font-size="7.8" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Groq LPU LLM Engine</text>
+        <text x="115" y="154" font-family="'Courier New', monospace" font-size="7.2" fill="#1e40af" text-anchor="middle">openai/gpt-oss-20b</text>
+        <text x="115" y="185" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#475569" text-anchor="middle">Evaluates User Queries</text>
+        <text x="115" y="198" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#475569" text-anchor="middle">Emits Structured Tool Calls</text>
+
+        <!-- Arrow 1 to 2 -->
+        <line x1="205" y1="125" x2="235" y2="125" stroke="#3b82f6" stroke-width="2" marker-end="url(#mcp-arrow-blue)"/>
+
+        <!-- 2. Client Adapter: MultiServerMCPClient -->
+        <rect x="240" y="42" width="190" height="175" rx="6" fill="#faf5ff" stroke="#8b5cf6" stroke-width="1.5"/>
+        <rect x="240" y="42" width="190" height="26" rx="6" fill="#8b5cf6"/>
+        <text x="335" y="59" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">2. MultiServerMCPClient</text>
+        <rect x="250" y="76" width="170" height="42" rx="4" fill="#ffffff" stroke="#e9d5ff"/>
+        <text x="335" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#6b21a8" text-anchor="middle">Universal Tool Aggregator</text>
+        <text x="335" y="106" font-family="'Courier New', monospace" font-size="7.2" fill="#7c3aed" text-anchor="middle">await client.get_tools()</text>
+        <rect x="250" y="126" width="170" height="75" rx="4" fill="#f3e8ff"/>
+        <text x="335" y="142" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#581c87" text-anchor="middle">JSON-RPC 2.0 Protocol Layer</text>
+        <text x="256" y="158" font-family="'Segoe UI', sans-serif" font-size="7" fill="#6b21a8">• tools/list (Discovery)</text>
+        <text x="256" y="171" font-family="'Segoe UI', sans-serif" font-size="7" fill="#6b21a8">• tools/call (Dispatch)</text>
+        <text x="256" y="184" font-family="'Segoe UI', sans-serif" font-size="7" fill="#6b21a8">• Lifecycle &amp; Session Management</text>
+
+        <!-- Branch Arrows 2 to Servers -->
+        <path d="M 430 100 L 455 100 L 455 85 L 475 85" fill="none" stroke="#3b82f6" stroke-width="2" marker-end="url(#mcp-arrow-blue)"/>
+        <path d="M 430 150 L 455 150 L 455 165 L 475 165" fill="none" stroke="#10b981" stroke-width="2" marker-end="url(#mcp-arrow-green)"/>
+
+        <!-- 3. Server A: FastMCP Math (stdio) -->
+        <rect x="480" y="42" width="180" height="82" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="480" y="42" width="180" height="22" rx="6" fill="#3b82f6"/>
+        <text x="570" y="57" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Server A: mathserver.py (stdio)</text>
+        <text x="488" y="78" font-family="'Courier New', monospace" font-size="7.2" fill="#1e40af">transport="stdio"</text>
+        <text x="488" y="90" font-family="'Segoe UI', sans-serif" font-size="7" fill="#334155">• OS Pipes (stdin / stdout)</text>
+        <text x="488" y="103" font-family="'Segoe UI', sans-serif" font-size="7" fill="#334155">• Exposed Tools: <tspan font-weight="bold" fill="#1e40af">add, multiple</tspan></text>
+        <text x="488" y="116" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#64748b">• Zero network ports or IP binding</text>
+
+        <!-- 4. Server B: FastMCP Weather (streamable-http) -->
+        <rect x="480" y="135" width="180" height="82" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="480" y="135" width="180" height="22" rx="6" fill="#10b981"/>
+        <text x="570" y="150" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#ffffff" text-anchor="middle">Server B: weather.py (HTTP / SSE)</text>
+        <text x="488" y="171" font-family="'Courier New', monospace" font-size="7.2" fill="#065f46">transport="streamable-http"</text>
+        <text x="488" y="183" font-family="'Segoe UI', sans-serif" font-size="7" fill="#334155">• ASGI / Uvicorn (http://127.0.0.1:8000/mcp)</text>
+        <text x="488" y="196" font-family="'Segoe UI', sans-serif" font-size="7" fill="#334155">• Exposed Tools: <tspan font-weight="bold" fill="#047857">get_weather</tspan></text>
+        <text x="488" y="209" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#64748b">• Server-Sent Events (Docker / Cloud ready)</text>
+    </svg>
+    """
+
+def get_svg_mcp_dual_transports():
+    """Vector SVG comparing stdio vs streamable-http transports in depth."""
+    return """
+    <svg width="680" height="250" viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg">
+        <!-- Panel 1: Stdio Transport (mathserver.py) -->
+        <rect x="10" y="10" width="320" height="230" rx="8" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="10" y="10" width="320" height="28" rx="8" fill="#3b82f6"/>
+        <text x="170" y="28" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">Transport 1: stdio (Standard Input / Output)</text>
+
+        <rect x="22" y="48" width="296" height="42" rx="4" fill="#ffffff" stroke="#bfdbfe"/>
+        <text x="30" y="62" font-family="'Courier New', monospace" font-size="7.5" font-weight="bold" fill="#1e40af">"math": {</text>
+        <text x="42" y="74" font-family="'Courier New', monospace" font-size="7.2" fill="#1e3a8a">"command": sys.executable, "args": ["mathserver.py"],</text>
+        <text x="42" y="84" font-family="'Courier New', monospace" font-size="7.2" font-weight="bold" fill="#2563eb">"transport": "stdio"}</text>
+
+        <text x="25" y="106" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#1e40af">Operational Mechanics:</text>
+        <text x="25" y="122" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#334155">• Subprocess Lifecycle: Client spawns script as child process</text>
+        <text x="25" y="136" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#334155">• Communication: JSON-RPC over OS anonymous console pipes</text>
+        <text x="25" y="150" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#334155">• Security: Completely isolated; no open ports, zero attack surface</text>
+        <text x="25" y="164" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#334155">• Termination: Process auto-terminates when client closes</text>
+
+        <rect x="22" y="178" width="296" height="48" rx="4" fill="#dbeafe"/>
+        <text x="170" y="194" font-family="'Segoe UI', sans-serif" font-size="7.8" font-weight="bold" fill="#1e40af" text-anchor="middle">Best Suited For:</text>
+        <text x="170" y="206" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#1e3a8a" text-anchor="middle">Local developer CLIs, file system tools, sqlite utilities,</text>
+        <text x="170" y="217" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#1e3a8a" text-anchor="middle">and high-performance local mathematical computations.</text>
+
+        <!-- Panel 2: Streamable-HTTP Transport (weather.py) -->
+        <rect x="350" y="10" width="320" height="230" rx="8" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="350" y="10" width="320" height="28" rx="8" fill="#10b981"/>
+        <text x="510" y="28" font-family="'Segoe UI', sans-serif" font-size="10" font-weight="bold" fill="#ffffff" text-anchor="middle">Transport 2: streamable-http (HTTP + SSE)</text>
+
+        <rect x="362" y="48" width="296" height="42" rx="4" fill="#ffffff" stroke="#bbf7d0"/>
+        <text x="370" y="62" font-family="'Courier New', monospace" font-size="7.5" font-weight="bold" fill="#065f46">"weather": {</text>
+        <text x="382" y="74" font-family="'Courier New', monospace" font-size="7.2" fill="#047857">"url": "http://localhost:8000/mcp",</text>
+        <text x="382" y="84" font-family="'Courier New', monospace" font-size="7.2" font-weight="bold" fill="#059669">"transport": "streamable_http"}</text>
+
+        <text x="365" y="106" font-family="'Segoe UI', sans-serif" font-size="8.5" font-weight="bold" fill="#065f46">Operational Mechanics:</text>
+        <text x="365" y="122" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#334155">• Web Service: Runs independently via Starlette/Uvicorn on port 8000</text>
+        <text x="365" y="136" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#334155">• Streaming Protocol: Server-Sent Events (SSE) for async responses</text>
+        <text x="365" y="150" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#334155">• Multi-Client: Multiple agents can query the same endpoint</text>
+        <text x="365" y="164" font-family="'Segoe UI', sans-serif" font-size="7.5" fill="#334155">• Distributed: Can run on remote servers, Docker, or Kubernetes</text>
+
+        <rect x="362" y="178" width="296" height="48" rx="4" fill="#d1fae5"/>
+        <text x="510" y="194" font-family="'Segoe UI', sans-serif" font-size="7.8" font-weight="bold" fill="#065f46" text-anchor="middle">Best Suited For:</text>
+        <text x="510" y="206" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#047857" text-anchor="middle">Shared enterprise tool clusters, cloud APIs, database gateways,</text>
+        <text x="510" y="217" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#047857" text-anchor="middle">microservices, and multi-tenant agent deployments.</text>
+    </svg>
+    """
+
+def get_svg_mcp_fileno_architecture():
+    """Vector SVG illustrating the Windows Jupyter fileno() issue and the sys.__stderr__ fix."""
+    return """
+    <svg width="680" height="230" viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="fn-arrow-red" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#ef4444" />
+            </marker>
+            <marker id="fn-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#10b981" />
+            </marker>
+        </defs>
+
+        <!-- Top Panel: The ipykernel OutStream fileno() Trap -->
+        <rect x="10" y="10" width="660" height="100" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <rect x="10" y="10" width="660" height="22" rx="6" fill="#ef4444"/>
+        <text x="25" y="25" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff">The Problem: ipykernel.iostream.OutStream Missing fileno() on Windows</text>
+
+        <rect x="25" y="40" width="170" height="58" rx="4" fill="#ffffff" stroke="#fca5a5"/>
+        <text x="32" y="54" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#991b1b">Jupyter Kernel sys.stderr</text>
+        <text x="32" y="66" font-family="'Courier New', monospace" font-size="6.8" fill="#475569">ipykernel.iostream.OutStream</text>
+        <text x="32" y="78" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#7f1d1d">In-memory ZeroMQ stream</text>
+        <text x="32" y="90" font-family="'Segoe UI', sans-serif" font-size="6.8" font-weight="bold" fill="#dc2626">No OS File Descriptor!</text>
+
+        <line x1="200" y1="68" x2="235" y2="68" stroke="#ef4444" stroke-width="2" marker-end="url(#fn-arrow-red)"/>
+
+        <rect x="240" y="40" width="210" height="58" rx="4" fill="#fee2e2" stroke="#f87171"/>
+        <text x="248" y="54" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#991b1b">MCP Windows Subprocess Launch</text>
+        <text x="248" y="66" font-family="'Courier New', monospace" font-size="6.8" fill="#78350f">anyio.open_process(..., stderr=sys.stderr)</text>
+        <text x="248" y="78" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#7f1d1d">Python calls: <tspan font-family="'Courier New', monospace" font-weight="bold">sys.stderr.fileno()</tspan></text>
+        <text x="248" y="90" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#991b1b">to pass file handle to Windows C API</text>
+
+        <line x1="455" y1="68" x2="490" y2="68" stroke="#ef4444" stroke-width="2" marker-end="url(#fn-arrow-red)"/>
+
+        <rect x="495" y="40" width="165" height="58" rx="4" fill="#ffffff" stroke="#ef4444"/>
+        <text x="502" y="54" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#dc2626">CRASH: In[8] Execution</text>
+        <text x="502" y="67" font-family="'Courier New', monospace" font-size="7" font-weight="bold" fill="#991b1b">io.UnsupportedOperation:</text>
+        <text x="502" y="79" font-family="'Courier New', monospace" font-size="7" font-weight="bold" fill="#991b1b">"fileno"</text>
+        <text x="502" y="91" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#7f1d1d">Subprocess creation aborted</text>
+
+
+        <!-- Bottom Panel: The Surgical Fix (Restoring sys.__stderr__) -->
+        <rect x="10" y="120" width="660" height="100" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <rect x="10" y="120" width="660" height="22" rx="6" fill="#16a34a"/>
+        <text x="25" y="135" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff">The Solution: Restore Original OS File Handle (sys.stderr = sys.__stderr__)</text>
+
+        <rect x="25" y="150" width="170" height="58" rx="4" fill="#ffffff" stroke="#86efac"/>
+        <text x="32" y="164" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#166534">Original OS Stream</text>
+        <text x="32" y="176" font-family="'Courier New', monospace" font-size="6.8" fill="#14532d">sys.__stderr__</text>
+        <text x="32" y="188" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#15803d">Raw Windows standard error</text>
+        <text x="32" y="200" font-family="'Segoe UI', sans-serif" font-size="6.8" font-weight="bold" fill="#047857">fileno() == 2 (Valid OS Handle)</text>
+
+        <line x1="200" y1="178" x2="235" y2="178" stroke="#10b981" stroke-width="2" marker-end="url(#fn-arrow-green)"/>
+
+        <rect x="240" y="150" width="210" height="58" rx="4" fill="#dcfce7" stroke="#4ade80"/>
+        <text x="248" y="164" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#14532d">Surgical Patch in Cell 8</text>
+        <text x="248" y="176" font-family="'Courier New', monospace" font-size="6.8" font-weight="bold" fill="#166534">sys.stderr = sys.__stderr__</text>
+        <text x="248" y="188" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#15803d">Points stderr to genuine OS descriptor</text>
+        <text x="248" y="200" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#15803d">Keeps sys.stdout for notebook prints</text>
+
+        <line x1="455" y1="178" x2="490" y2="178" stroke="#10b981" stroke-width="2" marker-end="url(#fn-arrow-green)"/>
+
+        <rect x="495" y="150" width="165" height="58" rx="4" fill="#ffffff" stroke="#10b981"/>
+        <text x="502" y="164" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#047857">SUCCESS: Execution Verified</text>
+        <text x="502" y="176" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#14532d">Process created cleanly in Win32 Job</text>
+        <text x="502" y="188" font-family="'Segoe UI', sans-serif" font-size="6.8" font-weight="bold" fill="#047857">Loaded 3 Tools:</text>
+        <text x="502" y="200" font-family="'Courier New', monospace" font-size="6.8" fill="#047857">add, multiple, get_weather</text>
+    </svg>
+    """
+
 def escape_html(text: str) -> str:
     """Escape text for safe HTML rendering."""
     return (text.replace("&", "&amp;")
@@ -1397,6 +1816,10 @@ def build_pdf_document(nb_data: dict) -> str:
         return build_guide_6(fname, cells, today)
     elif "1-BasicChatBot" in fname:
         return build_guide_langgraph_1(fname, cells, today)
+    elif "2-HumanInTheLoop" in fname:
+        return build_guide_langgraph_2(fname, cells, today)
+    elif "3-MCP" in fname:
+        return build_guide_langgraph_3(fname, cells, today)
     else:
         return build_generic_guide(fname, cells, today)
 
@@ -4633,6 +5056,1022 @@ res2 = graph.invoke({"messages": "Where do I live?"}, config={"configurable": {"
             .replace("__SVG_DIAGRAM_3__", svg3)
             .replace("__SVG_DIAGRAM_4__", svg4))
 
+def build_guide_langgraph_2(fname, cells, today):
+    """Build canonical 12-section educational guide for 2-HumanInTheLoop.ipynb."""
+    svg1 = get_svg_hitl_dynamic_breakpoint()
+    svg2 = get_svg_hitl_resumption_flow()
+    svg3 = get_svg_hitl_comparison()
+
+    html_template = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>__FNAME__ - Educational Study Guide</title>
+    <style>__CSS_STYLES__</style>
+</head>
+<body>
+
+<!-- Section A: Cover Page -->
+<div class="cover-page">
+    <span class="cover-badge">LangGraph 0.3+ • Human-in-the-Loop &amp; Governance</span>
+    <h1 class="cover-title">Human-in-the-Loop (HITL) Agent Orchestration</h1>
+    <p class="cover-subtitle">Dynamic Breakpoints with interrupt(), Checkpointed State Freezing, and Interactive Resumption via Command(resume=...)</p>
+    
+    <p style="font-size: 10.5pt; color: #475569; max-width: 580px; margin-top: 15px;">
+        An authoritative technical deep dive into human-in-the-loop agent systems using LangGraph 0.3+.
+        Deconstructs how enterprise AI systems pause in-flight execution at critical decision boundaries,
+        freeze state safely in persistent checkpointers without thread blocking, collect supervisory human guidance,
+        and cleanly resume the ReAct thought-action cycle.
+    </p>
+
+    <div class="cover-meta">
+        <div class="cover-meta-grid">
+            <div class="meta-item"><strong>Target Notebook:</strong> <code>__FNAME__</code></div>
+            <div class="meta-item"><strong>Generation Date:</strong> __TODAY__</div>
+            <div class="meta-item"><strong>Language &amp; Runtime:</strong> Python 3.14 • Virtualenv (.venv)</div>
+            <div class="meta-item"><strong>Core Frameworks:</strong> LangGraph 0.3+ • LangChain 1.4.7 • Groq LPU • Tavily</div>
+        </div>
+    </div>
+</div>
+
+<!-- Section B: Learning Objectives -->
+<h2>B. Learning Objectives</h2>
+<p>After studying this notebook and study guide, you will master:</p>
+<ul>
+    <li><strong>The Human-in-the-Loop Paradigm:</strong> Understand why high-stakes agent workflows cannot rely on pure autonomy and require structured human governance gates.</li>
+    <li><strong>Dynamic vs. Static Breakpoints:</strong> Contrast rigid compile-time graph interrupts (<code>interrupt_before</code> / <code>interrupt_after</code>) with fine-grained in-node dynamic breakpoints using <code>langgraph.types.interrupt()</code>.</li>
+    <li><strong>Zero-Blocking State Suspension:</strong> Understand how LangGraph freezes execution state into <code>MemorySaver</code> upon reaching an <code>interrupt()</code>, terminating the invocation cleanly rather than holding memory or blocking server threads.</li>
+    <li><strong>The Resumption Protocol:</strong> Resume interrupted graph execution using <code>langgraph.types.Command(resume=...)</code>, injecting external operator feedback directly into the paused node.</li>
+    <li><strong>Supervised ReAct Synthesis:</strong> Observe how the agent’s cyclic edge feeds human operator notes back to the LLM to formulate polished, professional responses for the end user.</li>
+    <li><strong>Multi-Tenant Thread Isolation:</strong> Maintain stateful separation between independent user sessions and human supervisory queues using unique <code>thread_id</code> configurations.</li>
+</ul>
+
+<!-- Section C: Prerequisites, Environment & Security Setup -->
+<h2>C. Prerequisites, Environment &amp; Security Setup</h2>
+<div class="callout callout-note">
+    <div class="callout-title">Runtime &amp; API Configuration</div>
+    This notebook runs on <strong>Python 3.14</strong> in the workspace virtual environment. It connects to the <strong>Groq LPU Inference Cloud</strong> executing <code>openai/gpt-oss-20b</code>, and incorporates the <strong>Tavily Search API</strong> alongside custom human assistance tools.
+</div>
+<table>
+    <tr>
+        <th>Component</th>
+        <th>Version / Identifier</th>
+        <th>Source / Purpose</th>
+    </tr>
+    <tr>
+        <td><code>langgraph</code></td>
+        <td><code>>=0.3.0</code></td>
+        <td>Cyclical state machine engine, <code>StateGraph</code>, <code>Command</code>, <code>interrupt</code>, <code>MemorySaver</code></td>
+    </tr>
+    <tr>
+        <td><code>langchain</code></td>
+        <td><code>1.4.7</code></td>
+        <td>Core agent abstractions, message schemas, and <code>init_chat_model</code> factory</td>
+    </tr>
+    <tr>
+        <td><code>langchain-groq</code></td>
+        <td><code>>=1.1.3</code></td>
+        <td>Ultra-low-latency LPU model execution (Groq chat completions)</td>
+    </tr>
+    <tr>
+        <td><code>langchain-tavily</code></td>
+        <td><code>>=0.2.18</code></td>
+        <td>Autonomous search engine for real-time external knowledge retrieval</td>
+    </tr>
+    <tr>
+        <td><code>python-dotenv</code></td>
+        <td><code>>=1.2.4</code></td>
+        <td>Secure environment variable loading from local <code>.env</code> file</td>
+    </tr>
+</table>
+
+<div class="callout callout-warning">
+    <div class="callout-title">Security &amp; API Key Masking Protocol</div>
+    Never expose production credentials. Keep keys securely stored in <code>.env</code>:
+    <pre><code>GROQ_API_KEY=gsk_your_groq_api_key_here
+TAVILY_API_KEY=tvly-your_tavily_api_key_here</code></pre>
+</div>
+
+<!-- Section D: Comprehensive Topic Overview -->
+<div class="page-break-before"></div>
+<h2>D. Comprehensive Topic Overview</h2>
+<p>
+    While autonomous agents powered by LLMs excel at search, reasoning, and tool calling, enterprise deployment demands
+    <strong>safety, compliance, and human oversight</strong>. Fully autonomous execution risks hallucinated actions,
+    unauthorized financial transactions, or corrupted customer data. <strong>Human-in-the-Loop (HITL)</strong>
+    transforms an unchecked agent into a collaborative assistant by placing human experts in the execution path.
+</p>
+
+<h3>1. The Evolution of Breakpoints in LangGraph</h3>
+<p>
+    Early graph architectures relied on <strong>Static Breakpoints</strong> configured at compile time:
+    <pre><code>graph = builder.compile(checkpointer=memory, interrupt_before=["tools"])</code></pre>
+    While functional, static breakpoints suffer from extreme rigidity: <em>every</em> tool call is intercepted,
+    regardless of whether it is an innocuous search or a sensitive database mutation. Furthermore, static breakpoints
+    halt execution <em>outside</em> the node, making it awkward to pass contextual feedback back into the function.
+</p>
+<p>
+    LangGraph 0.3 introduced <strong>Dynamic Breakpoints</strong> via <code>langgraph.types.interrupt()</code>.
+    This enables <em>in-tool conditional interrupts</em>: an agent can run autonomous read-only tools freely,
+    but dynamically pause execution only when a specific high-stakes tool (or specific parameter threshold) is encountered.
+</p>
+
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 1: Static Breakpoints vs Dynamic In-Node interrupt()</div>
+    __SVG_DIAGRAM_3__
+    <div class="diagram-caption">
+        <strong>Figure 1 Architectural Breakdown:</strong> Panel A demonstrates coarse-grained static breakpoints configured at compile time.
+        Panel B demonstrates modern dynamic breakpoints using <code>langgraph.types.interrupt()</code> inside tool definitions.
+    </div>
+</div>
+
+<h3>2. The Checkpointed State Suspension Model</h3>
+<p>
+    A critical architectural innovation in LangGraph is that pausing an agent <strong>does not block a Python thread or process</strong>.
+    In traditional web architectures, waiting for a human review could block a server thread for minutes, hours, or days,
+    causing memory exhaustion and worker timeouts.
+</p>
+<p>
+    In LangGraph, when <code>interrupt(payload)</code> is reached:
+</p>
+<ol>
+    <li>The current state snapshot (including messages, pending tool calls, and the interrupt payload) is serialized into the checkpointer (e.g. <code>MemorySaver</code> or PostgreSQL).</li>
+    <li>The graph execution cleanly exits and yields control back to the host application.</li>
+    <li>Hours or days later, an operator in an admin UI inspects the payload and submits a <code>Command(resume=...)</code>.</li>
+    <li>LangGraph retrieves the exact checkpoint for that <code>thread_id</code>, restores state, and resumes execution exactly where it left off.</li>
+</ol>
+
+<!-- Section E: Detailed Notebook Walkthrough -->
+<div class="page-break-before"></div>
+<h2>E. Detailed Notebook Walkthrough</h2>
+<p>
+    The source notebook <code>2-HumanInTheLoop.ipynb</code> demonstrates the complete dynamic breakpoint lifecycle in four concise cells.
+</p>
+
+<h3>Phase 1: Environment Setup &amp; Imports (Cells 0–1)</h3>
+<div class="code-header">Cell 1 • Library Imports</div>
+<pre><code>import os
+from langchain.chat_models import init_chat_model
+from typing import Annotated
+from langchain_tavily import TavilySearch
+from langchain_core.tools import tool
+from typing_extensions import TypedDict
+from langgraph.checkpoint.memory import MemorySaver
+from langgraph.graph import StateGraph, START, END
+from langgraph.graph.message import add_messages
+from langgraph.prebuilt import ToolNode, tools_condition
+from langgraph.types import Command, interrupt
+from IPython.display import Image, display</code></pre>
+<p><strong>Key Imports:</strong></p>
+<ul>
+    <li><code>from langgraph.types import Command, interrupt</code>: The dynamic HITL primitives. <code>interrupt()</code> pauses execution and emits a payload; <code>Command(resume=...)</code> delivers input back to the paused node.</li>
+    <li><code>MemorySaver</code>: In-memory state checkpointer required for session continuity and thread-level state restoration.</li>
+    <li><code>ToolNode, tools_condition</code>: Standard prebuilt components for routing and dispatching tool calls.</li>
+</ul>
+
+<h3>Phase 2: Defining the Human Assistance Tool &amp; Graph Assembly (Cell 2)</h3>
+<div class="code-header">Cell 2 • Tool Definition with interrupt() &amp; Graph Compilation</div>
+<pre><code>llm = init_chat_model("groq:openai/gpt-oss-20b")
+
+class State(TypedDict):
+    messages: Annotated[list, add_messages]
+
+graph_builder = StateGraph(State)
+
+@tool
+def human_assistance(query: str) -> str:
+    \"\"\"Request assistance from a human being\"\"\"
+    human_response = interrupt({"query": query})
+    return human_response["data"]
+
+tool = TavilySearch(max_results=2)
+tools = [tool, human_assistance]
+llm_with_tools = llm.bind_tools(tools)
+
+def chatbot(state: State):
+    message = llm_with_tools.invoke(state["messages"])
+    return {"messages": [message]}
+
+tool_node = ToolNode(tools=tools)
+
+# Add Nodes
+graph_builder.add_node("chatbot", chatbot)
+graph_builder.add_node("tools", tool_node)
+
+# Add Edges
+graph_builder.add_conditional_edges("chatbot", tools_condition)
+graph_builder.add_edge("tools", "chatbot")
+graph_builder.add_edge(START, "chatbot")
+
+# Add Memory
+memory = MemorySaver()
+
+# Compile
+graph = graph_builder.compile(checkpointer=memory)
+
+# Display model
+display(Image(graph.get_graph().draw_mermaid_png()))</code></pre>
+
+<p><strong>In-Depth Architectural Analysis:</strong></p>
+<ul>
+    <li><strong>The Dynamic Breakpoint:</strong> Notice line 48:
+        <pre><code>human_response = interrupt({"query": query})</code></pre>
+        When the LLM calls <code>human_assistance</code>, the Python runtime does not execute a mock function or prompt the console with <code>input()</code>. Instead, <code>interrupt()</code> signals the LangGraph runtime engine to pause the graph immediately and freeze the thread state.
+    </li>
+    <li><strong>ReAct Feedback Edge:</strong> Line 67 adds <code>graph_builder.add_edge("tools", "chatbot")</code>. This cyclic edge ensures that once the human provides advice, execution loops back to the chatbot node so the LLM can incorporate the advice into its final answer.</li>
+    <li><strong>Mandatory Checkpointer:</strong> A checkpointer (<code>memory = MemorySaver()</code>) is strictly required when using <code>interrupt()</code>. Without a checkpointer, LangGraph cannot persist the frozen state between pause and resume invocations.</li>
+</ul>
+
+<div class="page-break-before"></div>
+<h3>Phase 3: Triggering the Dynamic Breakpoint (Cell 3)</h3>
+<div class="code-header">Cell 3 • User Invocation &amp; In-Flight Pause</div>
+<pre><code># Some end user asking AI agent
+user_input = "I need some guidance and assistance for building an AI agent. Could you request assistance for me?"
+
+config = {"configurable": {"thread_id": "1"}}
+
+events = graph.stream({"messages": user_input}, config, stream_mode="values")
+
+for event in events:
+    if "messages" in event:
+        event["messages"][-1].pretty_print()</code></pre>
+
+<p><strong>Execution Output:</strong></p>
+<pre><code>================================ Human Message =================================
+I need some guidance and assistance for building an AI agent. Could you request assistance for me?
+
+================================== Ai Message ==================================
+Tool Calls:
+  human_assistance (fc_183cc4c5-8473-4dd9-a8e0-4c0bbf22a56d)
+ Call ID: fc_183cc4c5-8473-4dd9-a8e0-4c0bbf22a56d
+  Args:
+    query: I need guidance and assistance for building an AI agent.</code></pre>
+
+<p><strong>What Happened at Runtime:</strong></p>
+<ol>
+    <li>The user sends a query asking for assistance.</li>
+    <li>The <code>chatbot</code> node runs and inspects its tools. Recognizing that the user explicitly asks for human assistance, it emits an <code>AIMessage</code> containing a tool call to <code>human_assistance(query=...)</code>.</li>
+    <li><code>tools_condition</code> detects the tool call and routes execution to <code>ToolNode</code>.</li>
+    <li><code>ToolNode</code> invokes <code>human_assistance</code>.</li>
+    <li>Line 48 calls <code>interrupt({"query": query})</code>. LangGraph captures the payload, writes a state checkpoint to <code>MemorySaver</code> under <code>thread_id="1"</code>, and halts execution!</li>
+    <li>The <code>stream()</code> loop terminates cleanly. The tool has not finished yet, and no final AI message has been generated. The agent is safely frozen in state.</li>
+</ol>
+
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 2: Execution Suspension via interrupt()</div>
+    __SVG_DIAGRAM_1__
+    <div class="diagram-caption">
+        <strong>Figure 2 Architectural Breakdown:</strong> Step-by-step sequence of how the user prompt triggers tool selection, enters <code>ToolNode</code>, hits <code>interrupt()</code>, and freezes in <code>MemorySaver</code>.
+    </div>
+</div>
+
+<div class="page-break-before"></div>
+<h3>Phase 4: Resuming with Human Operator Input (Cell 4)</h3>
+<div class="code-header">Cell 4 • Resuming Interrupted Graph via Command(resume=...)</div>
+<pre><code># A human expert/operator behind the scenes
+human_response = ("We, the experts are here to help! We'd recommend you check out LangGraph to build your agent."
+                  "It's much more reliable and extensible than simple autonomous agents.")
+
+# Command(resume={"data": human_response}) injects that text directly into the paused node under the hood.
+# It becomes the ToolMessage result for the human_assistance tool call.
+human_command = Command(resume={"data": human_response})
+
+# The agent takes the supervisor's raw notes, polishes them, and answers the end-user who originally asked the question
+events = graph.stream(human_command, config, stream_mode="values")
+for event in events:
+    if "messages" in event:
+        event["messages"][-1].pretty_print()</code></pre>
+
+<p><strong>Execution Output:</strong></p>
+<pre><code>================================= Tool Message =================================
+Name: human_assistance
+
+We, the experts are here to help! We'd recommend you check out LangGraph to build your agent.It's much more reliable and extensible than simple autonomous agents.
+
+================================== Ai Message ==================================
+Sure thing! Here's what the experts suggested:
+
+> **Check out LangGraph** – it's a modern framework for building AI agents that's designed to be more reliable and extensible than many simpler approaches.</code></pre>
+
+<p><strong>Resumption Lifecycle Deconstruction:</strong></p>
+<ol>
+    <li>The human operator crafts their response and wraps it in:
+        <pre><code>Command(resume={"data": human_response})</code></pre>
+    </li>
+    <li>When <code>graph.stream(human_command, config)</code> is invoked, LangGraph inspects <code>thread_id="1"</code> and locates the suspended checkpoint.</li>
+    <li>Rather than restarting from <code>START</code>, LangGraph rehydrates the paused <code>human_assistance</code> function. The <code>interrupt()</code> call unblocks and returns the resume payload: <code>{"data": human_response}</code>.</li>
+    <li>The function extracts <code>human_response["data"]</code> and returns it.</li>
+    <li><code>ToolNode</code> receives the string and packages it into a standard <code>ToolMessage(name="human_assistance")</code>.</li>
+    <li>The cyclic edge <code>graph_builder.add_edge("tools", "chatbot")</code> routes control back to the <code>chatbot</code> node.</li>
+    <li>The Groq LLM now sees the complete history: user query, tool request, and the expert's feedback. It synthesizes a friendly, well-formatted final response for the user.</li>
+    <li><code>tools_condition</code> checks the new <code>AIMessage</code>. Finding no further tool calls, it routes execution to <code>END</code>.</li>
+</ol>
+
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 3: Resumption &amp; Expert Feedback Synthesis Cycle</div>
+    __SVG_DIAGRAM_2__
+    <div class="diagram-caption">
+        <strong>Figure 3 Architectural Breakdown:</strong> How <code>Command(resume=...)</code> unblocks the paused tool, creates the <code>ToolMessage</code>, and triggers the ReAct cyclic edge for final answer synthesis.
+    </div>
+</div>
+
+<!-- Section F: End-to-End Execution Flow & Architectural Synthesis -->
+<div class="page-break-before"></div>
+<h2>F. End-to-End Execution Flow &amp; Architectural Synthesis</h2>
+<p>
+    Human-in-the-loop orchestration balances autonomous agent speed with human safety.
+    The complete end-to-end lifecycle combines state checkpointing, asynchronous interrupts, and collaborative synthesis.
+</p>
+
+<table>
+    <tr>
+        <th>Phase</th>
+        <th>Actor / Node</th>
+        <th>Input Data</th>
+        <th>Output / State Mutation</th>
+    </tr>
+    <tr>
+        <td>1. Ingestion</td>
+        <td><code>START -> chatbot</code></td>
+        <td><code>HumanMessage("I need guidance...")</code></td>
+        <td>State initialized with user turn.</td>
+    </tr>
+    <tr>
+        <td>2. Decision</td>
+        <td><code>chatbot (LLM)</code></td>
+        <td>State message list</td>
+        <td>Emits <code>AIMessage</code> with tool call for <code>human_assistance</code>.</td>
+    </tr>
+    <tr>
+        <td>3. Interception</td>
+        <td><code>tools (ToolNode)</code></td>
+        <td>Tool call arguments</td>
+        <td>Calls <code>interrupt()</code>. Execution suspended; checkpoint serialized to <code>MemorySaver</code>.</td>
+    </tr>
+    <tr>
+        <td>4. Review</td>
+        <td><code>Human Expert</code></td>
+        <td>Interrupt payload dictionary</td>
+        <td>Expert drafts guidance notes and constructs <code>Command(resume=...)</code>.</td>
+    </tr>
+    <tr>
+        <td>5. Resumption</td>
+        <td><code>ToolNode</code></td>
+        <td>Resume command payload</td>
+        <td><code>interrupt()</code> unblocks; produces <code>ToolMessage</code> containing expert guidance.</td>
+    </tr>
+    <tr>
+        <td>6. Synthesis</td>
+        <td><code>chatbot (LLM)</code></td>
+        <td>Full history + <code>ToolMessage</code></td>
+        <td>Generates polished, conversational answer incorporating expert advice. Routes to <code>END</code>.</td>
+    </tr>
+</table>
+
+<!-- Section G: Reference Guide: Important APIs & Classes -->
+<div class="page-break-before"></div>
+<h2>G. Reference Guide: Important APIs &amp; Classes</h2>
+<table>
+    <tr>
+        <th>API / Class</th>
+        <th>Module</th>
+        <th>Key Parameters</th>
+        <th>Return / Role</th>
+    </tr>
+    <tr>
+        <td><code>interrupt(value)</code></td>
+        <td><code>langgraph.types</code></td>
+        <td><code>value: Any</code> (JSON-serializable payload)</td>
+        <td>Pauses graph execution in-place, writes checkpoint, and yields value to the caller. When resumed, returns the resume payload.</td>
+    </tr>
+    <tr>
+        <td><code>Command(resume=...)</code></td>
+        <td><code>langgraph.types</code></td>
+        <td><code>resume: Any</code> (Payload passed back to <code>interrupt()</code>)</td>
+        <td>Signals the compiled graph to resume a suspended execution from its saved checkpoint.</td>
+    </tr>
+    <tr>
+        <td><code>MemorySaver()</code></td>
+        <td><code>langgraph.checkpoint.memory</code></td>
+        <td>None</td>
+        <td>In-memory checkpointer that persists graph state between pause and resume cycles.</td>
+    </tr>
+    <tr>
+        <td><code>graph.compile(checkpointer=...)</code></td>
+        <td><code>langgraph.graph.StateGraph</code></td>
+        <td><code>checkpointer: BaseCheckpointSaver</code></td>
+        <td>Compiles the graph topology with state persistence enabled (mandatory for HITL).</td>
+    </tr>
+    <tr>
+        <td><code>tools_condition(state)</code></td>
+        <td><code>langgraph.prebuilt</code></td>
+        <td><code>state: dict | BaseMessage</code></td>
+        <td>Inspects the latest message: routes to <code>"tools"</code> if tool calls exist, else to <code>END</code>.</td>
+    </tr>
+</table>
+
+<!-- Section H: Common Errors, Debugging & Troubleshooting -->
+<h2>H. Common Errors, Debugging &amp; Troubleshooting</h2>
+
+<div class="callout callout-error avoid-break">
+    <div class="callout-title">Pitfall 1: Calling interrupt() Without a Checkpointer</div>
+    <strong>Symptom:</strong> <code>ValueError: Cannot use interrupt() without a checkpointer.</code><br>
+    <strong>Root Cause:</strong> Compiling the graph via <code>graph_builder.compile()</code> without passing <code>checkpointer=memory</code>. LangGraph has nowhere to save the frozen state when execution pauses.<br>
+    <strong>Fix:</strong>
+    <pre><code>memory = MemorySaver()
+graph = graph_builder.compile(checkpointer=memory)</code></pre>
+</div>
+
+<div class="callout callout-error avoid-break">
+    <div class="callout-title">Pitfall 2: Missing thread_id on Resumption</div>
+    <strong>Symptom:</strong> <code>ValueError: No thread_id provided in configurable.</code><br>
+    <strong>Root Cause:</strong> Calling <code>graph.stream(Command(resume=...))</code> without passing the same <code>config={"configurable": {"thread_id": "1"}}</code> that was used during the initial invocation.<br>
+    <strong>Fix:</strong> Always pass the exact matching <code>config</code> dictionary so the checkpointer can locate the suspended session.
+</div>
+
+<div class="callout callout-error avoid-break">
+    <div class="callout-title">Pitfall 3: Re-Invoking with New Message Instead of Command</div>
+    <strong>Symptom:</strong> The agent restarts the conversation from scratch or ignores the pending tool call.<br>
+    <strong>Root Cause:</strong> Passing <code>{"messages": "Here is my answer"}</code> instead of <code>Command(resume=...)</code>. The graph treats this as a brand new user message rather than an unblock command for the suspended tool.<br>
+    <strong>Fix:</strong> Use <code>Command(resume={"data": ...})</code> to unblock in-flight interrupts.
+</div>
+
+<!-- Section I: Practical Extensions & Industry Best Practices -->
+<div class="page-break-before"></div>
+<h2>I. Practical Extensions &amp; Industry Best Practices</h2>
+<ul>
+    <li><strong>Production Persistence:</strong> Replace <code>MemorySaver</code> with <code>AsyncPostgresSaver</code> from <code>langgraph-checkpoint-postgres</code>. This allows human reviewers to review paused sessions across distributed web dashboards without losing state on worker restarts.</li>
+    <li><strong>Timeout &amp; Escalation Policies:</strong> If a human reviewer does not respond within an SLA (e.g., 10 minutes), configure background schedulers to resume the graph with an automated fallback message: <code>Command(resume={"data": "Operator unavailable, please contact support."})</code>.</li>
+    <li><strong>3-Way Review Protocol (Approve, Edit, Reject):</strong> Extend the resume payload structure to support approval decisions:
+        <pre><code># Human edits tool arguments before execution
+Command(resume={"action": "edit", "new_query": "Optimized search query"})</code></pre>
+    </li>
+</ul>
+
+<!-- Section J: Key Takeaways & Conceptual Map -->
+<h2>J. Key Takeaways &amp; Conceptual Map</h2>
+<div class="callout callout-tip">
+    <div class="callout-title">Core Principles of HITL Agent Systems</div>
+    <ol>
+        <li><strong>Dynamic Over Static:</strong> Use <code>interrupt()</code> inside specific tools rather than blanket compile-time graph interrupts.</li>
+        <li><strong>State Checkpointing is Mandatory:</strong> <code>MemorySaver</code> (or a database checkpointer) is required to persist in-flight execution state.</li>
+        <li><strong>Non-Blocking Suspension:</strong> <code>interrupt()</code> halts execution and returns immediately, freeing server threads.</li>
+        <li><strong>Resume via Command:</strong> Always resume paused workflows using <code>Command(resume=...)</code> with the original <code>thread_id</code>.</li>
+        <li><strong>The ReAct Loop Synthesizes:</strong> Keep the cyclic edge <code>tools -> chatbot</code> so the agent can digest human advice into a cohesive final response.</li>
+    </ol>
+</div>
+
+<!-- Section K: Practice Exercises & Knowledge Checks -->
+<div class="page-break-before"></div>
+<h2>K. Practice Exercises &amp; Knowledge Checks</h2>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 1 (Conceptual):</strong> Explain the fundamental difference between using <code>input()</code> inside a Python tool versus using <code>interrupt()</code> in LangGraph.
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 2 (Code Tracing):</strong> In <code>2-HumanInTheLoop.ipynb</code>, why does the output of Cell 4 show a <code>ToolMessage</code> followed by an <code>Ai Message</code>, rather than just returning the human's response directly to the user?
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 3 (Debugging):</strong> An engineer runs a HITL graph with <code>thread_id="alpha"</code>. The graph pauses at an interrupt. Later, another developer runs:
+    <pre><code>graph.invoke(Command(resume={"data": "approved"}), config={"configurable": {"thread_id": "beta"}})</code></pre>
+    What will happen? Explain why.
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 4 (Implementation Challenge):</strong> Write a tool <code>execute_refund(amount: float, customer_id: str)</code> that automatically processes refunds under $50, but calls <code>interrupt({"amount": amount, "customer_id": customer_id})</code> for refunds of $50 or greater.
+</div>
+
+<h3>Answers &amp; Complete Explanations</h3>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 1:</strong> <code>input()</code> blocks the active operating system thread and event loop, preventing any other tasks from running while waiting for console input. <code>interrupt()</code> freezes state into a checkpointer and immediately returns, allowing the server process to continue serving other requests or shut down entirely.
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 2:</strong> Because the graph contains the cyclic edge <code>builder.add_edge("tools", "chatbot")</code>. The human response is treated as the output of the tool (a <code>ToolMessage</code>), which routes back to the LLM node. The LLM then synthesizes the raw notes into a polished conversational response.
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 3:</strong> The call will fail or raise an error because <code>thread_id="beta"</code> has no active suspended checkpoint. Checkpoints are strictly partitioned by <code>thread_id</code>.
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 4:</strong>
+    <pre><code>@tool
+def execute_refund(amount: float, customer_id: str) -> str:
+    \"\"\"Process customer refund with supervisor approval for large amounts.\"\"\"
+    if amount >= 50.0:
+        approval = interrupt({"reason": "Large refund", "amount": amount, "customer_id": customer_id})
+        if not approval.get("approved", False):
+            return f"Refund of ${amount} for {customer_id} was rejected by supervisor."
+    return f"Successfully processed ${amount} refund for {customer_id}."</code></pre>
+</div>
+
+<!-- Section L: Further Learning & Official Documentation -->
+<h2>L. Further Learning &amp; Official Documentation</h2>
+<ul>
+    <li><a href="https://langchain-ai.github.io/langgraph/concepts/human_in_the_loop/">LangGraph Human-in-the-Loop Documentation</a>: Official architectural guide on breakpoints, dynamic interrupts, and human review patterns.</li>
+    <li><a href="https://langchain-ai.github.io/langgraph/how-tos/human-in-the-loop/">How-to: Dynamic Interrupts in LangGraph</a>: Practical implementations of approval gates and time travel.</li>
+    <li><a href="https://python.langchain.com/docs/integrations/chat/groq/">Groq LPU Inference Documentation</a>: High-throughput LPU model execution for agentic loops.</li>
+</ul>
+
+</body>
+</html>
+"""
+
+    return (html_template
+            .replace("__FNAME__", fname)
+            .replace("__TODAY__", today)
+            .replace("__CSS_STYLES__", CSS_STYLES)
+            .replace("__SVG_DIAGRAM_1__", svg1)
+            .replace("__SVG_DIAGRAM_2__", svg2)
+            .replace("__SVG_DIAGRAM_3__", svg3))
+
+print("build_guide_langgraph_2 defined successfully!")
+
+def build_guide_langgraph_3(fname, cells, today):
+    """Build canonical 12-section educational guide for 3-MCP.ipynb."""
+    svg1 = get_svg_mcp_architecture()
+    svg2 = get_svg_mcp_dual_transports()
+    svg3 = get_svg_mcp_fileno_architecture()
+
+    html_template = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>__FNAME__ - Educational Study Guide</title>
+    <style>__CSS_STYLES__</style>
+</head>
+<body>
+
+<!-- Section A: Cover Page -->
+<div class="cover-page">
+    <span class="cover-badge">Model Context Protocol • FastMCP &amp; Agentic Tools</span>
+    <h1 class="cover-title">Model Context Protocol (MCP) in Agentic Systems</h1>
+    <p class="cover-subtitle">Building FastMCP Servers, Orchestrating Dual Transports (stdio &amp; streamable-http), and Executing MultiServerMCPClient ReAct Agents</p>
+    
+    <p style="font-size: 10.5pt; color: #475569; max-width: 580px; margin-top: 15px;">
+        An authoritative, publication-grade technical study guide deconstructing the Model Context Protocol (MCP).
+        Explores the standardized protocol bridging AI models and enterprise tools, FastMCP server development,
+        local standard input/output console pipes (<code>stdio</code>), distributed Server-Sent Events (<code>streamable-http</code>),
+        unified tool aggregation via <code>MultiServerMCPClient</code>, and Windows Jupyter IPC optimization.
+    </p>
+
+    <div class="cover-meta">
+        <div class="cover-meta-grid">
+            <div class="meta-item"><strong>Target Notebook:</strong> <code>__FNAME__</code></div>
+            <div class="meta-item"><strong>Generation Date:</strong> __TODAY__</div>
+            <div class="meta-item"><strong>Language &amp; Runtime:</strong> Python 3.14 • Virtualenv (.venv)</div>
+            <div class="meta-item"><strong>Core Frameworks:</strong> MCP 1.30+ • FastMCP • LangChain 1.4.7 • LangGraph • Groq LPU</div>
+        </div>
+    </div>
+</div>
+
+<!-- Section B: Learning Objectives -->
+<h2>B. Learning Objectives</h2>
+<p>After studying this notebook and study guide, you will master:</p>
+<ul>
+    <li><strong>The Model Context Protocol (MCP) Paradigm:</strong> Understand why MCP is becoming the open universal standard for connecting LLM agents to external tools, databases, and context repositories.</li>
+    <li><strong>Rapid Server Development with FastMCP:</strong> Build lightweight, type-safe MCP servers using Python decorators (<code>@mcp.tool()</code>) that automatically generate JSON-RPC tool schemas.</li>
+    <li><strong>Subprocess Pipe Transport (<code>stdio</code>):</strong> Configure secure, zero-network inter-process communication using operating system standard input/output streams.</li>
+    <li><strong>Distributed Web Transport (<code>streamable-http</code>):</strong> Deploy ASGI-backed MCP web microservices using Starlette, Uvicorn, and Server-Sent Events (SSE) for remote or containerized environments.</li>
+    <li><strong>Unified Client Orchestration:</strong> Aggregate disparate MCP servers across different transport layers into a single LangChain tool list via <code>MultiServerMCPClient</code>.</li>
+    <li><strong>Autonomous ReAct Agent Execution:</strong> Bind dynamically fetched MCP tools into a LangGraph ReAct agent to solve multi-step mathematical problems and external queries.</li>
+    <li><strong>Windows Subprocess Debugging:</strong> Diagnose and resolve the Windows Jupyter <code>io.UnsupportedOperation: fileno</code> issue when managing background stdio processes.</li>
+</ul>
+
+<!-- Section C: Prerequisites, Environment & Security Setup -->
+<h2>C. Prerequisites, Environment &amp; Security Setup</h2>
+<div class="callout callout-note">
+    <div class="callout-title">Runtime &amp; API Configuration</div>
+    This notebook operates on <strong>Python 3.14</strong>. It communicates with local and network MCP servers using the official Anthropic <code>mcp</code> Python SDK, connects to <strong>Groq LPU</strong> for sub-second inference, and leverages <code>langchain-mcp-adapters</code> for LangChain integration.
+</div>
+<table>
+    <tr>
+        <th>Component</th>
+        <th>Version / Identifier</th>
+        <th>Source / Purpose</th>
+    </tr>
+    <tr>
+        <td><code>mcp</code></td>
+        <td><code>>=1.30.0</code></td>
+        <td>Official Model Context Protocol SDK, including <code>FastMCP</code> server framework</td>
+    </tr>
+    <tr>
+        <td><code>langchain-mcp-adapters</code></td>
+        <td><code>>=0.3.2</code></td>
+        <td>Adapter translating MCP JSON-RPC tool definitions into LangChain <code>BaseTool</code> objects</td>
+    </tr>
+    <tr>
+        <td><code>langgraph</code></td>
+        <td><code>>=0.3.0</code></td>
+        <td>Agent graph execution engine, <code>create_react_agent</code></td>
+    </tr>
+    <tr>
+        <td><code>langchain-groq</code></td>
+        <td><code>>=1.1.3</code></td>
+        <td>High-throughput LPU model inference (Groq chat completions)</td>
+    </tr>
+    <tr>
+        <td><code>uvicorn / starlette</code></td>
+        <td>Installed via <code>mcp</code></td>
+        <td>Asynchronous ASGI web server powering <code>streamable-http</code> SSE endpoints</td>
+    </tr>
+</table>
+
+<div class="callout callout-warning">
+    <div class="callout-title">Security &amp; API Key Masking Protocol</div>
+    Ensure <code>GROQ_API_KEY</code> is loaded securely from <code>.env</code>. Never hardcode credentials in server scripts or notebook cells.
+</div>
+
+<!-- Section D: Comprehensive Topic Overview -->
+<div class="page-break-before"></div>
+<h2>D. Comprehensive Topic Overview</h2>
+<p>
+    Before the introduction of the <strong>Model Context Protocol (MCP)</strong>, connecting an AI agent to multiple tools required
+    writing custom bespoke integration code for every provider. If you had 5 tools and 3 different agent frameworks, you needed
+    up to 15 different adapters. MCP introduces an open standard (analogous to the Language Server Protocol in software engineering)
+    that decouples tool development from agent execution.
+</p>
+
+<h3>1. The Three Layers of MCP Architecture</h3>
+<ul>
+    <li><strong>The Host Application:</strong> The client software (e.g., LangGraph agent, Claude Desktop, or custom Python application) that coordinates the user session and prompts the LLM.</li>
+    <li><strong>The Client Adapter:</strong> The component (such as <code>MultiServerMCPClient</code>) that manages transport connections, translates JSON-RPC 2.0 messages, and exposes native tool abstractions.</li>
+    <li><strong>The MCP Servers:</strong> Lightweight, independent programs that expose tools, resources (data sources), and prompts via standardized JSON-RPC protocols.</li>
+</ul>
+
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 1: Model Context Protocol (MCP) Multi-Server Architectural Overview</div>
+    __SVG_DIAGRAM_1__
+    <div class="diagram-caption">
+        <strong>Figure 1 Architectural Breakdown:</strong> Visual topology showing how a single LangGraph ReAct agent aggregates
+        tools from both a local <code>stdio</code> child process (Server A) and a remote <code>streamable-http</code> web service (Server B).
+    </div>
+</div>
+
+<h3>2. Comparing Transports: <code>stdio</code> vs <code>streamable-http</code></h3>
+<p>
+    MCP supports two primary communication transports, each tailored to distinct operational and security requirements:
+</p>
+<ul>
+    <li><strong><code>stdio</code> (Standard Input/Output):</strong> The client executes the server script as a child process using the operating system's process management APIs. Communication occurs over anonymous memory pipes. It requires zero network ports, has zero external attack surface, and provides maximum performance for local execution.</li>
+    <li><strong><code>streamable-http</code> (HTTP + Server-Sent Events):</strong> The server runs as an independent ASGI web service listening on a network port (e.g., <code>http://127.0.0.1:8000/mcp</code>). Communication uses HTTP POST for commands and SSE for asynchronous streaming responses. This enables multi-client sharing, containerization (Docker/Kubernetes), and cloud deployment.</li>
+</ul>
+
+<!-- Section E: Detailed Notebook Walkthrough -->
+<div class="page-break-before"></div>
+<h2>E. Detailed Notebook Walkthrough</h2>
+<p>
+    The source notebook <code>3-MCP.ipynb</code> guides you through the creation of two separate MCP servers, starting a background
+    service, orchestrating them via <code>MultiServerMCPClient</code>, and executing an autonomous ReAct agent.
+</p>
+
+<h3>Phase 1: Server 1: <code>mathserver.py</code> via stdio (Cells 0–2)</h3>
+<div class="code-header">Cell 2 • Defining and Writing mathserver.py</div>
+<pre><code>%%writefile mathserver.py
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("Math")
+
+@mcp.tool()
+def add(a: int, b: int) -> int:
+    \"\"\"Add two numbers.\"\"\"
+    return a + b
+
+@mcp.tool()
+def multiple(a: int, b: int) -> int:
+    \"\"\"Multiply two numbers.\"\"\"
+    return a * b
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")</code></pre>
+
+<p><strong>Detailed Code Analysis:</strong></p>
+<ul>
+    <li><code>%%writefile mathserver.py</code>: The IPython cell magic writes this code to disk as a standalone Python file. This is crucial because a <code>stdio</code> MCP server must run in its own subprocess with clean standard input/output streams, rather than inside the interactive notebook kernel.</li>
+    <li><code>mcp = FastMCP("Math")</code>: Instantiates the FastMCP application with the identifier <code>"Math"</code>.</li>
+    <li><code>@mcp.tool()</code>: The decorator inspects function signatures, parameter type annotations (<code>a: int, b: int</code>), and docstrings (<code>\"\"\"Add two numbers.\"\"\"</code>) to automatically generate an OpenAI-compatible JSON schema.</li>
+    <li><code>mcp.run(transport="stdio")</code>: Launches the server listener. When executed via CLI or subprocess, it reads incoming JSON-RPC requests from <code>sys.stdin</code> and writes responses to <code>sys.stdout</code>.</li>
+</ul>
+
+<div class="page-break-before"></div>
+<h3>Phase 2: Server 2: <code>weather.py</code> via streamable-http (Cells 3–4)</h3>
+<div class="code-header">Cell 4 • Defining and Writing weather.py</div>
+<pre><code>%%writefile weather.py
+from mcp.server.fastmcp import FastMCP
+
+mcp = FastMCP("Weather")
+
+@mcp.tool()
+async def get_weather(location: str) -> str:
+    \"\"\"Get the weather location.\"\"\"
+    return f"It's always raining in {location}"
+
+if __name__ == "__main__":
+    mcp.run(transport="streamable-http")</code></pre>
+
+<p><strong>Detailed Code Analysis:</strong></p>
+<ul>
+    <li><code>transport="streamable-http"</code>: Instead of blocking on standard input, FastMCP starts a high-performance Uvicorn web server listening on <code>127.0.0.1:8000</code> with the endpoint <code>/mcp</code>.</li>
+    <li><code>async def get_weather(...)</code>: FastMCP natively supports asynchronous Python functions, making it ideal for non-blocking I/O operations such as external weather APIs or database queries.</li>
+</ul>
+
+<h3>Phase 3: Launching the Background Web Server (Cells 5–6)</h3>
+<div class="code-header">Cell 6 • Starting Uvicorn in a Background Subprocess</div>
+<pre><code>import subprocess
+import time
+import sys
+
+if 'weather_process' in locals():
+    weather_process.terminate()
+
+weather_process = subprocess.Popen([sys.executable, "weather.py"])
+print("Started weather.py web server. Waiting 3 seconds for Uvicorn to bind")
+
+time.sleep(3)
+
+print("Weather server ready")</code></pre>
+<p><strong>Operational Mechanics:</strong></p>
+<ul>
+    <li><code>sys.executable</code>: Ensures that the background process uses the exact same Python virtual environment (<code>.venv</code>) where <code>mcp</code> and <code>uvicorn</code> are installed.</li>
+    <li><code>time.sleep(3)</code>: Gives the Uvicorn ASGI server sufficient time to bind port 8000 before the client initiates network handshake requests.</li>
+    <li><strong>Safety Guard:</strong> The <code>if 'weather_process' in locals()</code> block terminates any previously running instance, preventing <code>[Errno 10048] address already in use</code> socket errors when re-executing cells.</li>
+</ul>
+
+<div class="page-break-before"></div>
+<h3>Phase 4: Client Orchestration &amp; ReAct Agent (Cells 7–8)</h3>
+<div class="code-header">Cell 8 • MultiServerMCPClient &amp; ReAct Invocations</div>
+<pre><code>import os
+import sys
+import asyncio
+from dotenv import load_dotenv
+from langchain_mcp_adapters.client import MultiServerMCPClient
+from langgraph.prebuilt import create_react_agent
+from langchain.chat_models import init_chat_model
+
+# Fix Windows Jupyter fileno() issue: restore underlying OS stderr for subprocess creation
+if hasattr(sys, "__stderr__") and sys.__stderr__ is not None:
+    sys.stderr = sys.__stderr__
+
+load_dotenv()
+os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
+
+model = init_chat_model("groq:openai/gpt-oss-20b")
+
+async def run_agent():
+    # Initialize MultiServerMCPClient connecting to both servers
+    client = MultiServerMCPClient({
+        "math": {
+            "command": sys.executable,  # Uses the current Python runtime
+            "args": ["mathserver.py"],
+            "transport": "stdio",
+        },
+        "weather": {
+            "url": "http://localhost:8000/mcp", # HTTP endpoint
+            "transport": "streamable_http",
+        }
+    })
+
+    # Fetch all tools dynamically from both servers
+    tools = await client.get_tools()
+    print(f"Loaded {len(tools)} tools: {[t.name for t in tools]}")
+
+    # Construct the ReAct agent graph with the model and tools
+    agent = create_react_agent(model, tools)
+
+    # Query 1: Arithmetic Decomposition
+    print("\nQuery 1: Math")
+    math_response = await agent.ainvoke({
+        "messages": [{"role": "user", "content": "what's (3 + 5) x 12?"}]
+    })
+    print("Math response:", math_response["messages"][-1].content)
+
+    # Query 2: Remote HTTP Tool Query
+    print("\nQuery 2: Weather")
+    weather_response = await agent.ainvoke({
+        "messages": [{"role": "user", "content": "what is the weather in California?"}]
+    })
+    print("Weather response:", weather_response["messages"][-1].content)
+
+# Execute the async agent function
+await run_agent()</code></pre>
+
+<p><strong>Execution Trace &amp; Output:</strong></p>
+<pre><code>Loaded 3 tools: ['add', 'multiple', 'get_weather']
+
+Query 1: Math
+Math response: (3 + 5) * 12 = 8 * 12 = 96.
+
+Query 2: Weather
+Weather response: The weather report indicates that it is currently raining in California.</code></pre>
+
+<p><strong>How the Agent Multi-Hop Execution Worked:</strong></p>
+<ol>
+    <li><code>client.get_tools()</code> dynamically queried both the <code>stdio</code> subprocess and the <code>http://localhost:8000/mcp</code> endpoint. It retrieved tool schemas for <code>add</code>, <code>multiple</code>, and <code>get_weather</code>.</li>
+    <li>In Query 1 (<code>(3 + 5) x 12</code>), the Groq model recognized that it needed arithmetic decomposition. It called <code>add(a=3, b=5)</code> over the <code>stdio</code> pipe, received <code>8</code>, and then called <code>multiple(a=8, b=12)</code> to obtain <code>96</code>.</li>
+    <li>In Query 2 (<code>weather in California</code>), the model recognized the geographical intent and dispatched an HTTP POST request to <code>weather.py</code>, calling <code>get_weather(location="California")</code>.</li>
+</ol>
+
+<div class="page-break-before"></div>
+<h3>Phase 5: Cleanup &amp; Process Termination (Cells 9–10)</h3>
+<div class="code-header">Cell 10 • Clean Process Termination</div>
+<pre><code>if 'weather_process' in locals():
+    weather_process.terminate()
+    print("Terminated weather server background process.")</code></pre>
+<p><strong>Lifecycle Management:</strong> Terminating the background Uvicorn server frees port 8000, preventing orphaned background processes from consuming CPU cycles or interfering with subsequent notebook runs.</p>
+
+<!-- Section F: End-to-End Execution Flow & Architectural Synthesis -->
+<h2>F. End-to-End Execution Flow &amp; Architectural Synthesis</h2>
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 2: Stdio vs Streamable-HTTP Transports Comparison</div>
+    __SVG_DIAGRAM_2__
+    <div class="diagram-caption">
+        <strong>Figure 2 Architectural Breakdown:</strong> Comparative matrix analyzing operational mechanics, security isolation,
+        and optimal enterprise deployment scenarios for local OS stdio pipes versus distributed streamable-http microservices.
+    </div>
+</div>
+
+<!-- Section G: Reference Guide: Important APIs & Classes -->
+<div class="page-break-before"></div>
+<h2>G. Reference Guide: Important APIs &amp; Classes</h2>
+<table>
+    <tr>
+        <th>Class / Method</th>
+        <th>Package</th>
+        <th>Key Parameters</th>
+        <th>Return / Behavior</th>
+    </tr>
+    <tr>
+        <td><code>FastMCP(name)</code></td>
+        <td><code>mcp.server.fastmcp</code></td>
+        <td><code>name: str</code></td>
+        <td>Initializes an MCP server instance with automated tool registration and schema generation.</td>
+    </tr>
+    <tr>
+        <td><code>@mcp.tool()</code></td>
+        <td><code>mcp.server.fastmcp</code></td>
+        <td>None</td>
+        <td>Function decorator that extracts type hints and docstrings into an MCP JSON-RPC tool schema.</td>
+    </tr>
+    <tr>
+        <td><code>mcp.run(transport=...)</code></td>
+        <td><code>mcp.server.fastmcp</code></td>
+        <td><code>transport: "stdio" | "streamable-http" | "sse"</code></td>
+        <td>Starts the MCP server using the specified transport layer (blocking synchronous loop).</td>
+    </tr>
+    <tr>
+        <td><code>MultiServerMCPClient(connections)</code></td>
+        <td><code>langchain_mcp_adapters.client</code></td>
+        <td><code>connections: dict</code></td>
+        <td>Unified client managing multiple heterogeneous MCP server connections simultaneously.</td>
+    </tr>
+    <tr>
+        <td><code>client.get_tools()</code></td>
+        <td><code>langchain_mcp_adapters.client</code></td>
+        <td>None</td>
+        <td>Asynchronously queries all registered MCP servers and returns a unified list of LangChain <code>BaseTool</code> objects.</td>
+    </tr>
+    <tr>
+        <td><code>create_react_agent(model, tools)</code></td>
+        <td><code>langgraph.prebuilt</code></td>
+        <td><code>model: BaseChatModel, tools: list</code></td>
+        <td>Constructs an autonomous LangGraph state machine with ReAct reasoning and dynamic tool calling.</td>
+    </tr>
+</table>
+
+<!-- Section H: Common Errors, Debugging & Troubleshooting -->
+<h2>H. Common Errors, Debugging &amp; Troubleshooting</h2>
+
+<div class="callout callout-error avoid-break">
+    <div class="callout-title">Pitfall 1: Windows Jupyter fileno() UnsupportedOperation</div>
+    <strong>Symptom:</strong> <code>io.UnsupportedOperation: fileno</code> when calling <code>client.get_tools()</code>.<br>
+    <strong>Root Cause:</strong> In Jupyter on Windows, <code>ipykernel</code> replaces <code>sys.stderr</code> with an in-memory <code>OutStream</code> that lacks an OS file descriptor. When MCP's <code>create_windows_process</code> attempts to query <code>sys.stderr.fileno()</code> to spawn the child process, it crashes.<br>
+    <strong>Fix:</strong>
+    <pre><code>if hasattr(sys, "__stderr__") and sys.__stderr__ is not None:
+    sys.stderr = sys.__stderr__</code></pre>
+</div>
+
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 3: Diagnosing the Windows Jupyter fileno() Architecture</div>
+    __SVG_DIAGRAM_3__
+    <div class="diagram-caption">
+        <strong>Figure 3 Architectural Breakdown:</strong> How <code>ipykernel</code>'s OutStream causes subprocess creation failure on Windows, and how restoring <code>sys.__stderr__</code> establishes a valid OS file descriptor.
+    </div>
+</div>
+
+<div class="callout callout-error avoid-break" style="margin-top: 20px;">
+    <div class="callout-title">Pitfall 2: Running mcp.run() Directly in Jupyter Without %%writefile</div>
+    <strong>Symptom:</strong> <code>RuntimeError: Already running asyncio in this thread</code>.<br>
+    <strong>Root Cause:</strong> <code>mcp.run(transport="stdio")</code> internally invokes <code>anyio.run()</code>, which cannot be nested inside Jupyter's already-active asyncio event loop.<br>
+    <strong>Fix:</strong> Use <code>%%writefile server.py</code> at the top of the cell and run the script as an external subprocess.
+</div>
+
+<div class="callout callout-error avoid-break">
+    <div class="callout-title">Pitfall 3: Port 8000 Socket Collisions</div>
+    <strong>Symptom:</strong> <code>[Errno 10048] error while attempting to bind on address ('127.0.0.1', 8000)</code>.<br>
+    <strong>Root Cause:</strong> Re-running Cell 6 without terminating the previous <code>weather.py</code> process holding port 8000.<br>
+    <strong>Fix:</strong> Add <code>if 'weather_process' in locals(): weather_process.terminate()</code> before calling <code>Popen</code>.
+</div>
+
+<!-- Section I: Practical Extensions & Industry Best Practices -->
+<div class="page-break-before"></div>
+<h2>I. Practical Extensions &amp; Industry Best Practices</h2>
+<ul>
+    <li><strong>Tool Namespace Isolation:</strong> When connecting to dozens of MCP servers, tool name collisions can occur (e.g. multiple servers exposing a <code>search</code> tool). Initialize the client with <code>MultiServerMCPClient(..., tool_name_prefix=True)</code> to automatically prefix tools with their server name (e.g., <code>math_add</code>, <code>weather_get_weather</code>).</li>
+    <li><strong>Dynamic Authentication &amp; Headers:</strong> For cloud-hosted MCP servers, supply authorization tokens or custom headers in the connection specification:
+        <pre><code>"weather": {
+    "url": "https://api.enterprise.com/mcp",
+    "transport": "streamable_http",
+    "headers": {"Authorization": "Bearer &lt;token&gt;"}
+}</code></pre>
+    </li>
+    <li><strong>Containerized MCP Deployment:</strong> Package FastMCP servers into lightweight Docker containers exposing port 8000. Agents running in Kubernetes can dynamically connect to tool services via internal DNS.</li>
+</ul>
+
+<!-- Section J: Key Takeaways & Conceptual Map -->
+<h2>J. Key Takeaways &amp; Conceptual Map</h2>
+<div class="callout callout-tip">
+    <div class="callout-title">Core Principles of Model Context Protocol (MCP)</div>
+    <ol>
+        <li><strong>Universal Tool Standard:</strong> MCP decouples tool creation from agent orchestration. Write a tool once in FastMCP; connect it to any agent framework.</li>
+        <li><strong>Dual Transports for Dual Needs:</strong> Use <code>stdio</code> for local, isolated, ultra-secure developer tools; use <code>streamable-http</code> for scalable, distributed enterprise microservices.</li>
+        <li><strong>Single Aggregator:</strong> <code>MultiServerMCPClient</code> seamlessly handles subprocess spawning, network sessions, and tool translation.</li>
+        <li><strong>Autonomous Execution:</strong> LangGraph's <code>create_react_agent</code> automatically determines which tools to call across multiple connected servers to fulfill complex user prompts.</li>
+    </ol>
+</div>
+
+<!-- Section K: Practice Exercises & Knowledge Checks -->
+<div class="page-break-before"></div>
+<h2>K. Practice Exercises &amp; Knowledge Checks</h2>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 1 (Conceptual):</strong> Why does <code>stdio</code> transport require no network ports, and what makes it inherently more secure for local developer workstations than HTTP?
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 2 (Code Tracing):</strong> If a user asks the agent: <em>"Add 15 and 25, then check the weather in Tokyo"</em>, describe the sequence of tool invocations and transports used by <code>MultiServerMCPClient</code>.
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 3 (Debugging):</strong> A developer runs a FastMCP server with <code>streamable-http</code> in a Docker container, but the client cannot connect to <code>http://localhost:8000/mcp</code>. What are the two most likely configuration mistakes?
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 4 (Implementation Challenge):</strong> Write a FastMCP server script <code>system_info.py</code> with <code>transport="stdio"</code> that exposes a tool <code>get_os_info()</code> returning the current Python version and platform name.
+</div>
+
+<h3>Answers &amp; Complete Explanations</h3>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 1:</strong> <code>stdio</code> relies on operating system anonymous pipes created directly between the parent process and child process. Because it binds no IP address or TCP port, it cannot be probed, intercepted, or attacked over the local network or internet.
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 2:</strong>
+    <ol>
+        <li>The agent invokes <code>add(a=15, b=25)</code> via the <code>stdio</code> transport, receiving <code>40</code>.</li>
+        <li>The agent invokes <code>get_weather(location="Tokyo")</code> via the <code>streamable-http</code> transport over port 8000.</li>
+        <li>The agent synthesizes both outputs into the final response.</li>
+    </ol>
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 3:</strong>
+    1. The container failed to publish port 8000 (missing <code>-p 8000:8000</code>).<br>
+    2. The FastMCP server inside the container was bound to <code>127.0.0.1</code> instead of <code>0.0.0.0</code>, preventing connections from outside the container.
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 4:</strong>
+    <pre><code>from mcp.server.fastmcp import FastMCP
+import platform, sys
+
+mcp = FastMCP("SystemInfo")
+
+@mcp.tool()
+def get_os_info() -> str:
+    \"\"\"Return platform and Python version details.\"\"\"
+    return f"Platform: {platform.platform()}, Python: {sys.version.split()[0]}"
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")</code></pre>
+</div>
+
+<!-- Section L: Further Learning & Official Documentation -->
+<h2>L. Further Learning &amp; Official Documentation</h2>
+<ul>
+    <li><a href="https://modelcontextprotocol.io/">Model Context Protocol Official Website</a>: Specifications, SDKs, and architecture.</li>
+    <li><a href="https://github.com/modelcontextprotocol/python-sdk">Anthropic MCP Python SDK GitHub</a>: FastMCP server documentation and code examples.</li>
+    <li><a href="https://python.langchain.com/docs/integrations/tools/mcp/">LangChain MCP Adapters Documentation</a>: Official guide on integrating MCP clients into LangChain and LangGraph.</li>
+</ul>
+
+</body>
+</html>
+"""
+
+    return (html_template
+            .replace("__FNAME__", fname)
+            .replace("__TODAY__", today)
+            .replace("__CSS_STYLES__", CSS_STYLES)
+            .replace("__SVG_DIAGRAM_1__", svg1)
+            .replace("__SVG_DIAGRAM_2__", svg2)
+            .replace("__SVG_DIAGRAM_3__", svg3))
+
 # Generic Fallback Builder
 def build_generic_guide(fname, cells, today):
     cells_html = []
@@ -4762,7 +6201,14 @@ def process_notebook(nb_path: Path, output_dir: Path):
     print(f"\nProcessing notebook: {nb_path.name}")
     nb_data = extract_notebook_data(nb_path)
     
-    output_pdf = output_dir / f"{nb_path.stem}.pdf"
+    if "langgraph-study" in str(nb_path):
+        target_dir = output_dir / "langgraph"
+    elif "langchain-study" in str(nb_path):
+        target_dir = output_dir / "langchain"
+    else:
+        target_dir = output_dir
+    target_dir.mkdir(parents=True, exist_ok=True)
+    output_pdf = target_dir / f"{nb_path.stem}.pdf"
     print(f"Generating HTML for {nb_path.name}...")
     html_content = build_pdf_document(nb_data)
     
