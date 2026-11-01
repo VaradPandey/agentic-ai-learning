@@ -1820,6 +1820,8 @@ def build_pdf_document(nb_data: dict) -> str:
         return build_guide_langgraph_2(fname, cells, today)
     elif "3-MCP" in fname:
         return build_guide_langgraph_3(fname, cells, today)
+    elif "4-Debugging&Monitoring" in fname:
+        return build_guide_langgraph_4(fname, cells, today)
     else:
         return build_generic_guide(fname, cells, today)
 
@@ -6195,6 +6197,777 @@ def validate_pdf(pdf_path: Path) -> dict:
         }
     except Exception as e:
         return {'valid': False, 'error': str(e)}
+
+
+# ==========================================
+# 4-Debugging&Monitoring SVG DIAGRAMS
+# ==========================================
+def get_svg_langsmith_architecture():
+    """Vector SVG diagram illustrating LangSmith Observability & Telemetry Architecture."""
+    return """
+    <svg width="680" height="250" viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="ls-arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+            </marker>
+            <marker id="ls-arrow-purple" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#7c3aed" />
+            </marker>
+            <marker id="ls-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669" />
+            </marker>
+        </defs>
+
+        <!-- Outer Boundary -->
+        <rect x="10" y="10" width="660" height="230" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+        <text x="25" y="28" font-family="'Segoe UI', sans-serif" font-size="10.5" font-weight="bold" fill="#0f172a">LangSmith Observability &amp; Telemetry Dataflow Architecture</text>
+
+        <!-- Step 1: Execution Runtime (LangGraph) -->
+        <rect x="25" y="42" width="180" height="185" rx="6" fill="#eff6ff" stroke="#3b82f6" stroke-width="1.5"/>
+        <rect x="25" y="42" width="180" height="26" rx="6" fill="#3b82f6"/>
+        <text x="115" y="59" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">1. Application Runtime</text>
+        <rect x="35" y="76" width="160" height="42" rx="4" fill="#ffffff" stroke="#bfdbfe"/>
+        <text x="115" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#1e40af" text-anchor="middle">LangGraph StateGraph</text>
+        <text x="115" y="106" font-family="'Courier New', monospace" font-size="7" fill="#2563eb" text-anchor="middle">graph.invoke({"messages": ...})</text>
+        
+        <rect x="35" y="126" width="160" height="52" rx="4" fill="#dbeafe"/>
+        <text x="115" y="140" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle">Automatic Lifecycle Hooks</text>
+        <text x="42" y="154" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e40af">• on_chain_start / end</text>
+        <text x="42" y="167" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#1e40af">• on_tool_start / end</text>
+
+        <text x="115" y="196" font-family="'Segoe UI', sans-serif" font-size="7" fill="#475569" text-anchor="middle">Zero Code Instrumentation</text>
+        <text x="115" y="208" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#047857" text-anchor="middle">LANGSMITH_TRACING="true"</text>
+
+        <!-- Arrow 1 to 2 -->
+        <line x1="205" y1="130" x2="235" y2="130" stroke="#3b82f6" stroke-width="2" marker-end="url(#ls-arrow-blue)"/>
+
+        <!-- Step 2: Background Async Dispatcher -->
+        <rect x="240" y="42" width="190" height="185" rx="6" fill="#faf5ff" stroke="#8b5cf6" stroke-width="1.5"/>
+        <rect x="240" y="42" width="190" height="26" rx="6" fill="#8b5cf6"/>
+        <text x="335" y="59" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">2. Background Client Queue</text>
+        <rect x="250" y="76" width="170" height="42" rx="4" fill="#ffffff" stroke="#e9d5ff"/>
+        <text x="335" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#6b21a8" text-anchor="middle">Non-Blocking Queue</text>
+        <text x="335" y="106" font-family="'Segoe UI', sans-serif" font-size="7" fill="#7c3aed" text-anchor="middle">Async Thread Batching</text>
+
+        <rect x="250" y="126" width="170" height="52" rx="4" fill="#f3e8ff"/>
+        <text x="335" y="140" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#581c87" text-anchor="middle">Encrypted Telemetry Payload</text>
+        <text x="256" y="154" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#6b21a8">• Run IDs, parent/child links</text>
+        <text x="256" y="167" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#6b21a8">• Token counts, latency timestamps</text>
+
+        <text x="335" y="196" font-family="'Segoe UI', sans-serif" font-size="7" fill="#475569" text-anchor="middle">Zero Latency Impact on App</text>
+        <text x="335" y="208" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#6b21a8" text-anchor="middle">Batched HTTPS POST</text>
+
+        <!-- Arrow 2 to 3 -->
+        <line x1="430" y1="130" x2="460" y2="130" stroke="#8b5cf6" stroke-width="2" marker-end="url(#ls-arrow-purple)"/>
+
+        <!-- Step 3: LangSmith Cloud Dashboard -->
+        <rect x="465" y="42" width="195" height="185" rx="6" fill="#ecfdf5" stroke="#10b981" stroke-width="1.5"/>
+        <rect x="465" y="42" width="195" height="26" rx="6" fill="#10b981"/>
+        <text x="562" y="59" font-family="'Segoe UI', sans-serif" font-size="9.5" font-weight="bold" fill="#ffffff" text-anchor="middle">3. smith.langchain.com</text>
+        
+        <rect x="475" y="76" width="175" height="42" rx="4" fill="#ffffff" stroke="#bbf7d0"/>
+        <text x="562" y="92" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#065f46" text-anchor="middle">Interactive Tracing UI</text>
+        <text x="562" y="106" font-family="'Segoe UI', sans-serif" font-size="7" fill="#059669" text-anchor="middle">Hierarchical Call Trees</text>
+
+        <rect x="475" y="126" width="175" height="52" rx="4" fill="#d1fae5"/>
+        <text x="562" y="140" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#065f46" text-anchor="middle">Analytics &amp; Diagnostics</text>
+        <text x="481" y="154" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#047857">• Exact input/output JSON</text>
+        <text x="481" y="167" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#047857">• Tool call arguments &amp; returns</text>
+
+        <text x="562" y="196" font-family="'Segoe UI', sans-serif" font-size="7" fill="#475569" text-anchor="middle">Project Management</text>
+        <text x="562" y="208" font-family="'Segoe UI', sans-serif" font-size="7" font-weight="bold" fill="#065f46" text-anchor="middle">default / TestProject</text>
+    </svg>
+    """
+
+def get_svg_trace_comparison():
+    """Vector SVG comparing the two invocation traces in the notebook (Direct QA vs Tool Call Loop)."""
+    return """
+    <svg width="680" height="235" viewBox="0 0 680 235" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+            <marker id="tc-arrow-blue" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2563eb" />
+            </marker>
+            <marker id="tc-arrow-green" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#059669" />
+            </marker>
+        </defs>
+
+        <!-- Top Box: Trace 1 (Cell 4 - Direct LLM QA) -->
+        <rect x="10" y="10" width="660" height="98" rx="6" fill="#eff6ff" stroke="#93c5fd" stroke-width="1.5"/>
+        <rect x="10" y="10" width="660" height="22" rx="6" fill="#3b82f6"/>
+        <text x="25" y="25" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff">Run 1 (Cell 4): Direct LLM Query ("What is machine learning")</text>
+
+        <g transform="translate(25, 40)">
+            <!-- Root LangGraph -->
+            <rect x="0" y="8" width="120" height="36" rx="4" fill="#ffffff" stroke="#3b82f6"/>
+            <text x="60" y="22" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#1e40af" text-anchor="middle">LangGraph</text>
+            <text x="60" y="34" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#64748b" text-anchor="middle">Root Trace (450ms)</text>
+
+            <line x1="120" y1="26" x2="160" y2="26" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#tc-arrow-blue)"/>
+
+            <!-- Node tool_calling_llm -->
+            <rect x="165" y="8" width="130" height="36" rx="4" fill="#dbeafe" stroke="#93c5fd"/>
+            <text x="230" y="22" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#1e3a8a" text-anchor="middle">tool_calling_llm</text>
+            <text x="230" y="34" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#475569" text-anchor="middle">Node Execution</text>
+
+            <line x1="295" y1="26" x2="335" y2="26" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#tc-arrow-blue)"/>
+
+            <!-- Leaf ChatGroq -->
+            <rect x="340" y="8" width="130" height="36" rx="4" fill="#faf5ff" stroke="#c084fc"/>
+            <text x="405" y="22" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#6b21a8" text-anchor="middle">ChatGroq</text>
+            <text x="405" y="34" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#7c3aed" text-anchor="middle">openai/gpt-oss-20b</text>
+
+            <line x1="470" y1="26" x2="510" y2="26" stroke="#3b82f6" stroke-width="1.5" marker-end="url(#tc-arrow-blue)"/>
+
+            <!-- End -->
+            <rect x="515" y="8" width="105" height="36" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+            <text x="567" y="22" font-family="'Segoe UI', sans-serif" font-size="7.5" font-weight="bold" fill="#065f46" text-anchor="middle">Direct Output</text>
+            <text x="567" y="34" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#059669" text-anchor="middle">No Tools Called</text>
+        </g>
+
+
+        <!-- Bottom Box: Trace 2 (Cell 6 - Tool Calling Loop) -->
+        <rect x="10" y="118" width="660" height="106" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <rect x="10" y="118" width="660" height="22" rx="6" fill="#16a34a"/>
+        <text x="25" y="133" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff">Run 2 (Cell 6): Multi-Step ReAct Tool Trace ("What is 10+20")</text>
+
+        <g transform="translate(25, 148)">
+            <!-- Step 1: LLM Tool Request -->
+            <rect x="0" y="5" width="115" height="48" rx="4" fill="#ffffff" stroke="#16a34a"/>
+            <text x="57" y="18" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="bold" fill="#166534" text-anchor="middle">1. tool_calling_llm</text>
+            <text x="57" y="30" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#475569" text-anchor="middle">ChatGroq (Turn 1)</text>
+            <text x="57" y="42" font-family="'Courier New', monospace" font-size="6.5" font-weight="bold" fill="#b45309" text-anchor="middle">call: add(10, 20)</text>
+
+            <line x1="115" y1="29" x2="145" y2="29" stroke="#16a34a" stroke-width="1.5" marker-end="url(#tc-arrow-green)"/>
+
+            <!-- Step 2: ToolNode Execution -->
+            <rect x="150" y="5" width="125" height="48" rx="4" fill="#fef3c7" stroke="#f59e0b"/>
+            <text x="212" y="18" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="bold" fill="#92400e" text-anchor="middle">2. tools (ToolNode)</text>
+            <text x="212" y="30" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#78350f" text-anchor="middle">Function: add(a, b)</text>
+            <text x="212" y="42" font-family="'Courier New', monospace" font-size="6.5" font-weight="bold" fill="#047857" text-anchor="middle">returns: 30.0</text>
+
+            <line x1="275" y1="29" x2="305" y2="29" stroke="#16a34a" stroke-width="1.5" marker-end="url(#tc-arrow-green)"/>
+
+            <!-- Step 3: LLM Synthesis -->
+            <rect x="310" y="5" width="125" height="48" rx="4" fill="#faf5ff" stroke="#8b5cf6"/>
+            <text x="372" y="18" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="bold" fill="#581c87" text-anchor="middle">3. tool_calling_llm</text>
+            <text x="372" y="30" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#6b21a8" text-anchor="middle">ChatGroq (Turn 2)</text>
+            <text x="372" y="42" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#475569" text-anchor="middle">Reads ToolMessage</text>
+
+            <line x1="435" y1="29" x2="465" y2="29" stroke="#16a34a" stroke-width="1.5" marker-end="url(#tc-arrow-green)"/>
+
+            <!-- Final Answer -->
+            <rect x="470" y="5" width="150" height="48" rx="4" fill="#ecfdf5" stroke="#10b981"/>
+            <text x="545" y="18" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="bold" fill="#065f46" text-anchor="middle">4. Final Answer Output</text>
+            <text x="545" y="30" font-family="'Courier New', monospace" font-size="6.5" fill="#047857" text-anchor="middle">"10 + 20 = 30"</text>
+            <text x="545" y="42" font-family="'Segoe UI', sans-serif" font-size="6.5" fill="#475569" text-anchor="middle">Trace Completed (920ms)</text>
+        </g>
+    </svg>
+    """
+
+def get_svg_env_diagnostics():
+    """Vector SVG illustrating the environment variable configuration and typo diagnosis."""
+    return """
+    <svg width="680" height="210" viewBox="0 0 680 210" xmlns="http://www.w3.org/2000/svg">
+        <!-- Panel 1: Typo Diagnostic -->
+        <rect x="10" y="10" width="320" height="190" rx="6" fill="#fef2f2" stroke="#fca5a5" stroke-width="1.5"/>
+        <rect x="10" y="10" width="320" height="24" rx="6" fill="#ef4444"/>
+        <text x="170" y="26" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">The Notebook Typo: LAANGSMITH_PROJECT</text>
+
+        <rect x="22" y="42" width="296" height="45" rx="4" fill="#ffffff" stroke="#fca5a5"/>
+        <text x="30" y="56" font-family="'Courier New', monospace" font-size="7.5" fill="#dc2626"># Cell 2 in Notebook:</text>
+        <text x="30" y="70" font-family="'Courier New', monospace" font-size="7.5" font-weight="bold" fill="#b91c1c">os.environ["LAANGSMITH_PROJECT"] = "TestProject"</text>
+
+        <text x="25" y="102" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#991b1b">Runtime Consequence:</text>
+        <text x="25" y="116" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#7f1d1d">• LangSmith SDK looks for <tspan font-family="'Courier New', monospace" font-weight="bold">LANGSMITH_PROJECT</tspan></text>
+        <text x="25" y="128" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#7f1d1d">• Unrecognized key is silently ignored by tracer</text>
+        <text x="25" y="140" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#7f1d1d">• Traces route to default fallback project: <tspan font-weight="bold">"default"</tspan></text>
+
+        <rect x="22" y="150" width="296" height="38" rx="4" fill="#fee2e2"/>
+        <text x="170" y="164" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="bold" fill="#991b1b" text-anchor="middle">Traces Still Record Successfully!</text>
+        <text x="170" y="176" font-family="'Segoe UI', sans-serif" font-size="6.8" fill="#7f1d1d" text-anchor="middle">Check project "default" on smith.langchain.com</text>
+
+        <!-- Panel 2: Correct Configuration Standard -->
+        <rect x="350" y="10" width="320" height="190" rx="6" fill="#f0fdf4" stroke="#86efac" stroke-width="1.5"/>
+        <rect x="350" y="10" width="320" height="24" rx="6" fill="#16a34a"/>
+        <text x="510" y="26" font-family="'Segoe UI', sans-serif" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">Best Practice: Standardized Environment Settings</text>
+
+        <rect x="362" y="42" width="296" height="58" rx="4" fill="#ffffff" stroke="#bbf7d0"/>
+        <text x="370" y="56" font-family="'Courier New', monospace" font-size="7" fill="#15803d"># Correct in .env or Python:</text>
+        <text x="370" y="68" font-family="'Courier New', monospace" font-size="7" font-weight="bold" fill="#047857">export LANGSMITH_TRACING="true"</text>
+        <text x="370" y="80" font-family="'Courier New', monospace" font-size="7" font-weight="bold" fill="#047857">export LANGSMITH_PROJECT="TestProject"</text>
+        <text x="370" y="92" font-family="'Courier New', monospace" font-size="7" font-weight="bold" fill="#047857">export LANGSMITH_API_KEY="lsv2_pt_..."</text>
+
+        <text x="365" y="116" font-family="'Segoe UI', sans-serif" font-size="8" font-weight="bold" fill="#14532d">Operational Guarantees:</text>
+        <text x="365" y="130" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#166534">• Explicit named project partition in cloud dashboard</text>
+        <text x="365" y="142" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#166534">• Segregates development runs from production traces</text>
+        <text x="365" y="154" font-family="'Segoe UI', sans-serif" font-size="7.2" fill="#166534">• Enables custom evaluation rules, tags, and metadata</text>
+
+        <rect x="362" y="162" width="296" height="26" rx="4" fill="#dcfce7"/>
+        <text x="510" y="178" font-family="'Segoe UI', sans-serif" font-size="7.2" font-weight="bold" fill="#14532d" text-anchor="middle">Enterprise-Grade Observability Compliance</text>
+    </svg>
+    """
+
+print("Debug SVGs defined successfully!")
+
+
+# ==========================================
+# 4-Debugging&Monitoring GUIDE BUILDER
+# ==========================================
+
+# Load base64 strings for 4-Debugging&Monitoring image assets
+def _get_langgraph_4_images():
+    import base64
+    ws_root = Path(r"C:\Users\novap\Downloads\BlazelMage\Code\Agentic AI")
+    img1_path = ws_root / "langgraph-study" / "image1.png"
+    img2_path = ws_root / "langgraph-study" / "image2.png"
+    b64_1 = ""
+    b64_2 = ""
+    if img1_path.exists():
+        with open(img1_path, "rb") as f:
+            b64_1 = base64.b64encode(f.read()).decode("ascii")
+    if img2_path.exists():
+        with open(img2_path, "rb") as f:
+            b64_2 = base64.b64encode(f.read()).decode("ascii")
+    return b64_1, b64_2
+
+def build_guide_langgraph_4(fname, cells, today):
+    """Build canonical 12-section educational guide for 4-Debugging&Monitoring.ipynb with compact flowing layout."""
+    b64_image1, b64_image2 = _get_langgraph_4_images()
+    svg1 = get_svg_langsmith_architecture()
+    svg2 = get_svg_trace_comparison()
+    svg3 = get_svg_env_diagnostics()
+
+    html_template = r"""<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>__FNAME__ - Educational Study Guide</title>
+    <style>__CSS_STYLES__</style>
+</head>
+<body>
+
+<!-- Section A: Cover Page (Only page that forces a break after) -->
+<div class="cover-page">
+    <span class="cover-badge">LangGraph 0.3+ • Observability &amp; Telemetry</span>
+    <h1 class="cover-title">Agentic AI Observability: Debugging &amp; Monitoring with LangSmith</h1>
+    <p class="cover-subtitle">Non-Blocking Telemetry, Call-Tree Visualization, Latency &amp; Token Analytics, and ReAct Execution Tracing</p>
+    
+    <p style="font-size: 10.5pt; color: #475569; max-width: 580px; margin-top: 15px;">
+        An authoritative technical deep dive into observability and runtime monitoring for agentic state machines.
+        Deconstructs how LangSmith intercepts graph transitions, records full input/output state histories,
+        visualizes nested multi-hop tool execution trees, and tracks production latency and token consumption without
+        adding overhead to the user application.
+    </p>
+
+    <div class="cover-meta">
+        <div class="cover-meta-grid">
+            <div class="meta-item"><strong>Target Notebook:</strong> <code>__FNAME__</code></div>
+            <div class="meta-item"><strong>Generation Date:</strong> __TODAY__</div>
+            <div class="meta-item"><strong>Language &amp; Runtime:</strong> Python 3.14 • Virtualenv (.venv)</div>
+            <div class="meta-item"><strong>Core Frameworks:</strong> LangGraph 0.3+ • LangChain 1.4.7 • LangSmith • Groq LPU</div>
+        </div>
+    </div>
+</div>
+
+<!-- Section B: Learning Objectives (Flows naturally without forced blank page) -->
+<h2>B. Learning Objectives</h2>
+<p>After studying this notebook and study guide, you will master:</p>
+<ul>
+    <li><strong>The Observability Imperative:</strong> Understand why black-box LLM agents require end-to-end distributed tracing to diagnose hallucinations, recursive tool loops, and latency spikes.</li>
+    <li><strong>LangSmith Native Tracing:</strong> Enable automated lifecycle telemetry across LangChain and LangGraph using <code>LANGSMITH_TRACING="true"</code> without manual logging or code rewrites.</li>
+    <li><strong>Decoupled Asynchronous Telemetry:</strong> Understand how the LangSmith client buffers traces in an in-memory queue and flushes them in a background daemon thread with zero impact on agent response times.</li>
+    <li><strong>Hierarchical Run Tree Deconstruction:</strong> Read and interpret nested LangSmith trace trees, navigating from root <code>LangGraph</code> invocations down to node execution, model calls, and individual tool runs.</li>
+    <li><strong>Linear vs. Cyclical Trace Signatures:</strong> Contrast the single-step telemetry of direct conversational answers with the multi-hop trace signature of tool-augmented ReAct cycles.</li>
+    <li><strong>Environment Variable Hygiene:</strong> Correctly configure <code>LANGSMITH_PROJECT</code>, <code>LANGSMITH_API_KEY</code>, and diagnose common configuration pitfalls (such as project naming typos).</li>
+</ul>
+
+<!-- Section C: Prerequisites, Environment & Security Setup -->
+<h2>C. Prerequisites, Environment &amp; Security Setup</h2>
+<div class="callout callout-note avoid-break">
+    <div class="callout-title">Runtime &amp; Telemetry Configuration</div>
+    This notebook operates on <strong>Python 3.14</strong>. It utilizes the high-throughput <strong>Groq LPU</strong> running <code>openai/gpt-oss-20b</code>, orchestrated by <strong>LangGraph</strong>, and telemetrically instrumented via <strong>LangSmith</strong>.
+</div>
+<table class="avoid-break">
+    <tr>
+        <th>Component</th>
+        <th>Version / Identifier</th>
+        <th>Source / Purpose</th>
+    </tr>
+    <tr>
+        <td><code>langsmith</code></td>
+        <td><code>>=0.14.12</code></td>
+        <td>Official observability SDK, asynchronous trace queue, OpenTelemetry exporter</td>
+    </tr>
+    <tr>
+        <td><code>langgraph</code></td>
+        <td><code>>=0.3.0</code></td>
+        <td>State machine execution engine, <code>StateGraph</code>, <code>ToolNode</code></td>
+    </tr>
+    <tr>
+        <td><code>langchain</code></td>
+        <td><code>1.4.7</code></td>
+        <td>Core model abstractions, <code>init_chat_model</code>, message schemas</td>
+    </tr>
+    <tr>
+        <td><code>langchain-groq</code></td>
+        <td><code>>=1.1.3</code></td>
+        <td>Ultra-fast LPU inference engine with native tool calling support</td>
+    </tr>
+    <tr>
+        <td><code>python-dotenv</code></td>
+        <td><code>>=1.2.4</code></td>
+        <td>Secure environment variable loading from local <code>.env</code> file</td>
+    </tr>
+</table>
+
+<div class="callout callout-warning avoid-break">
+    <div class="callout-title">Security &amp; API Key Masking Protocol</div>
+    Never commit LangSmith API keys or LLM provider keys to Git. Keep credentials isolated in <code>.env</code>:
+    <pre><code>GROQ_API_KEY=gsk_your_groq_api_key_here
+LANGCHAIN_API_KEY=lsv2_pt_your_langsmith_api_key_here
+LANGSMITH_TRACING=true
+LANGSMITH_PROJECT=TestProject</code></pre>
+</div>
+
+<!-- Section D: Comprehensive Topic Overview -->
+<h2>D. Comprehensive Topic Overview</h2>
+<p>
+    When building multi-actor agentic workflows, debugging via traditional <code>print()</code> statements quickly collapses.
+    An agent may execute multiple model inferences, invoke various external tools, format and inspect JSON payloads, and loop
+    conditionally before returning an answer. Without comprehensive tracing, identifying why an agent took a wrong turn,
+    hallucinated an argument, or exceeded its latency budget is nearly impossible.
+</p>
+
+<h3>1. What is LangSmith?</h3>
+<p>
+    <strong>LangSmith</strong> is a purpose-built observability and evaluation platform for LLM applications and agentic workflows.
+    Rather than requiring developers to inject manual logging code around every node and tool, LangChain and LangGraph feature
+    built-in callback handlers that listen to internal graph lifecycle events.
+    When <code>LANGSMITH_TRACING="true"</code> is set, these handlers automatically capture:
+</p>
+<ul>
+    <li><strong>Exact Input &amp; Output Payloads:</strong> Every message, prompt string, tool argument, and model return object.</li>
+    <li><strong>Hierarchical Call Trees:</strong> Clear parent-child relationships linking the top-level graph to nodes, LLMs, and tools.</li>
+    <li><strong>Latency Benchmarks:</strong> Millisecond-level breakdowns for every phase of execution (model time vs. tool time).</li>
+    <li><strong>Token Analytics &amp; Estimated Costs:</strong> Prompt tokens, completion tokens, and reasoning tokens consumed per turn.</li>
+    <li><strong>Metadata &amp; Session Tags:</strong> Project identifiers, run IDs, thread IDs, and custom runtime metadata.</li>
+</ul>
+
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 1: LangSmith Observability &amp; Telemetry Dataflow Architecture</div>
+    __SVG_DIAGRAM_1__
+    <div class="diagram-caption">
+        <strong>Figure 1 Architectural Breakdown:</strong> How LangGraph dispatches lifecycle events to the background client queue,
+        which asynchronously sends batched HTTPS payloads to <code>smith.langchain.com</code> with zero application latency penalty.
+    </div>
+</div>
+
+<h3>2. The Asynchronous Non-Blocking Telemetry Model</h3>
+<p>
+    A frequent concern with observability tooling is performance overhead. LangSmith solves this through a decoupled,
+    background queue architecture. When a node executes, telemetry events are placed into an in-memory thread queue in micro-seconds.
+    A dedicated daemon thread processes this queue, batches events, and dispatches them over HTTPS to LangSmith's SaaS endpoint.
+    If the network hiccups or the remote logging endpoint is slow, your user's chat response is never delayed.
+</p>
+
+<!-- Section E: Detailed Notebook Walkthrough -->
+<h2>E. Detailed Notebook Walkthrough</h2>
+<p>
+    The source notebook <code>4-Debugging&amp;Monitoring.ipynb</code> sets up a stateful arithmetic ReAct graph, configures
+    LangSmith tracing, and executes two distinct query patterns to compare their resulting telemetry signatures.
+</p>
+
+<h3>Phase 1: Environment Setup &amp; Tracing Configuration (Cells 0–2)</h3>
+<div class="code-header">Cell 1 • Imports</div>
+<pre><code>import os
+from langchain.chat_models import init_chat_model
+from typing import Annotated
+from langchain_core.tools import tool
+from typing_extensions import TypedDict
+from langgraph.graph import StateGraph, START, END
+from langgraph.graph.message import add_messages
+from langgraph.prebuilt import ToolNode, tools_condition
+from IPython.display import Image, display</code></pre>
+
+<div class="code-header">Cell 2 • Environment Variables &amp; Tracing Activation</div>
+<pre><code>os.environ["GROQ_API_KEY"] = os.getenv("GROQ_API_KEY")
+
+llm = init_chat_model("groq:openai/gpt-oss-20b")
+
+# Langsmith is used for debugging monitoring
+os.environ["LAANGSMITH_PROJECT"] = "TestProject"
+os.environ["LANGSMITH_API_KEY"] = os.getenv("LANGCHAIN_API_KEY")
+os.environ["LANGSMITH_TRACING"] = "true"</code></pre>
+
+<p><strong>Detailed Analysis of Cell 2:</strong></p>
+<ul>
+    <li><code>init_chat_model("groq:openai/gpt-oss-20b")</code>: Instantiates the high-throughput Groq LPU chat model.</li>
+    <li><code>LANGSMITH_TRACING="true"</code>: The master switch that activates LangSmith callback handlers across all subsequent LangChain and LangGraph calls in the Python session.</li>
+    <li><code>LANGSMITH_API_KEY = os.getenv("LANGCHAIN_API_KEY")</code>: In LangChain ecosystems, the API key in <code>.env</code> is frequently named <code>LANGCHAIN_API_KEY</code>. Setting <code>LANGSMITH_API_KEY</code> ensures the telemetry client authenticates successfully.</li>
+    <li><strong>Notebook Typo Note:</strong> Line 38 has <code>os.environ["LAANGSMITH_PROJECT"] = "TestProject"</code> (spelled with double 'A'). Because of this typo, LangSmith defaults to the project name <code>"default"</code> unless <code>LANGCHAIN_PROJECT</code> was already present in the environment. Traces are still fully recorded!</li>
+</ul>
+
+<h3>Phase 2: Graph Architecture Definition (Cell 3)</h3>
+<div class="code-header">Cell 3 • Building the ReAct Calculator Graph</div>
+<pre><code>from langchain_core.messages import BaseMessage
+
+class State(TypedDict):
+    messages: Annotated[list[BaseMessage], add_messages]
+
+@tool
+def add(a: float, b: float):
+    \"\"\"Add two numbers\"\"\"
+    return a + b
+
+tools = [add]
+tool_node = ToolNode([add])
+llm_with_tool = llm.bind_tools(tools)
+
+def call_llm_model(state: State):
+    return {
+        "messages": [llm_with_tool.invoke(state["messages"])]
+    }
+
+# Graph Assembly
+builder = StateGraph(State)
+builder.add_node("tool_calling_llm", call_llm_model)
+builder.add_node("tools", ToolNode(tools))
+
+# Add Edges
+builder.add_edge(START, "tool_calling_llm")
+builder.add_conditional_edges("tool_calling_llm", tools_condition)
+builder.add_edge("tools", "tool_calling_llm")
+
+# Compile the graph
+graph = builder.compile()
+display(Image(graph.get_graph().draw_mermaid_png()))</code></pre>
+
+<p><strong>Architectural Analysis:</strong></p>
+<ul>
+    <li><code>Annotated[list[BaseMessage], add_messages]</code>: Uses the <code>add_messages</code> reducer to append incoming messages rather than overwriting the list.</li>
+    <li><code>@tool def add(a: float, b: float)</code>: Standard decorated arithmetic tool. Type annotations (<code>float</code>) define the schema contract for the LLM.</li>
+    <li><code>builder.add_edge("tools", "tool_calling_llm")</code>: The cyclic feedback edge. When the tool executes, the result routes back to the LLM so it can read the observation and synthesize the final answer.</li>
+</ul>
+
+<h3>Phase 3: Run 1 — Direct LLM Query (Cell 4)</h3>
+<div class="code-header">Cell 4 • Invocation Without Tools</div>
+<pre><code>response = graph.invoke({"messages": "What is machine learning"})
+response</code></pre>
+<p><strong>Execution Trace Analysis:</strong></p>
+<ul>
+    <li>The user asks an informational question: <em>"What is machine learning"</em>.</li>
+    <li>The model inspects its available tools (<code>[add]</code>). Determining that addition is irrelevant, it does not emit a tool call.</li>
+    <li>It returns an explanatory <code>AIMessage</code> directly. <code>tools_condition</code> routes to <code>END</code>.</li>
+    <li><strong>LangSmith Telemetry Profile:</strong> A clean 1-step linear trace: <code>LangGraph -> tool_calling_llm -> ChatGroq -> END</code>. Latency: ~450ms.</li>
+</ul>
+
+<h3>Phase 4: Run 2 — Tool-Calling ReAct Execution (Cells 5–6)</h3>
+<div class="code-header">Cell 6 • Invocation Requiring Arithmetic Tool</div>
+<pre><code>response = graph.invoke({"messages": "What is 10+20"})
+response</code></pre>
+<p><strong>Execution Trace Analysis:</strong></p>
+<ul>
+    <li>The user submits a mathematical calculation: <em>"What is 10+20"</em>.</li>
+    <li><code>tool_calling_llm</code> runs. The Groq model emits an <code>AIMessage</code> with <code>tool_calls=[{'name': 'add', 'args': {'a': 10, 'b': 20}}]</code>.</li>
+    <li><code>tools_condition</code> intercepts the tool call and routes control to <code>ToolNode</code>.</li>
+    <li><code>ToolNode</code> executes <code>add(a=10.0, b=20.0)</code>, returning <code>30.0</code> as a <code>ToolMessage</code>.</li>
+    <li>The cyclic edge loops back to <code>tool_calling_llm</code>. The LLM reads the tool observation and outputs: <em>"10 + 20 = 30"</em>.</li>
+    <li><code>tools_condition</code> detects no further tool calls and routes to <code>END</code>.</li>
+    <li><strong>LangSmith Telemetry Profile:</strong> A multi-step nested call tree capturing both LLM turns, the tool execution duration, and message flow.</li>
+</ul>
+
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 2: Execution Trace Tree Comparison (Direct QA vs. Tool Call Loop)</div>
+    __SVG_DIAGRAM_2__
+    <div class="diagram-caption">
+        <strong>Figure 2 Architectural Breakdown:</strong> Visual deconstruction of the two telemetry traces generated in the notebook.
+        Run 1 completes in a single step, while Run 2 executes a complete 3-step ReAct feedback loop with tool observation.
+    </div>
+</div>
+
+<h3>Phase 5: Inspecting the LangSmith Dashboard (Cell 7)</h3>
+<p>
+    Cell 7 embeds two live screenshots from the <code>smith.langchain.com</code> dashboard, showing the exact traces
+    recorded during the notebook's execution:
+</p>
+
+<div class="avoid-break" style="margin-top: 15px; margin-bottom: 15px;">
+    <div class="diagram-title">Screenshot 1: LangSmith Hierarchical Trace Tree &amp; Run Details</div>
+    <div style="text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;">
+        <img src="data:image/png;base64,__B64_IMAGE1__" style="max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" alt="LangSmith Trace Tree">
+    </div>
+    <div class="diagram-caption">
+        <strong>Trace Tree View (Cell 7):</strong> Displays the nested execution hierarchy for <em>"What is 10+20"</em>.
+        Notice the root <code>LangGraph</code> trace containing the sequence: <code>tool_calling_llm</code> $\rightarrow$ <code>ChatGroq</code> $\rightarrow$ <code>tools</code> $\rightarrow$ <code>add</code> $\rightarrow$ <code>tool_calling_llm</code> $\rightarrow$ <code>ChatGroq</code>.
+    </div>
+</div>
+
+<div class="avoid-break" style="margin-top: 20px; margin-bottom: 15px;">
+    <div class="diagram-title">Screenshot 2: LangSmith Project Traces &amp; Runs Overview Table</div>
+    <div style="text-align: center; background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 6px; padding: 10px;">
+        <img src="data:image/png;base64,__B64_IMAGE2__" style="max-width: 100%; height: auto; border-radius: 4px; box-shadow: 0 1px 3px rgba(0,0,0,0.1);" alt="LangSmith Runs List">
+    </div>
+    <div class="diagram-caption">
+        <strong>Project Runs Overview (Cell 7):</strong> The project dashboard listing recent runs, start times, latency durations,
+        and token counts. Both the machine learning query and the arithmetic calculation appear in the project feed.
+    </div>
+</div>
+
+<!-- Section F: End-to-End Execution Flow & Architectural Synthesis -->
+<h2>F. End-to-End Execution Flow &amp; Architectural Synthesis</h2>
+<p>
+    Observability with LangSmith provides complete clarity into agent decision-making.
+    The table below summarizes the telemetry captured at each stage of the ReAct run:
+</p>
+
+<table class="avoid-break">
+    <tr>
+        <th>Execution Step</th>
+        <th>Span Name</th>
+        <th>Span Type</th>
+        <th>Telemetry Data Captured</th>
+    </tr>
+    <tr>
+        <td>Root Invocation</td>
+        <td><code>LangGraph</code></td>
+        <td><code>chain</code></td>
+        <td>User query, total latency, final state, run ID, project metadata</td>
+    </tr>
+    <tr>
+        <td>Turn 1 (Reasoning)</td>
+        <td><code>tool_calling_llm</code></td>
+        <td><code>chain</code></td>
+        <td>Input message list, model parameters, output AIMessage with tool call</td>
+    </tr>
+    <tr>
+        <td>Model Inference 1</td>
+        <td><code>ChatGroq</code></td>
+        <td><code>llm</code></td>
+        <td>Prompt tokens, completion tokens, latency, reasoning tokens, raw API response</td>
+    </tr>
+    <tr>
+        <td>Tool Execution</td>
+        <td><code>tools</code> / <code>add</code></td>
+        <td><code>tool</code></td>
+        <td>Function arguments (<code>{"a": 10, "b": 20}</code>), execution time, return value (<code>30.0</code>)</td>
+    </tr>
+    <tr>
+        <td>Turn 2 (Synthesis)</td>
+        <td><code>tool_calling_llm</code></td>
+        <td><code>chain</code></td>
+        <td>State with ToolMessage, final answer formulation</td>
+    </tr>
+    <tr>
+        <td>Model Inference 2</td>
+        <td><code>ChatGroq</code></td>
+        <td><code>llm</code></td>
+        <td>Final completion tokens, latency, conversational response output</td>
+    </tr>
+</table>
+
+<!-- Section G: Reference Guide: Important APIs & Environment Flags -->
+<h2>G. Reference Guide: Important APIs &amp; Environment Flags</h2>
+<table class="avoid-break">
+    <tr>
+        <th>Variable / Class</th>
+        <th>Module / Scope</th>
+        <th>Values / Signature</th>
+        <th>Description &amp; Operational Effect</th>
+    </tr>
+    <tr>
+        <td><code>LANGSMITH_TRACING</code></td>
+        <td>Environment</td>
+        <td><code>"true" | "false"</code></td>
+        <td>Global toggle enabling automatic telemetry callbacks across LangChain and LangGraph.</td>
+    </tr>
+    <tr>
+        <td><code>LANGSMITH_API_KEY</code></td>
+        <td>Environment</td>
+        <td><code>"lsv2_pt_..."</code></td>
+        <td>Personal authentication token for <code>api.smith.langchain.com</code>.</td>
+    </tr>
+    <tr>
+        <td><code>LANGSMITH_PROJECT</code></td>
+        <td>Environment</td>
+        <td><code>str</code> (e.g. <code>"TestProject"</code>)</td>
+        <td>Designates the destination project bucket for traces. Defaults to <code>"default"</code> if unset.</td>
+    </tr>
+    <tr>
+        <td><code>LANGSMITH_ENDPOINT</code></td>
+        <td>Environment</td>
+        <td>URL (Optional)</td>
+        <td>Custom API endpoint for enterprise self-hosted or EU-region LangSmith instances.</td>
+    </tr>
+    <tr>
+        <td><code>init_chat_model()</code></td>
+        <td><code>langchain.chat_models</code></td>
+        <td><code>model: str</code></td>
+        <td>Unified factory initializing chat models with built-in telemetry instrumentation.</td>
+    </tr>
+    <tr>
+        <td><code>ToolNode(tools)</code></td>
+        <td><code>langgraph.prebuilt</code></td>
+        <td><code>tools: list</code></td>
+        <td>Executes tool calls and automatically emits <code>on_tool_start</code> and <code>on_tool_end</code> events.</td>
+    </tr>
+</table>
+
+<!-- Section H: Common Errors, Debugging & Troubleshooting -->
+<h2>H. Common Errors, Debugging &amp; Troubleshooting</h2>
+
+<div class="callout callout-error avoid-break">
+    <div class="callout-title">Pitfall 1: Environment Variable Typos (e.g. LAANGSMITH_PROJECT)</div>
+    <strong>Symptom:</strong> You run your agent expecting traces in a project named <code>TestProject</code>, but the project remains empty on <code>smith.langchain.com</code>.<br>
+    <strong>Root Cause:</strong> Typo in the environment variable name (e.g., <code>LAANGSMITH_PROJECT</code> instead of <code>LANGSMITH_PROJECT</code>). LangSmith silently ignores unknown keys and routes traces to the default project (<code>"default"</code>).<br>
+    <strong>Fix:</strong>
+    <pre><code># Incorrect: Extra 'A' in variable name
+os.environ["LAANGSMITH_PROJECT"] = "TestProject"
+
+# Correct: Exact SDK variable name
+os.environ["LANGSMITH_PROJECT"] = "TestProject"</code></pre>
+</div>
+
+<div class="diagram-container avoid-break">
+    <div class="diagram-title">Figure 3: Diagnosing the LAANGSMITH_PROJECT Configuration Typo</div>
+    __SVG_DIAGRAM_3__
+    <div class="diagram-caption">
+        <strong>Figure 3 Architectural Breakdown:</strong> Deconstructing the environment configuration typo in Cell 2.
+        While the typo diverts traces to the fallback <code>"default"</code> project, the underlying telemetry remains intact.
+    </div>
+</div>
+
+<div class="callout callout-error avoid-break" style="margin-top: 15px;">
+    <div class="callout-title">Pitfall 2: Missing LANGSMITH_TRACING="true" Flag</div>
+    <strong>Symptom:</strong> No traces appear in LangSmith despite having a valid API key configured.<br>
+    <strong>Root Cause:</strong> Setting <code>LANGSMITH_API_KEY</code> alone does not activate tracing. <code>LANGSMITH_TRACING="true"</code> must be explicitly set to enable the internal callback handlers.<br>
+    <strong>Fix:</strong> Always include <code>os.environ["LANGSMITH_TRACING"] = "true"</code> before initializing models or graphs.
+</div>
+
+<div class="callout callout-error avoid-break" style="margin-top: 15px;">
+    <div class="callout-title">Pitfall 3: Premature Python Process Termination</div>
+    <strong>Symptom:</strong> In short-lived CLI scripts, the final LLM run trace is missing or truncated in the dashboard.<br>
+    <strong>Root Cause:</strong> The script finishes and exits immediately, terminating the Python process before the background telemetry queue finishes flushing to the network.<br>
+    <strong>Fix:</strong> In standalone scripts, allow the queue to flush or import <code>from langsmith import Client; Client().flush()</code> before exiting.
+</div>
+
+<!-- Section I: Practical Extensions & Industry Best Practices -->
+<h2>I. Practical Extensions &amp; Industry Best Practices</h2>
+<ul>
+    <li><strong>Run Tagging &amp; Metadata:</strong> Pass custom tags and metadata in the invocation config to filter traces by user segment, feature release, or environment:
+        <pre><code>config = {
+    "tags": ["production", "v2-release"],
+    "metadata": {"user_id": "usr_9981", "department": "finance"}
+}
+response = graph.invoke(input_data, config=config)</code></pre>
+    </li>
+    <li><strong>Automated Dataset Curation:</strong> In LangSmith, you can click on any interesting trace (e.g. an edge case or failed tool call) and click <em>"Add to Dataset"</em> to build regression test suites for automated evaluation.</li>
+    <li><strong>Latency Alerts &amp; Feedback Loops:</strong> Configure LangSmith monitor rules to fire Webhook alerts (e.g. to Slack or PagerDuty) if p95 latency exceeds 3 seconds or tool error rates spike.</li>
+</ul>
+
+<!-- Section J: Key Takeaways & Conceptual Map -->
+<h2>J. Key Takeaways &amp; Conceptual Map</h2>
+<div class="callout callout-tip avoid-break">
+    <div class="callout-title">Core Principles of Agent Observability</div>
+    <ol>
+        <li><strong>Automated Telemetry:</strong> Setting <code>LANGSMITH_TRACING="true"</code> activates end-to-end tracing across LangChain and LangGraph with zero manual logger code.</li>
+        <li><strong>Asynchronous &amp; Non-Blocking:</strong> Telemetry runs in a background thread queue, guaranteeing that logging never degrades application latency.</li>
+        <li><strong>Full-Fidelity Call Trees:</strong> Inspect exact inputs, model reasoning, tool arguments, return objects, and token breakdowns for every turn.</li>
+        <li><strong>Project Hygiene:</strong> Use <code>LANGSMITH_PROJECT</code> to segregate development, testing, and production runs cleanly.</li>
+        <li><strong>ReAct Transparency:</strong> Visualize cyclical graph execution to pinpoint exactly where an agent loops, fails, or succeeds.</li>
+    </ol>
+</div>
+
+<!-- Section K: Practice Exercises & Knowledge Checks -->
+<h2>K. Practice Exercises &amp; Knowledge Checks</h2>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 1 (Conceptual):</strong> Explain how LangSmith captures internal tool execution times without requiring the developer to wrap their Python functions in timing decorators.
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 2 (Code Tracing):</strong> In Cell 6, the agent is asked: <em>"What is 10+20"</em>. How many separate spans of type <code>llm</code> will appear in the LangSmith trace tree? Describe what each span represents.
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 3 (Debugging):</strong> An engineer notices that their traces are appearing under a project called <code>"default"</code> instead of <code>"CustomerSupportAgent"</code>. What line of code should they inspect, and what is the likely mistake?
+</div>
+
+<div class="callout callout-note avoid-break">
+    <strong>Question 4 (Implementation Challenge):</strong> Write a code snippet that invokes a LangGraph agent with a custom run name <code>"billing-query-run"</code> and attaches metadata <code>{"tier": "enterprise", "tenant": "acme"}</code> so it can be filtered in the LangSmith UI.
+</div>
+
+<h3>Answers &amp; Complete Explanations</h3>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 1:</strong> LangChain and LangGraph components inherit from standard base classes that emit standardized callback events (e.g. <code>on_tool_start</code> and <code>on_tool_end</code>). LangSmith registers a global background callback handler that records the exact timestamps of these lifecycle events and computes the delta automatically.
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 2:</strong> Exactly <strong>2</strong> <code>llm</code> spans:
+    <ol>
+        <li><strong>Span 1:</strong> Initial reasoning step where the LLM inspects the prompt, determines that addition is needed, and emits the structured tool call request.</li>
+        <li><strong>Span 2:</strong> Synthesis step after <code>ToolNode</code> returns <code>30.0</code>, where the LLM reads the tool output and formulates the conversational response: <em>"10 + 20 = 30"</em>.</li>
+    </ol>
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 3:</strong> They should inspect the environment variable <code>os.environ["LANGSMITH_PROJECT"]</code>. If the variable name is misspelled (such as <code>LAANGSMITH_PROJECT</code> or <code>LANG_PROJECT</code>), the SDK cannot locate the key and automatically falls back to the default project named <code>"default"</code>.
+</div>
+<div class="callout callout-tip avoid-break">
+    <strong>Answer 4:</strong>
+    <pre><code>config = {
+    "run_name": "billing-query-run",
+    "metadata": {
+        "tier": "enterprise",
+        "tenant": "acme"
+    }
+}
+response = graph.invoke({"messages": "Check billing status"}, config=config)</code></pre>
+</div>
+
+<!-- Section L: Further Learning & Official Documentation -->
+<h2>L. Further Learning &amp; Official Documentation</h2>
+<ul>
+    <li><a href="https://docs.smith.langchain.com/">LangSmith Official Documentation</a>: Comprehensive guide on tracing, monitoring, evaluations, and datasets.</li>
+    <li><a href="https://langchain-ai.github.io/langgraph/how-tos/manage-ecosystem-dependencies/">LangGraph Observability Guide</a>: Integrating LangSmith with LangGraph state graphs.</li>
+    <li><a href="https://python.langchain.com/docs/integrations/chat/groq/">Groq LPU Inference Documentation</a>: Monitoring high-throughput open-weights models in production.</li>
+</ul>
+
+</body>
+</html>
+"""
+
+    return (html_template
+            .replace("__FNAME__", fname)
+            .replace("__TODAY__", today)
+            .replace("__CSS_STYLES__", CSS_STYLES)
+            .replace("__SVG_DIAGRAM_1__", svg1)
+            .replace("__SVG_DIAGRAM_2__", svg2)
+            .replace("__SVG_DIAGRAM_3__", svg3)
+            .replace("__B64_IMAGE1__", b64_image1)
+            .replace("__B64_IMAGE2__", b64_image2))
+
+def run():
+    nb_path = workspace_root / "langgraph-study" / "4-Debugging&Monitoring.ipynb"
+    output_pdf = workspace_root / "pdf" / "langgraph" / "4-Debugging&Monitoring.pdf"
+    output_pdf.parent.mkdir(parents=True, exist_ok=True)
+    
+    print(f"Extracting notebook data from {nb_path}...")
+    nb_data = extract_notebook_data(nb_path)
+    
+    today = datetime.now().strftime("%B %d, %Y")
+    html_content = build_guide_langgraph_4(nb_data['filename'], nb_data['cells'], today)
+    
+    temp_html = workspace_root / "scratch" / "temp_4-Debugging&Monitoring.html"
+    with open(temp_html, 'w', encoding='utf-8') as f:
+        f.write(html_content)
+    print(f"Saved temporary HTML ({len(html_content)} chars)")
+    
+    print(f"Rendering PDF to {output_pdf} via Edge headless...")
+    generate_pdf_from_html(html_content, output_pdf)
+    
+    print("Validating generated PDF...")
+    val = validate_pdf(output_pdf)
+    print(f"Validation Result: {val}")
+
 
 def process_notebook(nb_path: Path, output_dir: Path):
     """Process a single notebook file into a PDF."""

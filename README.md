@@ -23,6 +23,7 @@ My hands-on journey learning LangChain, LangGraph, RAG architectures, LLM tool c
 | [Basic ChatBot](langgraph-study/1-BasicChatBot.ipynb) | StateGraph, `add_messages` reducer, ToolNode, ReAct cyclic loops, MemorySaver persistence, streaming (`updates`, `values`, `astream_events`) | [PDF](pdf/langgraph/1-BasicChatBot.pdf) |
 | [Human In The Loop](langgraph-study/2-HumanInTheLoop.ipynb) | Dynamic breakpoints (`interrupt()`), checkpoint state freezing, resumption via `Command(resume=...)`, supervisor synthesis | [PDF](pdf/langgraph/2-HumanInTheLoop.pdf) |
 | [Model Context Protocol (MCP)](langgraph-study/3-MCP.ipynb) | FastMCP servers, `stdio` OS pipes, `streamable-http` SSE, `MultiServerMCPClient` ReAct orchestration | [PDF](pdf/langgraph/3-MCP.pdf) |
+| [Debugging & Monitoring](langgraph-study/4-Debugging&Monitoring.ipynb) | LangSmith tracing, call trees, latency & token profiling, ReAct trace debugging | [PDF](pdf/langgraph/4-Debugging&Monitoring.pdf) |
 
 ### 🔍 Retrieval-Augmented Generation (`rag-study/`)
 *Document chunking, vector embeddings, hybrid search, rerankers, and agentic RAG.* (In progress)
@@ -63,6 +64,7 @@ uv run jupyter lab
 - [x] LangGraph state machines, cyclical ReAct loops, MemorySaver checkpointing, and execution streaming
 - [x] Human-in-the-loop dynamic breakpoints (`interrupt()`) and interactive state resumption (`Command`)
 - [x] Model Context Protocol (MCP) servers, dual transports (`stdio` & `streamable-http`), and multi-server ReAct agents
+- [x] Agent observability, call-tree telemetry, and latency/token monitoring with LangSmith
 - [ ] Multi-agent supervisor teams and hierarchical graphs
 - [ ] RAG pipelines & Vector database retrieval
 
