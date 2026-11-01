@@ -22,7 +22,7 @@ from datetime import datetime
 CSS_STYLES = """
 @page {
     size: A4;
-    margin: 16mm 16mm 16mm 16mm;
+    margin: 14mm 14mm 14mm 14mm;
     @bottom-right {
         content: "Page " counter(page);
         font-family: 'Segoe UI', system-ui, sans-serif;
@@ -40,8 +40,8 @@ CSS_STYLES = """
 body {
     font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
     color: #1e293b;
-    line-height: 1.6;
-    font-size: 9.8pt;
+    line-height: 1.52;
+    font-size: 9.5pt;
     margin: 0;
     padding: 0;
 }
@@ -63,11 +63,11 @@ h1 {
 }
 
 h2 {
-    font-size: 14pt;
+    font-size: 13pt;
     color: #1e3a8a;
     border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 4px;
-    margin-top: 1.6em;
+    padding-bottom: 3px;
+    margin-top: 1.2em;
 }
 
 h3 {
@@ -81,8 +81,8 @@ h4 {
 }
 
 p, ul, ol {
-    margin-top: 0.4em;
-    margin-bottom: 0.8em;
+    margin-top: 0.3em;
+    margin-bottom: 0.6em;
 }
 
 li {
@@ -91,7 +91,8 @@ li {
 
 /* Page Break Controls */
 .page-break-before {
-    page-break-before: always;
+    display: none;
+    page-break-before: auto;
 }
 
 .avoid-break {
@@ -1911,7 +1912,6 @@ def build_guide_1(fname, cells, today):
 </div>
 
 <!-- Section D: Topic Overview -->
-<div class="page-break-before"></div>
 <h2>D. Topic Overview: The Evolution to LangChain 1.4 Agents</h2>
 <p>
     In early versions of LangChain, agents relied on rigid string-based execution loops (such as MRKL and ReAct parsers) that frequently suffered from brittle regex parsing failures. 
@@ -1949,7 +1949,6 @@ os.environ["GEMINI_API_KEY"] = os.getenv("GEMINI_API_KEY")</code></pre>
     <li><code>os.getenv("GEMINI_API_KEY")</code> fetches the key. Setting <code>os.environ["GEMINI_API_KEY"]</code> ensures that the Google GenAI provider can authenticate automatically without requiring hardcoded strings in application code.</li>
 </ul>
 
-<div class="avoid-break">
 <h3>Cell 3: Defining Tools & Initializing the Agent Graph</h3>
 <pre><code>from langchain.agents import create_agent
 
@@ -1977,7 +1976,6 @@ agent</code></pre>
 </ol>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 4: Executing the Agent Decision Loop</h3>
 <pre><code>response = agent.invoke(
     {{"messages": [
@@ -2016,7 +2014,6 @@ AIMessage(content='The weather in Ghaziabad, India is currently sunny.')
 <p><strong>Explanation:</strong> In Python, index <code>[-1]</code> retrieves the last element of the list. Since the agent appends messages sequentially, the last message is guaranteed to be the final assistant response.</p>
 
 <!-- Section F: End-to-End Execution Flow -->
-<div class="page-break-before"></div>
 <h2>F. End-to-End Execution Flow & Dataflow Diagram</h2>
 <p>The diagram below traces the end-to-end lifecycle executed during <code>agent.invoke()</code>:</p>
 
@@ -2096,7 +2093,6 @@ AIMessage(content='The weather in Ghaziabad, India is currently sunny.')
 </ul>
 
 <!-- Section K: Practice Questions -->
-<div class="page-break-before"></div>
 <h2>K. Practice Exercises & Knowledge Checks</h2>
 
 <div class="exercise-box">
@@ -2210,7 +2206,6 @@ def build_guide_2(fname, cells, today):
 </table>
 
 <!-- Section D: Topic Overview -->
-<div class="page-break-before"></div>
 <h2>D. Topic Overview: The Three Interaction Paradigms</h2>
 <p>
     Modern LLM applications require different latency and throughput profiles depending on the user experience. 
@@ -2236,7 +2231,6 @@ load_dotenv()
 os.environ["GEMINI_API_KEY"] = os.getenv("GEMINI_API_KEY")</code></pre>
 <p><strong>Explanation:</strong> Loads credentials from <code>.env</code>. The notebook uses Gemini as its primary model provider.</p>
 
-<div class="avoid-break">
 <h3>Cell 2: Model Initialization & Synchronous Invocation</h3>
 <pre><code>from langchain.chat_models import init_chat_model
 model = init_chat_model("google_genai:gemini-3.8-flash")
@@ -2268,7 +2262,6 @@ model.stream("Tell me something about anime called One Piece.")</code></pre>
 </div>
 <p><strong>Explanation:</strong> <code>model.stream()</code> does not return a finished message; it returns a Python <strong>generator</strong> that yields chunks on demand when iterated.</p>
 
-<div class="avoid-break">
 <h3>Cell 6: Iterating Stream Chunks</h3>
 <pre><code>for chunk in model.stream("Tell me something about anime called One Piece."):
     print(chunk.text, end="|", flush=True)</code></pre>
@@ -2284,7 +2277,6 @@ model.stream("Tell me something about anime called One Piece.")</code></pre>
 </ul>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 7 & 8: Batch Processing with Concurrency Control</h3>
 <pre><code># Cell 7: Markdown ### BATCH
 # Cell 8: Concurrent Batch
@@ -2307,7 +2299,6 @@ for response in responses:
 </ul>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 9: Correcting the Batch Response Iteration</h3>
 <div class="callout callout-error">
     <div class="callout-title">Original Bug Analysis</div>
@@ -2327,7 +2318,6 @@ for response in responses:
 </div>
 
 <!-- Section F: End-to-End Execution Flow -->
-<div class="page-break-before"></div>
 <h2>F. End-to-End Execution Modes Comparison</h2>
 <p>The diagram below contrasts the dataflow and runtime behavior of the three execution modes:</p>
 
@@ -2407,7 +2397,6 @@ Retrying in 1.28s, 2.43s, 4.11s, 8.51s, 16.6s, 32s...</code></pre>
 </ul>
 
 <!-- Section K: Practice Questions -->
-<div class="page-break-before"></div>
 <h2>K. Practice Exercises & Knowledge Checks</h2>
 
 <div class="exercise-box">
@@ -2516,7 +2505,6 @@ def build_guide_3(fname, cells, today):
 </table>
 
 <!-- Section D: Topic Overview -->
-<div class="page-break-before"></div>
 <h2>D. Topic Overview: What is Tool Calling?</h2>
 <p>
     Large Language Models cannot directly access real-time databases, browse the web, or run computations without external help. 
@@ -2536,7 +2524,6 @@ def build_guide_3(fname, cells, today):
 <h3>Cell 0: Markdown Section Header</h3>
 <pre><code>### Tool Calling</code></pre>
 
-<div class="avoid-break">
 <h3>Cell 1: Groq Initialization & Initial Invocation</h3>
 <pre><code>import os
 from langchain.chat_models import init_chat_model
@@ -2553,7 +2540,6 @@ response</code></pre>
 </ul>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 2: Defining & Binding Tools</h3>
 <pre><code>from langchain.tools import tool
 
@@ -2577,7 +2563,6 @@ model_with_tools = model.bind_tools([get_weather])</code></pre>
 </ol>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 3: Triggering a Tool Call Request</h3>
 <pre><code>response = model_with_tools.invoke("What's the weather like in Delhi?")
 print(response)
@@ -2598,7 +2583,6 @@ Args: {{'location': 'Delhi'}}
 </ul>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 4: The 2-Step Manual Tool Execution Loop</h3>
 <pre><code># Tool Execution Loops
 
@@ -2629,7 +2613,6 @@ The weather in Delhi is sunny.
 </ol>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 5: Inspecting the Accumulated Message History</h3>
 <pre><code>messages</code></pre>
 <div class="output-box">
@@ -2644,7 +2627,6 @@ The weather in Delhi is sunny.
 </div>
 
 <!-- Section F: End-to-End Execution Flow -->
-<div class="page-break-before"></div>
 <h2>F. End-to-End Tool Execution Sequence Diagram</h2>
 <p>The sequence diagram below illustrates the exact two-turn handshake executed in Cell 4:</p>
 
@@ -2727,7 +2709,6 @@ for tool_call in ai_msg.tool_calls:
 </ul>
 
 <!-- Section K: Practice Questions -->
-<div class="page-break-before"></div>
 <h2>K. Practice Exercises & Knowledge Checks</h2>
 
 <div class="exercise-box">
@@ -2849,7 +2830,6 @@ def build_guide_4(fname, cells, today):
 </div>
 
 <!-- Section D: Topic Overview -->
-<div class="page-break-before"></div>
 <h2>D. Topic Overview: The Architecture of Structured Messages</h2>
 <p>
     In simplistic LLM interactions, prompts are passed as plain strings: <code>model.invoke("Who are you?")</code>. However, production agentic architectures and conversational applications cannot rely on unstructured strings. Real-world LLM APIs (including OpenAI ChatML, Anthropic Messages API, and Groq) expect a chronological array of distinct message objects, each representing an explicit role and semantic purpose.
@@ -2890,7 +2870,6 @@ AIMessage(content='Hello! How can I help you today?', additional_kwargs={'reason
     <li><strong>Reasoning Metadata:</strong> In <code>additional_kwargs['reasoning_content']</code>, we observe the open-weights model's internal thought deliberation (<code>User says "HI". We should respond politely.</code>) generated prior to the user-facing output.</li>
 </ul>
 
-<div class="avoid-break">
 <h3>Cell 2: Persona Steering via SystemMessage</h3>
 <pre><code>from langchain.messages import SystemMessage, HumanMessage, AIMessage
 
@@ -2919,7 +2898,6 @@ response.content</code></pre>
 </ul>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 3: Strict Behavioral Guidelines & Comparative Prompting</h3>
 <pre><code>system_msg = SystemMessage(\"\"\"You are an expert in football tactics.
 Always provide examples and explain your reasoning.
@@ -2949,7 +2927,6 @@ print(response.content)</code></pre>
 <p><strong>Key Mechanics:</strong> Demonstrates multi-line system prompts enforcing constraints: providing concrete examples, structured tables, and concise reasoning.</p>
 </div>
 
-<div class="page-break-before"></div>
 <h3>Cell 4: Message Metadata Attributes (Speaker Disambiguation & Tracing)</h3>
 <pre><code>human_msg = HumanMessage(
     content="Hello",
@@ -2975,7 +2952,6 @@ print(response.content)</code></pre>
     </tr>
 </table>
 
-<div class="avoid-break">
 <h3>Cell 5: Simulating Prior Conversation History</h3>
 <pre><code># Manual example AI message to seed conversation context
 ai_msg = AIMessage("I would be happy to help you with that question")
@@ -3004,7 +2980,6 @@ print(response.content)</code></pre>
 <p><strong>Pedagogical Insight:</strong> Demonstrates how conversational memory is maintained in stateless HTTP APIs. By passing a list of alternating <code>HumanMessage</code> and <code>AIMessage</code> objects, the application reconstructs the illusion of memory for the LLM.</p>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 6: The Synthetic Tool Calling Handshake</h3>
 <pre><code># 1. Model emits a structured tool call request
 ai_message = AIMessage(
@@ -3052,7 +3027,6 @@ The weather in Delhi right now is sunny with a temperature of 32°C.
 </div>
 
 <!-- Section F: End-to-End Diagram -->
-<div class="page-break-before"></div>
 <h2>F. End-to-End Message Architecture & Handshake Diagram</h2>
 <p>The diagram below visualizes the class inheritance hierarchy and the exact 4-turn state handshake executed during tool orchestration:</p>
 
@@ -3156,7 +3130,6 @@ assert restored_history[1].id == "req_001"</code></pre>
 </ul>
 
 <!-- Section K: Practice Exercises -->
-<div class="page-break-before"></div>
 <h2>K. Practice Exercises & Knowledge Checks</h2>
 
 <div class="exercise-box">
@@ -3285,7 +3258,6 @@ def build_guide_5(fname, cells, today):
 </div>
 
 <!-- Section D: Topic Overview -->
-<div class="page-break-before"></div>
 <h2>D. Topic Overview: The Shift from Generative Text to Deterministic Schemas</h2>
 <p>
     Standard LLM completions return free-form text: strings of paragraphs, markdown bullet points, or informal prose. While pleasant for human reading, software applications, microservices, and databases cannot reliably ingest free-form text without fragile, regex-heavy post-processing.
@@ -3329,7 +3301,6 @@ ChatGroq(metadata={'lc_versions': {'langchain-core': '1.7.0', 'langchain': '1.4.
 <pre><code>### Pyantic</code></pre>
 <p><strong>Analysis:</strong> Focuses on Pydantic v2 schema definitions.</p>
 
-<div class="avoid-break">
 <h3>Cell 3: Flat Pydantic Model Definition &amp; Structured Invocation</h3>
 <pre><code>from pydantic import BaseModel, Field
 
@@ -3355,7 +3326,6 @@ Movie(title='Avengers: Endgame', year=2019, director='Anthony Russo', rating=8.4
 </ul>
 </div>
 
-<div class="page-break-before"></div>
 <h3>Cell 4: Dual Output Inspection via include_raw=True</h3>
 <pre><code># Pydantic can also include raw message along with structure
 model_with_structure = model.with_structured_output(Movie, include_raw=True)
@@ -3375,7 +3345,6 @@ response</code></pre>
     <li><strong>Observability &amp; Auditing:</strong> The <code>raw</code> key preserves the underlying <code>AIMessage</code>, complete with token usage and internal reasoning. If validation fails, <code>parsed</code> is <code>None</code> and <code>parsing_error</code> captures the exact Pydantic <code>ValidationError</code> for graceful recovery.</li>
 </ul>
 
-<div class="avoid-break">
 <h3>Cell 5: Nested Pydantic Hierarchies &amp; Optional Fields</h3>
 <pre><code># Nested pydantic structure
 class actor(BaseModel):
@@ -3417,7 +3386,6 @@ movie(title='Avengers: Endgame',
 <pre><code>### TypedDict</code></pre>
 <p><strong>Analysis:</strong> Transitioning to lightweight dictionary-based typing.</p>
 
-<div class="avoid-break">
 <h3>Cell 7: Flat TypedDict Schema Definition</h3>
 <pre><code>from typing_extensions import TypedDict, Annotated
 
@@ -3443,7 +3411,6 @@ response</code></pre>
 <p><strong>Key Mechanics:</strong> <code>Annotated[type, ..., "description"]</code> injects field descriptions into the JSON Schema without requiring Pydantic. The result is a standard Python <code>dict</code>.</p>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 8: Nested TypedDict Schema</h3>
 <pre><code># Nested TypedDict structure
 class actor(TypedDict):
@@ -3481,7 +3448,6 @@ response</code></pre>
 <pre><code>### DataClasses</code></pre>
 <p><strong>Analysis:</strong> Exploring Python dataclasses integrated into LangChain agents.</p>
 
-<div class="avoid-break">
 <h3>Cell 10: Agent Structured Output via response_format</h3>
 <pre><code>from dataclasses import dataclass
 from langchain.agents import create_agent
@@ -3517,7 +3483,6 @@ result</code></pre>
 <p><strong>Architectural Breakthrough:</strong> In modern LangChain agents, passing <code>response_format=ContactInfo</code> automatically instructs the agent's <code>CompiledStateGraph</code> to extract and validate the final answer into a strongly-typed schema.</p>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 11: Accessing the Validated Agent Response</h3>
 <pre><code>result["structured_response"]</code></pre>
 <div class="output-box">
@@ -3528,7 +3493,6 @@ ContactInfo(name='John Doe', email='john@example.com', phone='(555) 123-4567')
 </div>
 
 <!-- Section F: End-to-End Execution Flow Diagram -->
-<div class="page-break-before"></div>
 <h2>F. End-to-End Structured Output Pipeline Diagram</h2>
 <p>The diagram below traces the end-to-end lifecycle of schema compilation, model function-calling constraints, and validation:</p>
 
@@ -3633,7 +3597,6 @@ else:
 </ul>
 
 <!-- Section K: Practice Exercises -->
-<div class="page-break-before"></div>
 <h2>K. Practice Exercises &amp; Knowledge Checks</h2>
 
 <div class="exercise-box">
@@ -3763,7 +3726,6 @@ def build_guide_6(fname, cells, today):
 </div>
 
 <!-- Section D: Topic Overview -->
-<div class="page-break-before"></div>
 <h2>D. Topic Overview: The Architecture of Agent Middleware &amp; Governance</h2>
 <p>
     In raw LLM pipelines, autonomous agents loop without friction: the model decides on a tool, the runtime executes it, and the observation is immediately fed back into the context. While powerful, this unconstrained autonomy introduces two major enterprise vulnerabilities:
@@ -3787,7 +3749,6 @@ def build_guide_6(fname, cells, today):
 </p>
 
 <!-- Section E: Detailed Notebook Walkthrough -->
-<div class="page-break-before"></div>
 <h2>E. Detailed Notebook Walkthrough &amp; Cell Dissection</h2>
 
 <h3>Cell 0: Markdown Section Header</h3>
@@ -3826,7 +3787,6 @@ ChatGroq(metadata={'lc_versions': {'langchain-core': '1.7.0', 'langchain': '1.4.
     <li><code>InMemorySaver()</code>: An essential component. Middleware that pauses execution or manages persistent thread state requires a state saver. <code>InMemorySaver</code> stores thread checkpoints in RAM.</li>
 </ul>
 
-<div class="avoid-break">
 <h3>Cell 4: Message-Length Based Summarization</h3>
 <pre><code># Message Length Based Summarization
 agent = create_agent(
@@ -3881,7 +3841,6 @@ Messages: 6
 </ol>
 </div>
 
-<div class="page-break-before"></div>
 <h3>Cell 5: Token-Size Based Summarization</h3>
 <pre><code># Token Size Summarization
 @tool
@@ -3938,7 +3897,6 @@ Singapore: ~512 tokens, 5 messages
 <pre><code>### Human In The Loop Middleware</code></pre>
 <p><strong>Analysis:</strong> Introduces human approval gates and interactive execution control.</p>
 
-<div class="avoid-break">
 <h3>Cell 7: Intercepting High-Stakes Tools via interrupt_on</h3>
 <pre><code>from langchain.agents.middleware import HumanInTheLoopMiddleware
 
@@ -3993,7 +3951,6 @@ result</code></pre>
 </ol>
 </div>
 
-<div class="page-break-before"></div>
 <h3>Cell 8: Decision Path A - Human Approval (approve)</h3>
 <pre><code># approve
 from langgraph.types import Command
@@ -4020,7 +3977,6 @@ Result: ✅ Your email has been sent to **varad0404@gmail.com** with the subject
 </div>
 <p><strong>Mechanics:</strong> Passing <code>Command(resume={"decisions": [{"type": "approve"}]})</code> informs the state machine that the human operator authorized the action. The graph resumes from the exact paused node, invokes <code>send_email_tool</code> with the original arguments, collects the tool result, and prompts the LLM to formulate the final confirmation response.</p>
 
-<div class="avoid-break">
 <h3>Cell 9: Decision Path B - Human Rejection (reject)</h3>
 <pre><code># reject
 # (Agent initialized with same config & prompt)
@@ -4053,7 +4009,6 @@ Would you like me to draft the email for you so you can copy it into your own ma
 <p><strong>Mechanics:</strong> When the human supplies <code>{"type": "reject"}</code>, the middleware cancels the tool execution. The underlying Python function is never called. A rejection notification is fed into the conversation state, allowing the LLM to understand that permission was denied and gracefully pivot to an alternative solution (offering to draft text instead of sending).</p>
 </div>
 
-<div class="avoid-break">
 <h3>Cell 10: Decision Path C - Human Modification (edit)</h3>
 <pre><code># edit
 # (Agent initialized with same configuration)
@@ -4102,7 +4057,6 @@ Result: ✅ Email sent to varad0404@gmail.com with subject “greetings” and b
 </div>
 
 <!-- Section F: End-to-End Execution Flow & Dataflow Diagrams -->
-<div class="page-break-before"></div>
 <h2>F. End-to-End Execution Flow &amp; Dedicated Dataflow Diagrams</h2>
 <p>
     The notebook highlights two distinct middleware paradigms: <strong>Autonomous Memory Optimization</strong> (Summarization) and <strong>Human-Supervised Execution Governance</strong> (HITL). Below are the explicit dataflow diagrams capturing the internal mechanics of each middleware.
@@ -4131,7 +4085,6 @@ Result: ✅ Email sent to varad0404@gmail.com with subject “greetings” and b
 </div>
 
 <!-- Section G: Reference Guide -->
-<div class="page-break-before"></div>
 <h2>G. Reference Guide: Key Classes, Functions &amp; Configurations</h2>
 <table>
     <tr>
@@ -4197,7 +4150,6 @@ Result: ✅ Email sent to varad0404@gmail.com with subject “greetings” and b
 </div>
 
 <!-- Section I: Practical Extensions -->
-<div class="page-break-before"></div>
 <h2>I. Practical Extensions &amp; Production Design Patterns</h2>
 
 <h3>Pattern: Unified Production Agent with Persistent Database Checkpointing</h3>
@@ -4257,7 +4209,6 @@ governed_agent = create_agent(
 </ul>
 
 <!-- Section K: Practice Exercises -->
-<div class="page-break-before"></div>
 <h2>K. Practice Exercises &amp; Knowledge Checks</h2>
 
 <div class="exercise-box">
@@ -4414,7 +4365,6 @@ TAVILY_API_KEY=tvly-your_tavily_api_key_here</code></pre>
 </div>
 
 <!-- Section D: Comprehensive Topic Overview -->
-<div class="page-break-before"></div>
 <h2>D. Comprehensive Topic Overview</h2>
 <p>
     Building production-grade autonomous agents requires more than prompt chaining. Real-world tasks demand
@@ -4464,7 +4414,6 @@ TAVILY_API_KEY=tvly-your_tavily_api_key_here</code></pre>
 </div>
 
 <!-- Section E: Detailed Notebook Walkthrough -->
-<div class="page-break-before"></div>
 <h2>E. Detailed Notebook Walkthrough</h2>
 <p>
     The source notebook <code>1-BasicChatBot.ipynb</code> progresses methodically through four major evolutionary phases:
@@ -4558,7 +4507,6 @@ response["messages"][-1].content</code></pre>
     <li>The compiled graph returns the final accumulated state containing both the human query and AI response.</li>
 </ol>
 
-<div class="page-break-before"></div>
 <h3>Phase 2: External Tools Setup (Cells 5–7)</h3>
 
 <h4>Cell 6: Tavily Web Search Tool Exploration</h4>
@@ -4606,7 +4554,6 @@ llm_with_tool</code></pre>
 )</code></pre>
 <p><strong>Crucial Rule:</strong> The LLM <em>never executes Python functions directly</em>. <code>bind_tools()</code> extracts function signatures, type annotations, and docstrings into an OpenAI-compatible JSON schema. The model inspects this schema and decides when to emit a structured request to call a tool.</p>
 
-<div class="page-break-before"></div>
 <h3>Phase 3: The Static Tool Graph &amp; The "Premature Termination" Pitfall (Cell 8)</h3>
 
 <h4>Cell 8: Static Graph with Linear Termination</h4>
@@ -4659,7 +4606,6 @@ Name: tavily_search
     The LLM was <strong>never reinvoked</strong> to read the tool's findings and synthesize a human-readable answer!
 </div>
 
-<div class="page-break-before"></div>
 <h3>Phase 4: The Dynamic ReAct Cyclic Loop (Cells 9–10)</h3>
 
 <h4>Cell 10: Closing the Loop with a Cyclic Feedback Edge</h4>
@@ -4709,7 +4655,6 @@ for m in response['messages']:
     <li><code>tools_condition</code> ran again. Finding no further tool calls in the latest <code>AIMessage</code>, it routed to <code>END</code>.</li>
 </ol>
 
-<div class="page-break-before"></div>
 <h3>Phase 5: State Persistence &amp; Checkpointing (Cells 11–12)</h3>
 
 <h4>Cell 11: Compiling with <code>MemorySaver</code> and Thread Binding</h4>
@@ -4747,7 +4692,6 @@ response['messages'][-1].content</code></pre>
     Because <code>thread_id="1"</code> was provided in <code>config</code>, LangGraph automatically loaded the state checkpoint saved at the end of Cell 11, applied the <code>add_messages</code> reducer to append the new question, and passed the full history to the model.
 </div>
 
-<div class="page-break-before"></div>
 <h3>Phase 6: Execution Streaming Paradigms (Cells 13–15)</h3>
 
 <h4>Cell 14: Comparing <code>stream_mode="updates"</code> vs <code>stream_mode="values"</code></h4>
@@ -4831,7 +4775,6 @@ async for event in graph_builder.astream_events(
 </table>
 
 <!-- Section F: End-to-End Execution Flow & Architectural Synthesis -->
-<div class="page-break-before"></div>
 <h2>F. End-to-End Execution Flow &amp; Architectural Synthesis</h2>
 <p>
     The components explored across the notebook combine into a cohesive, fault-tolerant agent architecture.
@@ -4867,7 +4810,6 @@ async for event in graph_builder.astream_events(
 </div>
 
 <!-- Section G: Reference Guide: Important APIs & Classes -->
-<div class="page-break-before"></div>
 <h2>G. Reference Guide: Important APIs &amp; Classes</h2>
 <table>
     <tr>
@@ -4967,7 +4909,6 @@ response = graph.invoke({"messages": "Hello"}, config=session_config)</code></pr
 </div>
 
 <!-- Section I: Practical Extensions & Industry Best Practices -->
-<div class="page-break-before"></div>
 <h2>I. Practical Extensions &amp; Industry Best Practices</h2>
 <ul>
     <li><strong>Production Checkpointers:</strong> While <code>MemorySaver</code> is ideal for local development, production multi-tenant deployments require durable, persistent storage such as <code>AsyncPostgresSaver</code> (from <code>langgraph-checkpoint-postgres</code>) or Redis checkpointers. This guarantees state survival across server restarts and horizontal scaling.</li>
@@ -4990,7 +4931,6 @@ response = graph.invoke({"messages": "Hello"}, config=session_config)</code></pr
 </div>
 
 <!-- Section K: Practice Exercises & Knowledge Checks -->
-<div class="page-break-before"></div>
 <h2>K. Practice Exercises &amp; Knowledge Checks</h2>
 
 <div class="callout callout-note avoid-break">
@@ -5155,7 +5095,6 @@ TAVILY_API_KEY=tvly-your_tavily_api_key_here</code></pre>
 </div>
 
 <!-- Section D: Comprehensive Topic Overview -->
-<div class="page-break-before"></div>
 <h2>D. Comprehensive Topic Overview</h2>
 <p>
     While autonomous agents powered by LLMs excel at search, reasoning, and tool calling, enterprise deployment demands
@@ -5204,7 +5143,6 @@ TAVILY_API_KEY=tvly-your_tavily_api_key_here</code></pre>
 </ol>
 
 <!-- Section E: Detailed Notebook Walkthrough -->
-<div class="page-break-before"></div>
 <h2>E. Detailed Notebook Walkthrough</h2>
 <p>
     The source notebook <code>2-HumanInTheLoop.ipynb</code> demonstrates the complete dynamic breakpoint lifecycle in four concise cells.
@@ -5284,7 +5222,6 @@ display(Image(graph.get_graph().draw_mermaid_png()))</code></pre>
     <li><strong>Mandatory Checkpointer:</strong> A checkpointer (<code>memory = MemorySaver()</code>) is strictly required when using <code>interrupt()</code>. Without a checkpointer, LangGraph cannot persist the frozen state between pause and resume invocations.</li>
 </ul>
 
-<div class="page-break-before"></div>
 <h3>Phase 3: Triggering the Dynamic Breakpoint (Cell 3)</h3>
 <div class="code-header">Cell 3 • User Invocation &amp; In-Flight Pause</div>
 <pre><code># Some end user asking AI agent
@@ -5327,7 +5264,6 @@ Tool Calls:
     </div>
 </div>
 
-<div class="page-break-before"></div>
 <h3>Phase 4: Resuming with Human Operator Input (Cell 4)</h3>
 <div class="code-header">Cell 4 • Resuming Interrupted Graph via Command(resume=...)</div>
 <pre><code># A human expert/operator behind the scenes
@@ -5378,7 +5314,6 @@ Sure thing! Here's what the experts suggested:
 </div>
 
 <!-- Section F: End-to-End Execution Flow & Architectural Synthesis -->
-<div class="page-break-before"></div>
 <h2>F. End-to-End Execution Flow &amp; Architectural Synthesis</h2>
 <p>
     Human-in-the-loop orchestration balances autonomous agent speed with human safety.
@@ -5431,7 +5366,6 @@ Sure thing! Here's what the experts suggested:
 </table>
 
 <!-- Section G: Reference Guide: Important APIs & Classes -->
-<div class="page-break-before"></div>
 <h2>G. Reference Guide: Important APIs &amp; Classes</h2>
 <table>
     <tr>
@@ -5499,7 +5433,6 @@ graph = graph_builder.compile(checkpointer=memory)</code></pre>
 </div>
 
 <!-- Section I: Practical Extensions & Industry Best Practices -->
-<div class="page-break-before"></div>
 <h2>I. Practical Extensions &amp; Industry Best Practices</h2>
 <ul>
     <li><strong>Production Persistence:</strong> Replace <code>MemorySaver</code> with <code>AsyncPostgresSaver</code> from <code>langgraph-checkpoint-postgres</code>. This allows human reviewers to review paused sessions across distributed web dashboards without losing state on worker restarts.</li>
@@ -5524,7 +5457,6 @@ Command(resume={"action": "edit", "new_query": "Optimized search query"})</code>
 </div>
 
 <!-- Section K: Practice Exercises & Knowledge Checks -->
-<div class="page-break-before"></div>
 <h2>K. Practice Exercises &amp; Knowledge Checks</h2>
 
 <div class="callout callout-note avoid-break">
@@ -5685,7 +5617,6 @@ def build_guide_langgraph_3(fname, cells, today):
 </div>
 
 <!-- Section D: Comprehensive Topic Overview -->
-<div class="page-break-before"></div>
 <h2>D. Comprehensive Topic Overview</h2>
 <p>
     Before the introduction of the <strong>Model Context Protocol (MCP)</strong>, connecting an AI agent to multiple tools required
@@ -5720,7 +5651,6 @@ def build_guide_langgraph_3(fname, cells, today):
 </ul>
 
 <!-- Section E: Detailed Notebook Walkthrough -->
-<div class="page-break-before"></div>
 <h2>E. Detailed Notebook Walkthrough</h2>
 <p>
     The source notebook <code>3-MCP.ipynb</code> guides you through the creation of two separate MCP servers, starting a background
@@ -5755,7 +5685,6 @@ if __name__ == "__main__":
     <li><code>mcp.run(transport="stdio")</code>: Launches the server listener. When executed via CLI or subprocess, it reads incoming JSON-RPC requests from <code>sys.stdin</code> and writes responses to <code>sys.stdout</code>.</li>
 </ul>
 
-<div class="page-break-before"></div>
 <h3>Phase 2: Server 2: <code>weather.py</code> via streamable-http (Cells 3–4)</h3>
 <div class="code-header">Cell 4 • Defining and Writing weather.py</div>
 <pre><code>%%writefile weather.py
@@ -5799,7 +5728,6 @@ print("Weather server ready")</code></pre>
     <li><strong>Safety Guard:</strong> The <code>if 'weather_process' in locals()</code> block terminates any previously running instance, preventing <code>[Errno 10048] address already in use</code> socket errors when re-executing cells.</li>
 </ul>
 
-<div class="page-break-before"></div>
 <h3>Phase 4: Client Orchestration &amp; ReAct Agent (Cells 7–8)</h3>
 <div class="code-header">Cell 8 • MultiServerMCPClient &amp; ReAct Invocations</div>
 <pre><code>import os
@@ -5873,7 +5801,6 @@ Weather response: The weather report indicates that it is currently raining in C
     <li>In Query 2 (<code>weather in California</code>), the model recognized the geographical intent and dispatched an HTTP POST request to <code>weather.py</code>, calling <code>get_weather(location="California")</code>.</li>
 </ol>
 
-<div class="page-break-before"></div>
 <h3>Phase 5: Cleanup &amp; Process Termination (Cells 9–10)</h3>
 <div class="code-header">Cell 10 • Clean Process Termination</div>
 <pre><code>if 'weather_process' in locals():
@@ -5893,7 +5820,6 @@ Weather response: The weather report indicates that it is currently raining in C
 </div>
 
 <!-- Section G: Reference Guide: Important APIs & Classes -->
-<div class="page-break-before"></div>
 <h2>G. Reference Guide: Important APIs &amp; Classes</h2>
 <table>
     <tr>
@@ -5975,7 +5901,6 @@ Weather response: The weather report indicates that it is currently raining in C
 </div>
 
 <!-- Section I: Practical Extensions & Industry Best Practices -->
-<div class="page-break-before"></div>
 <h2>I. Practical Extensions &amp; Industry Best Practices</h2>
 <ul>
     <li><strong>Tool Namespace Isolation:</strong> When connecting to dozens of MCP servers, tool name collisions can occur (e.g. multiple servers exposing a <code>search</code> tool). Initialize the client with <code>MultiServerMCPClient(..., tool_name_prefix=True)</code> to automatically prefix tools with their server name (e.g., <code>math_add</code>, <code>weather_get_weather</code>).</li>
@@ -6002,7 +5927,6 @@ Weather response: The weather report indicates that it is currently raining in C
 </div>
 
 <!-- Section K: Practice Exercises & Knowledge Checks -->
-<div class="page-break-before"></div>
 <h2>K. Practice Exercises &amp; Knowledge Checks</h2>
 
 <div class="callout callout-note avoid-break">
@@ -6969,17 +6893,20 @@ def run():
     print(f"Validation Result: {val}")
 
 
-def process_notebook(nb_path: Path, output_dir: Path):
+def process_notebook(nb_path: Path, output_dir: Path = None):
     """Process a single notebook file into a PDF."""
     print(f"\nProcessing notebook: {nb_path.name}")
     nb_data = extract_notebook_data(nb_path)
     
+    repo_root = Path(__file__).resolve().parent.parent
+    base_out = output_dir if output_dir is not None else (repo_root / "pdf")
+    
     if "langgraph-study" in str(nb_path):
-        target_dir = output_dir / "langgraph"
+        target_dir = base_out / "langgraph"
     elif "langchain-study" in str(nb_path):
-        target_dir = output_dir / "langchain"
+        target_dir = base_out / "langchain"
     else:
-        target_dir = output_dir
+        target_dir = base_out
     target_dir.mkdir(parents=True, exist_ok=True)
     output_pdf = target_dir / f"{nb_path.stem}.pdf"
     print(f"Generating HTML for {nb_path.name}...")
@@ -7007,8 +6934,8 @@ def main():
     parser.add_argument("--all", action="store_true", help="Document all notebooks found in the workspace")
     args = parser.parse_args()
     
-    workspace_root = Path.cwd()
-    output_dir = workspace_root / "pdf"
+    repo_root = Path(__file__).resolve().parent.parent
+    output_dir = repo_root / "pdf"
     output_dir.mkdir(exist_ok=True)
     
     if args.notebook:
@@ -7019,7 +6946,7 @@ def main():
         notebooks = [nb_path]
     else:
         # Default to all notebooks in workspace
-        notebooks = sorted(list(workspace_root.glob("**/*.ipynb")))
+        notebooks = sorted(list(repo_root.glob("**/*.ipynb")))
         # Filter out virtualenv or checkpoint notebooks if any
         notebooks = [nb for nb in notebooks if ".venv" not in str(nb) and ".ipynb_checkpoints" not in str(nb)]
         
